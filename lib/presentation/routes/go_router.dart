@@ -7,9 +7,17 @@ import 'entity/pages.dart';
 GoRouter get router => _router;
 
 final GoRouter _router = GoRouter(
-  initialLocation: Routes.onboardPage.path,
+  initialLocation: Routes.splashPage.path,
   debugLogDiagnostics: kDebugMode,
   routes: <GoRoute>[
+    GoRoute(
+      name: Routes.splashPage.name,
+      path: Routes.splashPage.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const SplashPage(),
+      ),
+    ),
     GoRoute(
       name: Routes.onboardPage.name,
       path: Routes.onboardPage.path,
