@@ -62,15 +62,17 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         });
       }
     });
-    controller1.forward().then(
-          (_) => controller2.forward().then(
-                (value) => controller3.forward().then(
-                      (value) => Future.delayed(const Duration(milliseconds: 500)).then(
-                        (value) => context.go(Routes.onboardPage.path),
+    Future.delayed(const Duration(milliseconds: 500)).then(
+      (value) => controller1.forward().then(
+            (_) => controller2.forward().then(
+                  (value) => controller3.forward().then(
+                        (value) => Future.delayed(const Duration(milliseconds: 500)).then(
+                          (value) => context.go(Routes.onboardPage.path),
+                        ),
                       ),
-                    ),
-              ),
-        );
+                ),
+          ),
+    );
   }
 
   @override
