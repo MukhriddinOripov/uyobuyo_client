@@ -22,54 +22,71 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
-  final Completer<YandexMapController> _completer = Completer();
+  late YandexMapController controller;
+  final animation = const MapAnimation(type: MapAnimationType.linear, duration: 0.5);
   final List<MapObject> mapObjects = [];
   List<MapObject> placeMarks = [];
-  static late LocationPermission permission;
-  static Position? position;
-  String locationName = '';
-
-  Future<void> getPermissionAndAddObjectToMap() async {
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
-        position = await Geolocator.getCurrentPosition();
-        setState(() {});
-        await addObjectToMap();
-      } else if (permission == LocationPermission.deniedForever) {
-        await addObjectToMap();
-        print('Пользователь навсегда отключил разрешение на геолокацию');
-      }
-    } else {
-      print("line 50 $permission");
-      await addObjectToMap();
-    }
-  }
+  late Position position;
+  String currentLocationName = '';
 
   @override
   void initState() {
     super.initState();
     AndroidYandexMap.useAndroidViewSurface = false;
-    getPermissionAndAddObjectToMap();
+    _checkLocationPermission();
   }
 
-  Future<void> addObjectToMap() async {
-    var location = await Geolocator.getCurrentPosition();
+  Future<void> _checkLocationPermission() async {
+    final status = await Geolocator.checkPermission();
+    if (status == LocationPermission.always || status == LocationPermission.whileInUse) {
+      await getCurrentLocation();
+      await moveCurrentLocation();
+    } else if (status == LocationPermission.denied) {
+      final result = await Geolocator.requestPermission();
+      if (result == LocationPermission.always || result == LocationPermission.whileInUse) {
+        await getCurrentLocation();
+        await moveCurrentLocation();
+      }
+    }
+  }
+
+  moveCurrentLocation() async {
+    await controller.moveCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: Point(latitude: position.latitude, longitude: position.longitude),
+            zoom: 16,
+          ),
+        ),
+        animation: animation);
+  }
+
+  getCurrentLocation() async {
+    final currentPosition = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.best,
+    );
+    position = currentPosition;
+    getAddressByLatLong(latitude: currentPosition.latitude, longitude: currentPosition.longitude);
+
+    await addObjectToMap();
+    setState(() {});
+  }
+
+  addObjectToMap() async {
     placeMarks.add(
       PlacemarkMapObject(
         onTap: (PlacemarkMapObject placeMap, Point point) {},
         mapId: const MapObjectId('position'),
         opacity: 1,
-        icon: PlacemarkIcon.single(
-          PlacemarkIconStyle(
-            scale: 0.2,
-            image: BitmapDescriptor.fromAssetImage(AppImages.flagUz),
-          ),
-        ),
+        // icon: PlacemarkIcon.single(
+        //   PlacemarkIconStyle(
+        //     scale: 0.2,
+        //     image: BitmapDescriptor.fromAssetImage(AppImages.flagUz),
+        //   ),
+        // ),
         point: Point(
-          latitude: position?.latitude ?? location.latitude,
-          longitude: position?.longitude ?? location.latitude,
+          latitude: position.latitude,
+          longitude: position.longitude,
         ),
       ),
     );
@@ -77,25 +94,8 @@ class _MainPageState extends State<MainPage> {
     setState(() {});
   }
 
-  Future<void> _onMapCreated(YandexMapController controller) async {
-    _completer.complete(controller);
-    await controller.moveCamera(
-      animation: const MapAnimation(type: MapAnimationType.linear, duration: 1),
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: Point(
-            latitude: position?.latitude ?? 41.299080,
-            longitude: position?.longitude ?? 69.271122,
-          ),
-          zoom: 14,
-        ),
-      ),
-    );
-  }
-
-  Future<void> getAddressByLatLong({required double latitude, required double longitude}) async {
+  Future getAddressByLatLong({required double latitude, required double longitude}) async {
     SharedPrefService pref = await SharedPrefService.initialize();
-
     Dio(
       BaseOptions(
         baseUrl: 'https://nominatim.openstreetmap.org',
@@ -108,8 +108,9 @@ class _MainPageState extends State<MainPage> {
     ).get('/reverse?format=jsonv2&lat=$latitude&lon=$longitude').then(
       (value) {
         LatLangResultModel data = LatLangResultModel.fromJson(value.data);
+
         setState(() {
-          locationName =
+          currentLocationName =
               "${data.address.houseNumber ?? ""}, ${data.address.road ?? ""}, ${data.address.county}, ${data.address.city}";
         });
       },
@@ -125,7 +126,9 @@ class _MainPageState extends State<MainPage> {
         children: [
           YandexMap(
             mapObjects: mapObjects,
-            onMapCreated: _onMapCreated,
+            onMapCreated: (YandexMapController yandexMapController) async {
+              controller = yandexMapController;
+            },
             onMapTap: (Point point) {
               double latitude = point.latitude;
               double longitude = point.longitude;
@@ -150,8 +153,6 @@ class _MainPageState extends State<MainPage> {
               setState(() {
                 mapObjects.addAll(placeMarks);
               });
-              // You can use the selected coordinates as needed.
-              print('Selected coordinates: $latitude, $longitude');
             },
           ),
           Positioned(
@@ -170,33 +171,30 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
           Positioned(
-            top: 52,
-            child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: AppTheme.colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(locationName)),
+            top: 70,
+            left: MediaQuery.sizeOf(context).width / 4.5,
+            right: MediaQuery.sizeOf(context).width / 4.5,
+            child: Text(
+              currentLocationName,
+              style: AppTheme.data.textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
           ),
           Positioned(
             top: MediaQuery.sizeOf(context).height / 2,
             right: 16.w,
             child: GestureDetector(
               onTap: () {
-                // await  addObjectToMap();
-
-                _onMapCreated;
-
-                print("line 185 $locationName");
+                _checkLocationPermission();
               },
               child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppTheme.colors.white,
-                  ),
-                  child: const Icon(Icons.my_location)),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppTheme.colors.white,
+                ),
+                child: const Icon(Icons.my_location),
+              ),
             ),
           ),
         ],
