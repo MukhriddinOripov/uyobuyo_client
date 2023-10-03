@@ -1,8 +1,13 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
+import 'package:uyobuyo_client/infrastructure/dto/models/reverse_lat_lang_model.dart';
+import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 import 'package:uyobuyo_client/presentation/assets/icons.dart';
 import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
@@ -17,37 +22,98 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+  final Completer<YandexMapController> _completer = Completer();
+  final List<MapObject> mapObjects = [];
+  List<MapObject> placeMarks = [];
+  static late LocationPermission permission;
+  static Position? position;
+  String locationName = '';
 
-  @override
-  void initState() {
-    AndroidYandexMap.useAndroidViewSurface = false;
-    _handleLocationPermission();
-    super.initState();
-  }
-
-  Future<bool> _handleLocationPermission() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Location services are disabled. Please enable the services')));
-      return false;
-    }
+  Future<void> getPermissionAndAddObjectToMap() async {
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Location permissions are denied')));
-        return false;
+      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+        position = await Geolocator.getCurrentPosition();
+        setState(() {});
+        await addObjectToMap();
+      } else if (permission == LocationPermission.deniedForever) {
+        await addObjectToMap();
+        print('Пользователь навсегда отключил разрешение на геолокацию');
       }
+    } else {
+      print("line 50 $permission");
+      await addObjectToMap();
     }
-    if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.')));
-      return false;
-    }
-    return true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    AndroidYandexMap.useAndroidViewSurface = false;
+    getPermissionAndAddObjectToMap();
+  }
+
+  Future<void> addObjectToMap() async {
+    var location = await Geolocator.getCurrentPosition();
+    placeMarks.add(
+      PlacemarkMapObject(
+        onTap: (PlacemarkMapObject placeMap, Point point) {},
+        mapId: const MapObjectId('position'),
+        opacity: 1,
+        icon: PlacemarkIcon.single(
+          PlacemarkIconStyle(
+            scale: 0.2,
+            image: BitmapDescriptor.fromAssetImage(AppImages.flagUz),
+          ),
+        ),
+        point: Point(
+          latitude: position?.latitude ?? location.latitude,
+          longitude: position?.longitude ?? location.latitude,
+        ),
+      ),
+    );
+    mapObjects.addAll(placeMarks);
+    setState(() {});
+  }
+
+  Future<void> _onMapCreated(YandexMapController controller) async {
+    _completer.complete(controller);
+    await controller.moveCamera(
+      animation: const MapAnimation(type: MapAnimationType.linear, duration: 1),
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: Point(
+            latitude: position?.latitude ?? 41.299080,
+            longitude: position?.longitude ?? 69.271122,
+          ),
+          zoom: 14,
+        ),
+      ),
+    );
+  }
+
+  Future<void> getAddressByLatLong({required double latitude, required double longitude}) async {
+    SharedPrefService pref = await SharedPrefService.initialize();
+
+    Dio(
+      BaseOptions(
+        baseUrl: 'https://nominatim.openstreetmap.org',
+        responseType: ResponseType.json,
+        headers: {
+          "Accept": "application/json",
+          "Accept-Language": pref.getLanguage,
+        },
+      ),
+    ).get('/reverse?format=jsonv2&lat=$latitude&lon=$longitude').then(
+      (value) {
+        LatLangResultModel data = LatLangResultModel.fromJson(value.data);
+        setState(() {
+          locationName =
+              "${data.address.houseNumber ?? ""}, ${data.address.road ?? ""}, ${data.address.county}, ${data.address.city}";
+        });
+      },
+    );
   }
 
   @override
@@ -57,7 +123,37 @@ class _MainPageState extends State<MainPage> {
       drawer: drawer(),
       body: Stack(
         children: [
-          const YandexMap(),
+          YandexMap(
+            mapObjects: mapObjects,
+            onMapCreated: _onMapCreated,
+            onMapTap: (Point point) {
+              double latitude = point.latitude;
+              double longitude = point.longitude;
+              placeMarks.add(
+                PlacemarkMapObject(
+                  onTap: (PlacemarkMapObject placeMap, Point point) {},
+                  mapId: const MapObjectId('selected_position'),
+                  opacity: 1,
+                  icon: PlacemarkIcon.single(
+                    PlacemarkIconStyle(
+                      scale: 0.6,
+                      image: BitmapDescriptor.fromAssetImage(AppImages.flagUz),
+                    ),
+                  ),
+                  point: Point(
+                    latitude: latitude,
+                    longitude: longitude,
+                  ),
+                ),
+              );
+              getAddressByLatLong(latitude: latitude, longitude: longitude);
+              setState(() {
+                mapObjects.addAll(placeMarks);
+              });
+              // You can use the selected coordinates as needed.
+              print('Selected coordinates: $latitude, $longitude');
+            },
+          ),
           Positioned(
             top: 52,
             left: 16.w,
@@ -74,20 +170,35 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
           Positioned(
-            top: MediaQuery.sizeOf(context).height / 2,
-            left: 16.w,
-            child: GestureDetector(
-              onTap: () => _handleLocationPermission(),
-              child: Container(
+            top: 52,
+            child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: AppTheme.colors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: SvgPicture.asset(AppIcons.drawer),
-              ),
+                child: Text(locationName)),
+          ),
+          Positioned(
+            top: MediaQuery.sizeOf(context).height / 2,
+            right: 16.w,
+            child: GestureDetector(
+              onTap: () {
+                // await  addObjectToMap();
+
+                _onMapCreated;
+
+                print("line 185 $locationName");
+              },
+              child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppTheme.colors.white,
+                  ),
+                  child: const Icon(Icons.my_location)),
             ),
-          )
+          ),
         ],
       ),
     );
