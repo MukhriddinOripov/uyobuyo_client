@@ -155,6 +155,17 @@ class _MainPageState extends State<MainPage> {
               });
             },
           ),
+          const Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Icon(
+              Icons.location_on_sharp,
+              size: 40,
+              color: Colors.red,
+            ),
+          ),
           Positioned(
             top: 52,
             left: 16.w,
