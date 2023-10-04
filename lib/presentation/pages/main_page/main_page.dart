@@ -22,44 +22,65 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
-  late YandexMapController controller;
-  final animation = const MapAnimation(type: MapAnimationType.linear, duration: 0.5);
+  String currentLocationName = '';
+  final Completer<YandexMapController> _completer = Completer();
   final List<MapObject> mapObjects = [];
   List<MapObject> placeMarks = [];
-  late Position position;
-  String currentLocationName = '';
+  bool ifVisibleBottom = true;
+
+  static late LocationPermission permission;
+  static Position? position;
+
+  Future<void> getPermissionAndAddObjectToMap() async {
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+        position = await Geolocator.getCurrentPosition();
+        await addObjectToMap();
+      } else if (permission == LocationPermission.deniedForever) {
+        await addObjectToMap();
+        print('Пользователь навсегда отключил разрешение на геолокацию');
+      }
+    } else {
+      print("line 50 $permission");
+      await addObjectToMap();
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     AndroidYandexMap.useAndroidViewSurface = false;
-    _checkLocationPermission();
+    getPermissionAndAddObjectToMap();
   }
 
-  Future<void> _checkLocationPermission() async {
-    final status = await Geolocator.checkPermission();
-    if (status == LocationPermission.always || status == LocationPermission.whileInUse) {
-      await getCurrentLocation();
-      await moveCurrentLocation();
-    } else if (status == LocationPermission.denied) {
-      final result = await Geolocator.requestPermission();
-      if (result == LocationPermission.always || result == LocationPermission.whileInUse) {
-        await getCurrentLocation();
-        await moveCurrentLocation();
-      }
-    }
-  }
-
-  moveCurrentLocation() async {
+  Future<void> _onMapCreated(YandexMapController controller) async {
+    _completer.complete(controller);
     await controller.moveCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: Point(latitude: position.latitude, longitude: position.longitude),
-            zoom: 16,
+      animation: const MapAnimation(type: MapAnimationType.linear, duration: 1),
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: Point(
+            latitude: position?.latitude ?? 41.299080,
+            longitude: position?.longitude ?? 69.271122,
           ),
+          zoom: 14,
         ),
-        animation: animation);
+      ),
+    );
   }
+
+  // moveCurrentLocation() async {
+  //   await _completer.moveCamera(
+  //       CameraUpdate.newCameraPosition(
+  //         CameraPosition(
+  //           target: Point(latitude: position.latitude, longitude: position.longitude),
+  //           zoom: 16,
+  //         ),
+  //       ),
+  //       animation: animation);
+  // }
 
   getCurrentLocation() async {
     final currentPosition = await Geolocator.getCurrentPosition(
@@ -72,21 +93,21 @@ class _MainPageState extends State<MainPage> {
     setState(() {});
   }
 
-  addObjectToMap() async {
+  Future<void> addObjectToMap() async {
     placeMarks.add(
       PlacemarkMapObject(
         onTap: (PlacemarkMapObject placeMap, Point point) {},
         mapId: const MapObjectId('position'),
         opacity: 1,
-        // icon: PlacemarkIcon.single(
-        //   PlacemarkIconStyle(
-        //     scale: 0.2,
-        //     image: BitmapDescriptor.fromAssetImage(AppImages.flagUz),
-        //   ),
-        // ),
+        icon: PlacemarkIcon.single(
+          PlacemarkIconStyle(
+            scale: 0.2,
+            image: BitmapDescriptor.fromAssetImage(AppImages.flagUz),
+          ),
+        ),
         point: Point(
-          latitude: position.latitude,
-          longitude: position.longitude,
+          latitude: position?.latitude ?? 41.299080,
+          longitude: position?.longitude ?? 69.271122,
         ),
       ),
     );
@@ -110,11 +131,25 @@ class _MainPageState extends State<MainPage> {
         LatLangResultModel data = LatLangResultModel.fromJson(value.data);
 
         setState(() {
-          currentLocationName =
-              "${data.address.houseNumber ?? ""}, ${data.address.road ?? ""}, ${data.address.county}, ${data.address.city}";
+          currentLocationName = "${data.address.houseNumber ?? ""}, ${data.address.road ?? ""}, ${data.address.county}";
         });
       },
     );
+  }
+
+  void _onCameraPositionChanged(CameraPosition position, CameraUpdateReason reason, bool hasGesture) async {
+    // Получите координаты центра карты
+    if (hasGesture) {
+      final centerCoordinates = position.target;
+      print('Latitude: ${centerCoordinates.latitude}, Longitude: ${centerCoordinates.longitude}');
+      await Future.delayed(const Duration(milliseconds: 500));
+      await getAddressByLatLong(latitude: centerCoordinates.latitude, longitude: centerCoordinates.longitude);
+      ifVisibleBottom = true;
+    } else {
+      setState(() {
+        ifVisibleBottom = false;
+      });
+    }
   }
 
   @override
@@ -126,40 +161,14 @@ class _MainPageState extends State<MainPage> {
         children: [
           YandexMap(
             mapObjects: mapObjects,
-            onMapCreated: (YandexMapController yandexMapController) async {
-              controller = yandexMapController;
-            },
-            onMapTap: (Point point) {
-              double latitude = point.latitude;
-              double longitude = point.longitude;
-              placeMarks.add(
-                PlacemarkMapObject(
-                  onTap: (PlacemarkMapObject placeMap, Point point) {},
-                  mapId: const MapObjectId('selected_position'),
-                  opacity: 1,
-                  icon: PlacemarkIcon.single(
-                    PlacemarkIconStyle(
-                      scale: 0.6,
-                      image: BitmapDescriptor.fromAssetImage(AppImages.flagUz),
-                    ),
-                  ),
-                  point: Point(
-                    latitude: latitude,
-                    longitude: longitude,
-                  ),
-                ),
-              );
-              getAddressByLatLong(latitude: latitude, longitude: longitude);
-              setState(() {
-                mapObjects.addAll(placeMarks);
-              });
-            },
+            onMapCreated: _onMapCreated,
+            onCameraPositionChanged: _onCameraPositionChanged,
           ),
           const Positioned(
             top: 0,
             left: 0,
             right: 0,
-            bottom: 0,
+            bottom: 50,
             child: Icon(
               Icons.location_on_sharp,
               size: 40,
@@ -192,20 +201,133 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
           Positioned(
-            top: MediaQuery.sizeOf(context).height / 2,
-            right: 16.w,
-            child: GestureDetector(
-              onTap: () {
-                _checkLocationPermission();
-              },
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppTheme.colors.white,
+            bottom: 0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    final status = await Geolocator.checkPermission();
+                    if (status == LocationPermission.always || status == LocationPermission.whileInUse) {
+                      await getCurrentLocation();
+                      // await moveCurrentLocation();
+                    } else if (status == LocationPermission.denied) {
+                      final result = await Geolocator.requestPermission();
+                      if (result == LocationPermission.always || result == LocationPermission.whileInUse) {
+                        await getCurrentLocation();
+                        // await moveCurrentLocation();
+                      }
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.only(right: kPaddingDefault),
+                    decoration: BoxDecoration(color: AppTheme.colors.white, borderRadius: BorderRadius.circular(12)),
+                    child: const Icon(Icons.my_location),
+                  ),
                 ),
-                child: const Icon(Icons.my_location),
-              ),
+                const SizedBox(height: kPaddingDefault),
+                ifVisibleBottom ? Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
+                  width: MediaQuery.sizeOf(context).width,
+                  decoration: BoxDecoration(
+                    color: AppTheme.colors.white,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(32),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 48,
+                        height: 6,
+                        decoration:
+                            BoxDecoration(borderRadius: BorderRadius.circular(16), color: AppTheme.colors.black40),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        height: 74,
+                        width: MediaQuery.sizeOf(context).width - 32,
+                        decoration: BoxDecoration(
+                          color: AppTheme.colors.primary.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: kPaddingDefault),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Куда едем?", style: AppTheme.data.textTheme.bodyMedium),
+                                  Text(
+                                    "Поездки во все регионы",
+                                    style: AppTheme.data.textTheme.labelMedium
+                                        ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 74,
+                              width: 80,
+                              alignment: Alignment.centerRight,
+                              padding: const EdgeInsets.only(left: 16),
+                              decoration: BoxDecoration(
+                                color: AppTheme.colors.primary.withOpacity(0.8),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Image.asset(AppImages.flagUz),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        height: 74,
+                        width: MediaQuery.sizeOf(context).width - 32,
+                        decoration: BoxDecoration(
+                          color: Colors.greenAccent.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: kPaddingDefault),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Куда едем?", style: AppTheme.data.textTheme.bodyMedium),
+                                  Text(
+                                    "Поездки во все регионы",
+                                    style: AppTheme.data.textTheme.labelMedium
+                                        ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 74,
+                              width: 80,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.greenAccent.withOpacity(0.8),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Image.asset(AppImages.flagRu),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ) : SizedBox()
+              ],
             ),
           ),
         ],
