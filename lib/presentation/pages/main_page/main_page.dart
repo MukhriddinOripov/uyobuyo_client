@@ -23,28 +23,24 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   String currentLocationName = '';
-  final Completer<YandexMapController> _completer = Completer();
+  late YandexMapController yandexMapController;
   final List<MapObject> mapObjects = [];
   List<MapObject> placeMarks = [];
   bool ifVisibleBottom = true;
 
-  static late LocationPermission permission;
   static Position? position;
 
-  Future<void> getPermissionAndAddObjectToMap() async {
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
-        position = await Geolocator.getCurrentPosition();
-        await addObjectToMap();
-      } else if (permission == LocationPermission.deniedForever) {
-        await addObjectToMap();
-        print('Пользователь навсегда отключил разрешение на геолокацию');
+  Future<void> _checkLocationPermission() async {
+    final status = await Geolocator.checkPermission();
+    if (status == LocationPermission.always || status == LocationPermission.whileInUse) {
+      await getCurrentLocation();
+      await moveCurrentLocation();
+    } else if (status == LocationPermission.denied) {
+      final result = await Geolocator.requestPermission();
+      if (result == LocationPermission.always || result == LocationPermission.whileInUse) {
+        await getCurrentLocation();
+        await moveCurrentLocation();
       }
-    } else {
-      print("line 50 $permission");
-      await addObjectToMap();
     }
   }
 
@@ -52,35 +48,19 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     AndroidYandexMap.useAndroidViewSurface = false;
-    getPermissionAndAddObjectToMap();
+    _checkLocationPermission();
   }
 
-  Future<void> _onMapCreated(YandexMapController controller) async {
-    _completer.complete(controller);
-    await controller.moveCamera(
-      animation: const MapAnimation(type: MapAnimationType.linear, duration: 1),
+  moveCurrentLocation() async {
+    await yandexMapController.moveCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: Point(
-            latitude: position?.latitude ?? 41.299080,
-            longitude: position?.longitude ?? 69.271122,
-          ),
-          zoom: 14,
+          target: Point(latitude: position!.latitude, longitude: position!.longitude),
+          zoom: 16,
         ),
       ),
     );
   }
-
-  // moveCurrentLocation() async {
-  //   await _completer.moveCamera(
-  //       CameraUpdate.newCameraPosition(
-  //         CameraPosition(
-  //           target: Point(latitude: position.latitude, longitude: position.longitude),
-  //           zoom: 16,
-  //         ),
-  //       ),
-  //       animation: animation);
-  // }
 
   getCurrentLocation() async {
     final currentPosition = await Geolocator.getCurrentPosition(
@@ -101,13 +81,13 @@ class _MainPageState extends State<MainPage> {
         opacity: 1,
         icon: PlacemarkIcon.single(
           PlacemarkIconStyle(
-            scale: 0.2,
-            image: BitmapDescriptor.fromAssetImage(AppImages.flagUz),
+            scale: 0.6,
+            image: BitmapDescriptor.fromAssetImage(AppImages.indicator),
           ),
         ),
         point: Point(
-          latitude: position?.latitude ?? 41.299080,
-          longitude: position?.longitude ?? 69.271122,
+          latitude: position!.latitude,
+          longitude: position!.longitude,
         ),
       ),
     );
@@ -160,19 +140,47 @@ class _MainPageState extends State<MainPage> {
       body: Stack(
         children: [
           YandexMap(
+            mapMode: MapMode.transit,
+            mapType: MapType.vector,
             mapObjects: mapObjects,
-            onMapCreated: _onMapCreated,
+            onMapCreated: (YandexMapController controller) async {
+              yandexMapController = controller;
+              await controller.moveCamera(
+                animation: const MapAnimation(type: MapAnimationType.linear, duration: 1),
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(
+                    target: Point(
+                      latitude: position!.latitude,
+                      longitude: position!.longitude,
+                    ),
+                    zoom: 14,
+                  ),
+                ),
+              );
+            },
             onCameraPositionChanged: _onCameraPositionChanged,
           ),
-          const Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 50,
-            child: Icon(
-              Icons.location_on_sharp,
-              size: 40,
-              color: Colors.red,
+          Positioned(
+            left: MediaQuery.sizeOf(context).width / 2 - 20,
+            top: MediaQuery.sizeOf(context).height / 2 - 50,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: AppTheme.colors.primary),
+                  child: Container(
+                    height: 8,
+                    width: 8,
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: AppTheme.colors.white),
+                  ),
+                ),
+                Container(
+                  height: 9,
+                  width: 2,
+                  color: AppTheme.colors.black,
+                )
+              ],
             ),
           ),
           Positioned(
@@ -202,6 +210,7 @@ class _MainPageState extends State<MainPage> {
           ),
           Positioned(
             bottom: 0,
+            right: 0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -209,124 +218,125 @@ class _MainPageState extends State<MainPage> {
                   onTap: () async {
                     final status = await Geolocator.checkPermission();
                     if (status == LocationPermission.always || status == LocationPermission.whileInUse) {
-                      await getCurrentLocation();
-                      // await moveCurrentLocation();
+                      await _checkLocationPermission();
                     } else if (status == LocationPermission.denied) {
                       final result = await Geolocator.requestPermission();
                       if (result == LocationPermission.always || result == LocationPermission.whileInUse) {
-                        await getCurrentLocation();
-                        // await moveCurrentLocation();
+                        await _checkLocationPermission();
                       }
                     }
                   },
                   child: Container(
                     padding: const EdgeInsets.all(12),
-                    margin: const EdgeInsets.only(right: kPaddingDefault),
+                    margin: const EdgeInsets.only(right: kPaddingDefault, bottom: 16),
                     decoration: BoxDecoration(color: AppTheme.colors.white, borderRadius: BorderRadius.circular(12)),
                     child: const Icon(Icons.my_location),
                   ),
                 ),
-                const SizedBox(height: kPaddingDefault),
-                ifVisibleBottom ? Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
-                  width: MediaQuery.sizeOf(context).width,
-                  decoration: BoxDecoration(
-                    color: AppTheme.colors.white,
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(32),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 48,
-                        height: 6,
-                        decoration:
-                            BoxDecoration(borderRadius: BorderRadius.circular(16), color: AppTheme.colors.black40),
-                      ),
-                      const SizedBox(height: 16),
-                      Container(
-                        height: 74,
-                        width: MediaQuery.sizeOf(context).width - 32,
+                ifVisibleBottom
+                    ? Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
+                        width: MediaQuery.sizeOf(context).width,
                         decoration: BoxDecoration(
-                          color: AppTheme.colors.primary.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(16),
+                          color: AppTheme.colors.white,
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(32),
+                          ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: kPaddingDefault),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            Container(
+                              width: 48,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16), color: AppTheme.colors.black40),
+                            ),
+                            const SizedBox(height: 16),
+                            Container(
+                              height: 74,
+                              width: MediaQuery.sizeOf(context).width - 32,
+                              decoration: BoxDecoration(
+                                color: AppTheme.colors.primary.withOpacity(0.4),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Куда едем?", style: AppTheme.data.textTheme.bodyMedium),
-                                  Text(
-                                    "Поездки во все регионы",
-                                    style: AppTheme.data.textTheme.labelMedium
-                                        ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: kPaddingDefault),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Куда едем?", style: AppTheme.data.textTheme.bodyMedium),
+                                        Text(
+                                          "Поездки во все регионы",
+                                          style: AppTheme.data.textTheme.labelMedium
+                                              ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
+                                        ),
+                                      ],
+                                    ),
                                   ),
+                                  Container(
+                                    height: 74,
+                                    width: 80,
+                                    alignment: Alignment.centerRight,
+                                    padding: const EdgeInsets.only(left: 16),
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.colors.primary.withOpacity(0.8),
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Image.asset(AppImages.orderImage),
+                                  )
                                 ],
                               ),
                             ),
+                            const SizedBox(height: 16),
                             Container(
                               height: 74,
-                              width: 80,
-                              alignment: Alignment.centerRight,
-                              padding: const EdgeInsets.only(left: 16),
+                              width: MediaQuery.sizeOf(context).width - 32,
                               decoration: BoxDecoration(
-                                color: AppTheme.colors.primary.withOpacity(0.8),
+                                color: Colors.greenAccent.withOpacity(0.4),
                                 borderRadius: BorderRadius.circular(16),
                               ),
-                              child: Image.asset(AppImages.flagUz),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Container(
-                        height: 74,
-                        width: MediaQuery.sizeOf(context).width - 32,
-                        decoration: BoxDecoration(
-                          color: Colors.greenAccent.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: kPaddingDefault),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Куда едем?", style: AppTheme.data.textTheme.bodyMedium),
-                                  Text(
-                                    "Поездки во все регионы",
-                                    style: AppTheme.data.textTheme.labelMedium
-                                        ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: kPaddingDefault),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Посылки", style: AppTheme.data.textTheme.bodyMedium),
+                                        Text(
+                                          "Посылки до 20 кг",
+                                          style: AppTheme.data.textTheme.labelMedium
+                                              ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
+                                        ),
+                                      ],
+                                    ),
                                   ),
+                                  Container(
+                                    height: 74,
+                                    width: 80,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Colors.greenAccent.withOpacity(0.8),
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Image.asset(AppImages.deliveryImage),
+                                  )
                                 ],
                               ),
                             ),
-                            Container(
-                              height: 74,
-                              width: 80,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Colors.greenAccent.withOpacity(0.8),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Image.asset(AppImages.flagRu),
-                            )
+                            const SizedBox(height: 24),
                           ],
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ) : SizedBox()
+                      )
+                    : const SizedBox(
+                        height: 1,
+                      )
               ],
             ),
           ),
@@ -377,19 +387,25 @@ class _MainPageState extends State<MainPage> {
               ),
               const SizedBox(height: 40),
               Divider(color: AppTheme.colors.black20, height: 0.1),
-              drawerComponent(onTap: () {}, icon: AppIcons.drawer, label: "История заказов"),
-              drawerComponent(onTap: () {}, icon: AppIcons.drawer, label: "Настройки"),
-              drawerComponent(onTap: () {}, icon: AppIcons.drawer, label: "FAQ"),
-              drawerComponent(onTap: () {}, icon: AppIcons.drawer, label: "Служба поддержки"),
-              drawerComponent(onTap: () {}, icon: AppIcons.drawer, label: "Инфо"),
+              drawerComponent(onTap: () {}, icon: AppIcons.clock, label: "История заказов"),
+              drawerComponent(onTap: () {}, icon: AppIcons.setting, label: "Настройки"),
+              drawerComponent(onTap: () {}, icon: AppIcons.faq, label: "FAQ"),
+              drawerComponent(onTap: () {}, icon: AppIcons.support, label: "Служба поддержки"),
+              drawerComponent(onTap: () {}, icon: AppIcons.info, label: "Инфо"),
               const Spacer(),
-              drawerComponent(onTap: () {}, icon: AppIcons.drawer, label: "Выйти", textColor: AppTheme.colors.red),
+              drawerComponent(
+                  onTap: () {},
+                  icon: AppIcons.logOut,
+                  label: "Выйти",
+                  textColor: AppTheme.colors.red,
+                  iconColor: AppTheme.colors.red),
             ],
           ),
         ),
       );
 
-  Widget drawerComponent({required Function() onTap, required String icon, required String label, Color? textColor}) {
+  Widget drawerComponent(
+      {required Function() onTap, required String icon, required String label, Color? textColor, Color? iconColor}) {
     return InkWell(
       onTap: onTap,
       child: Column(
@@ -403,7 +419,7 @@ class _MainPageState extends State<MainPage> {
                   icon,
                   width: 24,
                   height: 24,
-                  color: AppTheme.colors.black80,
+                  color: iconColor ?? AppTheme.colors.black80,
                 ),
                 const SizedBox(width: 12),
                 Text(
