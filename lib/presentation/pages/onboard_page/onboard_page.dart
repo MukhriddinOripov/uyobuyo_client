@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:uyobuyo_client/application/language_provider.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
+import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
@@ -13,8 +17,35 @@ class OnboardPage extends StatefulWidget {
 }
 
 class _OnboardPageState extends State<OnboardPage> {
-  String currentLan = "O'z";
+  String currentLan = "Ру";
   int currentLanIndex = 0;
+
+  @override
+  void initState() {
+    getAppLang();
+    super.initState();
+  }
+
+  getAppLang() async {
+    SharedPrefService pref = await SharedPrefService.initialize();
+    if (pref.getLanguage == "ru") {
+      setState(() {
+        currentLan = "Ру";
+        currentLanIndex = 0;
+      });
+    } else if (pref.getLanguage == "uz") {
+      setState(() {
+        currentLan = "O'z";
+        currentLanIndex = 1;
+      });
+    }
+    // else {
+    //   setState(() {
+    //     currentLan = "Ўз";
+    //     currentLanIndex = 2;
+    //   });
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,18 +76,10 @@ class _OnboardPageState extends State<OnboardPage> {
                 children: [
                   Text(
                     currentLan,
-                    style: AppTheme.data.textTheme.titleSmall
-                        ?.copyWith(color: AppTheme.colors.black80, fontWeight: FontWeight.w500),
+                    style: AppTheme.data.textTheme.titleSmall?.copyWith(color: AppTheme.colors.black80, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(width: 10),
-                  Image.asset(
-                      currentLanIndex == 0
-                          ? AppImages.flagUz
-                          : currentLanIndex == 1
-                              ? AppImages.flagRu
-                              : AppImages.flagEng,
-                      width: 28,
-                      height: 20),
+                  Image.asset(currentLanIndex == 0 ? AppImages.flagRu : AppImages.flagUz, width: 28, height: 20),
                 ],
               ),
             ),
@@ -86,20 +109,20 @@ class _OnboardPageState extends State<OnboardPage> {
                     ),
                   ),
                   Text(
-                    "Поездки между городами еще никогда не были проще!",
+                    context.loc.onboardSheetTitle,
                     textAlign: TextAlign.center,
                     style: AppTheme.data.textTheme.displaySmall,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20, bottom: 24),
                     child: Text(
-                      "Закажи поездку между городами по одному из 20+ маршрутов всего за 3 минуты",
+                      context.loc.onboardSheetText,
                       textAlign: TextAlign.center,
                       style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.black60),
                     ),
                   ),
                   MainButtonComponent(
-                    name: "Поехали!",
+                    name: context.loc.onboardSheetBtnText,
                     onPressed: () {
                       context.pushNamed(Routes.checkPhonePage.name);
                     },
@@ -123,26 +146,26 @@ class _OnboardPageState extends State<OnboardPage> {
       color: AppTheme.colors.white,
       items: [
         popupMenuItem(
-          language: "O'zbek",
-          icon: AppImages.flagUz,
-          onTap: () {
-            saveLanguage("O'z", 0);
-          },
-        ),
-        popupMenuItem(
           language: 'Русский',
           icon: AppImages.flagRu,
           onTap: () {
-            saveLanguage("Ру", 1);
+            saveLanguage("Ру", "ru", 0);
           },
         ),
         popupMenuItem(
-          language: 'English',
-          icon: AppImages.flagEng,
+          language: "O'zbek",
+          icon: AppImages.flagUz,
           onTap: () {
-            saveLanguage("Eng", 2);
+            saveLanguage("O'z", "uz", 1);
           },
-        )
+        ),
+        // popupMenuItem(
+        //   language: 'Ўзбек',
+        //   icon: AppImages.flagUz,
+        //   onTap: () {
+        //     saveLanguage("Ўз", "uz_Cyrl", 2);
+        //   },
+        // )
       ],
     );
   }
@@ -160,8 +183,7 @@ class _OnboardPageState extends State<OnboardPage> {
           children: [
             Text(
               language,
-              style: AppTheme.data.textTheme.titleSmall
-                  ?.copyWith(color: AppTheme.colors.black80, fontWeight: FontWeight.w500),
+              style: AppTheme.data.textTheme.titleSmall?.copyWith(color: AppTheme.colors.black80, fontWeight: FontWeight.w500),
             ),
             Image.asset(icon, width: 28, height: 20),
           ],
@@ -170,7 +192,11 @@ class _OnboardPageState extends State<OnboardPage> {
     );
   }
 
-  void saveLanguage(String language, int indexLang) {
+  void saveLanguage(String language, String saveLanguage, int indexLang) {
+    Provider.of<LanguageProvider>(
+      context,
+      listen: false,
+    ).setLocale(Locale(saveLanguage));
     currentLan = language;
     currentLanIndex = indexLang;
     setState(() {});

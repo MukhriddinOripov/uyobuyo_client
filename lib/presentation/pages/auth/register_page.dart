@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/input_masks.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/common/validations/input_validations.dart';
 import 'package:uyobuyo_client/presentation/assets/icons.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
@@ -84,57 +87,57 @@ class _RegisterPageState extends State<RegisterPage> {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        "Назад",
+                        context.loc.back,
                         style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
                       )),
                   const SizedBox(height: 32),
                   Text(
-                    "Создайте новый аккаунт",
+                    context.loc.create_account,
                     style: AppTheme.data.textTheme.displaySmall?.copyWith(fontSize: 24),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Давайте знакомиться! Для создания аккаунта заполните информацию о себе",
+                    context.loc.enter_user_info,
                     style: AppTheme.data.textTheme.bodySmall?.copyWith(
                       color: AppTheme.colors.black60,
                     ),
                   ),
                   const SizedBox(height: 24),
+                  // TextFieldComponent(
+                  //   title: context.loc.photo,
+                  //   focusNode: _focusNodes[0],
+                  //   controller: imageController,
+                  //   readOnly: true,
+                  //   hint: context.loc.enter_photo,
+                  //   onFieldSubmitted: (val) {},
+                  //   textInputAction: TextInputAction.next,
+                  //   textInputType: TextInputType.text,
+                  //   suffixWidget: GestureDetector(
+                  //     onTap: () {},
+                  //     child: SvgPicture.asset(
+                  //       AppIcons.attach,
+                  //       color: _focusNodes[0].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
+                  //     ),
+                  //   ),
+                  //   validator: (v) {
+                  //     if (isValid) {
+                  //       InputValidations.defaultV(v ?? '').fold(
+                  //         (l) => l.maybeMap(
+                  //           empty: (_) => "Empty",
+                  //           orElse: () => null,
+                  //         ),
+                  //         (r) => null,
+                  //       );
+                  //     }
+                  //     return null;
+                  //   },
+                  // ),
+                  // const SizedBox(height: 16),
                   TextFieldComponent(
-                    title: "Фото",
-                    focusNode: _focusNodes[0],
-                    controller: imageController,
-                    readOnly: true,
-                    hint: "Прикрепите фото",
-                    onFieldSubmitted: (val) {},
-                    textInputAction: TextInputAction.next,
-                    textInputType: TextInputType.text,
-                    suffixWidget: GestureDetector(
-                      onTap: () {},
-                      child: SvgPicture.asset(
-                        AppIcons.attach,
-                        color: _focusNodes[0].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
-                      ),
-                    ),
-                    validator: (v) {
-                      if (isValid) {
-                        InputValidations.defaultV(v ?? '').fold(
-                          (l) => l.maybeMap(
-                            empty: (_) => "Empty",
-                            orElse: () => null,
-                          ),
-                          (r) => null,
-                        );
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  TextFieldComponent(
-                    title: "Имя и фамилия",
+                    title: context.loc.full_name,
                     focusNode: _focusNodes[1],
                     controller: fullNameController,
-                    hint: "Введите свое имя и фамилию",
+                    hint: context.loc.enter_full_name,
                     onFieldSubmitted: (val) {},
                     textInputAction: TextInputAction.next,
                     textInputType: TextInputType.text,
@@ -153,7 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(height: 16),
                   TextFieldComponent(
-                    title: "Дата рождения",
+                    title: context.loc.bright_day,
                     focusNode: _focusNodes[2],
                     controller: dateController,
                     inputFormatters: [mDate],
@@ -189,11 +192,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(height: 16),
                   TextFieldComponent(
-                    title: "Пол",
+                    title: context.loc.gender,
                     focusNode: _focusNodes[3],
                     controller: genderController,
                     readOnly: true,
-                    hint: "Укажите свой пол",
+                    hint: context.loc.enter_sex,
                     onFieldSubmitted: (val) {},
                     textInputAction: TextInputAction.done,
                     textInputType: TextInputType.text,
@@ -227,11 +230,27 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height < 848 ? (MediaQuery.sizeOf(context).height - 640) : 32,
                   ),
-                  MainButtonComponent(
-                    name: "Создать",
-                    onPressed: () {
-                      context.pushNamed(Routes.mainPage.name);
+                  BlocListener<AuthBloc, AuthState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                          registerSuccess: (phone) {
+                            context.go(Routes.mainPage.path);
+                          },
+                          orElse: () {});
                     },
+                    child: MainButtonComponent(
+                      name: context.loc.create,
+                      onPressed: () {
+                        context.go(Routes.mainPage.path);
+                        context.read<AuthBloc>().add(
+                              AuthEvent.register(
+                                  name: fullNameController.text,
+                                  birthDate: dateController.text,
+                                  gender: genderController.text == context.loc.man ? "MALE" : "FEMALE",
+                                  city: "Tashkent"),
+                            );
+                      },
+                    ),
                   ),
                 ],
               ),

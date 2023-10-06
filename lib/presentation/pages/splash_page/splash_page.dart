@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 
@@ -66,9 +68,16 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       (value) => controller1.forward().then(
             (_) => controller2.forward().then(
                   (value) => controller3.forward().then(
-                        (value) => Future.delayed(const Duration(milliseconds: 500)).then(
-                          (value) => context.go(Routes.mainPage.path),
-                        ),
+                        (value) => Future.delayed(const Duration(milliseconds: 500)).then((value) async {
+                          SharedPrefService prefs = await SharedPrefService.initialize();
+                          String accessToken = prefs.getAccessToken;
+                          print("line 74 token $accessToken");
+                          if (accessToken.isNotEmpty) {
+                            context.go(Routes.mainPage.path);
+                          } else {
+                            context.go(Routes.onboardPage.path);
+                          }
+                        }),
                       ),
                 ),
           ),
@@ -87,7 +96,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                     offset: Offset((!controllerCompleted ? animation1.value : 0) * MediaQuery.sizeOf(context).width, 0),
                     child: Opacity(
                       opacity: !controllerCompleted ? 1 : animation2.value,
-                      child: Image.asset(
+                      child: SvgPicture.asset(
                         AppImages.splashLoading,
                         width: double.infinity,
                         fit: BoxFit.fitWidth,
@@ -103,7 +112,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                     opacity: animation3.value,
                     child: Transform.scale(
                       scale: animation3.value,
-                      child: Image.asset(
+                      child: SvgPicture.asset(
                         AppImages.splashIcon,
                       ),
                     ),

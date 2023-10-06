@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 
 Future<void> selectGenderComponent({
@@ -50,12 +51,12 @@ Future<void> selectGenderComponent({
                       Navigator.pop(context);
                     },
                     child: Text(
-                      "Закрыть",
+                      context.loc.close,
                       style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
                     ),
                   ),
                   Text(
-                    "Пол",
+                    context.loc.gender,
                     style: AppTheme.data.textTheme.titleLarge,
                   ),
                   GestureDetector(
@@ -64,7 +65,7 @@ Future<void> selectGenderComponent({
                       Navigator.pop(context);
                     },
                     child: Text(
-                      "Выбрать",
+                      context.loc.choose,
                       style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
                     ),
                   )
@@ -80,12 +81,12 @@ Future<void> selectGenderComponent({
                 onTap: () {
                   setState(() {
                     selectedOption = 1;
-                    gender = 'Мужчина';
+                    gender = context.loc.man;
                     selectedGender(gender);
                   });
                 },
                 title: Text(
-                  'Мужчина',
+                  gender = context.loc.man,
                   style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 leading: Radio(
@@ -95,7 +96,7 @@ Future<void> selectGenderComponent({
                   onChanged: (value) {
                     setState(() {
                       selectedOption = value;
-                      gender = 'Мужчина';
+                      gender = gender = context.loc.man;
                     });
                   },
                 ),
@@ -109,12 +110,12 @@ Future<void> selectGenderComponent({
                 onTap: () {
                   setState(() {
                     selectedOption = 2;
-                    gender = 'Женщина';
+                    gender = gender = context.loc.woman;
                     selectedGender(gender);
                   });
                 },
                 title: Text(
-                  'Женщина',
+                  gender = context.loc.woman,
                   style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 leading: Radio(
@@ -124,7 +125,7 @@ Future<void> selectGenderComponent({
                   onChanged: (value) {
                     setState(() {
                       selectedOption = value;
-                      gender = 'Женщина';
+                      gender = gender = context.loc.woman;
                     });
                   },
                 ),

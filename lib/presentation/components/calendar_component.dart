@@ -55,12 +55,12 @@ Future<void> calendarComponent({
                       Navigator.pop(context);
                     },
                     child: Text(
-                      "Закрыть",
+                      context.loc.close,
                       style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
                     ),
                   ),
                   Text(
-                    "Дата рождения",
+                    context.loc.bright_day,
                     style: AppTheme.data.textTheme.titleLarge,
                   ),
                   GestureDetector(
@@ -71,7 +71,7 @@ Future<void> calendarComponent({
                       Navigator.pop(context);
                     },
                     child: Text(
-                      "Выбрать",
+                      context.loc.choose,
                       style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
                     ),
                   )

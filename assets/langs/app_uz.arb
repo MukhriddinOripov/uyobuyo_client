@@ -1,3 +1,47 @@
 {
-  "welcome": "Добро пожаловать"
+  "onboardSheetTitle": "Shaharlar orasidagi sayohatlar hech qachon oson bo‘lmagan!",
+  "onboardSheetText": "20 dan ortiq marshrutlardan birida shaharlar o‘rtasida sayohatni atigi 3 daqiqada bron qiling",
+  "onboardSheetBtnText": "Ketdik!",
+  "back": "Orqaga",
+  "checkPhoneTitle": "Boshlaylik!",
+  "enter_phone_number": "Iltimos, telefon raqamingizni kiriting",
+  "proceed": "Davom etish",
+  "agree_offer": "Men roziman ",
+  "public_offers": "Maxfiylik siyosati va foydalanuvchi shartnomasi shartlariga",
+  "welcome": "Xush kelibsiz!",
+  "enter_sms_text": "Siz ko‘rsatgan {phone} raqamga 5 xonali kodni yubordik. Iltimos, uni kiriting shuning uchun biz sizning shaxsingizni tasdiqlashimiz mumkin",
+  "@enter_sms_text": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "dont_get_sms": "Kodni olmadingizmi? ",
+  "resend": "Qayta yuboring",
+  "confirm": "Tasdiqlash",
+  "create_account": "Yangi hisob yarating",
+  "enter_user_info": "Keling, tanishaylik! Hisob yaratish uchun o‘zingiz haqingizda ma'lumotlarni to‘ldiring",
+  "photo": "Fotosurat",
+  "enter_photo": "Fotosuratni ilova qiling",
+  "full_name": "Ism va familiya",
+  "enter_full_name": "Ismingiz va familiyangizni kiriting",
+  "bright_day": " Tug‘ilgan sana",
+  "gender": "Jins",
+  "enter_sex": "Jinsingizni ko‘rsating",
+  "close": "Yopish",
+  "choose": "Tanlsh",
+  "man": "Erkak",
+  "woman": "Ayol",
+  "create": "Yaratish",
+  "where_we_go": "Qayerga ketyapmiz?",
+  "trips_to_regions": "Barcha hududlarga sayohatlar",
+  "delivery": "Posilkalar",
+  "weight_delivery": "20 kg gacha bo'lgan posilkalar",
+  "history_order": "Buyurtma tarixi",
+  "setting": "Sozlamalar",
+  "faq": "FAQ",
+  "support_service": "Qo'llab-quvvatlash xizmati",
+  "info": "Ma'lumot",
+  "log_out": "Chiqish"
 }

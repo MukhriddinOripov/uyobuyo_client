@@ -1,17 +1,22 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 import 'package:uyobuyo_client/presentation/components/countdown_timer.dart';
 import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
 import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 
 class OtpPage extends StatefulWidget {
-  const OtpPage({Key? key}) : super(key: key);
+  final Object? params;
+
+  const OtpPage({Key? key, this.params}) : super(key: key);
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -20,7 +25,7 @@ class OtpPage extends StatefulWidget {
 class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin, CodeAutoFill {
   final otpController = TextEditingController();
   bool valid = false;
-
+  late String phone;
   late AnimationController _controller;
   late int totalTimeInSeconds;
 
@@ -34,11 +39,11 @@ class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin, 
   @override
   void initState() {
     super.initState();
+    phone = (widget.params as Map)['phone'] ?? "";
 
     ///listen for the SMS code
     listenForCode();
-    _controller = AnimationController(vsync: this, duration: const Duration(seconds: kTime))
-      ..addStatusListener((status) {});
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: kTime))..addStatusListener((status) {});
     _controller.reverse(from: _controller.value == 0.0 ? 1.0 : _controller.value);
     _startCountdown();
   }
@@ -73,17 +78,17 @@ class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin, 
                     Navigator.of(context).pop();
                   },
                   child: Text(
-                    "Назад",
+                    context.loc.back,
                     style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
                   )),
               const SizedBox(height: 32),
               Text(
-                "Рады видеть вас снова, Аброр Ахмедов!",
+                context.loc.welcome,
                 style: AppTheme.data.textTheme.displaySmall?.copyWith(fontSize: 24),
               ),
               const SizedBox(height: 8),
               Text(
-                "Мы отправили 4-х значный код на указанный вами номер +998 99 999-99-99. Пожалуйста, введите его чтобы мы могли подтвердить вашу личность",
+                context.loc.enter_sms_text("+$phone"),
                 style: AppTheme.data.textTheme.bodySmall?.copyWith(
                   color: AppTheme.colors.black60,
                 ),
@@ -94,7 +99,7 @@ class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin, 
                 appContext: context,
                 controller: otpController,
                 keyboardType: TextInputType.number,
-                length: 6,
+                length: 5,
                 animationType: AnimationType.fade,
                 pinTheme: PinTheme(
                   shape: PinCodeFieldShape.box,
@@ -132,7 +137,7 @@ class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin, 
                 },
                 onChanged: (value) {
                   debugPrint(value);
-                  if (value.length > 5) {
+                  if (value.length > 4) {
                     setState(() {
                       valid = true;
                     });
@@ -144,37 +149,49 @@ class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin, 
                 },
               ),
               const Spacer(),
-              MainButtonComponent(
-                  name: "Продолжить",
-                  backgroundColor: valid ? AppTheme.colors.primary : AppTheme.colors.primary.withOpacity(0.4),
-                  onPressed: () {
-                    if (valid) {
-                      context.pushNamed(Routes.registerPage.name);
-                    }
-                  }),
+              BlocListener<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  state.maybeWhen(
+                      userLogin: (userData) {
+                        context.go(Routes.mainPage.path);
+                      },
+                      userRegister: () {
+                        context.pushNamed(Routes.registerPage.name);
+                      },
+                      orElse: () {});
+                },
+                child: MainButtonComponent(
+                    name: context.loc.confirm,
+                    backgroundColor: valid ? AppTheme.colors.primary : AppTheme.colors.primary.withOpacity(0.4),
+                    onPressed: () {
+                      if (valid) {
+                        context.read<AuthBloc>().add(AuthEvent.confirmAuth(otp: otpController.text));
+                      }
+                    }),
+              ),
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8), border: Border.all(color: AppTheme.colors.black20)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: AppTheme.colors.black20)),
                     child: _getTimerText,
                   ),
                   const SizedBox(width: 8),
                   RichText(
                     text: TextSpan(
-                      text: "Не получили код? ",
+                      text: context.loc.dont_get_sms,
                       style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.black60),
                       children: <TextSpan>[
                         TextSpan(
-                          text: "Отправить повторно",
+                          text: context.loc.resend,
                           style: AppTheme.data.textTheme.bodySmall!.copyWith(color: AppTheme.colors.primary),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               setState(() {
                                 _startCountdown();
+                                context.read<AuthBloc>().add(AuthEvent.sendSms(phoneNumber: phone));
                               });
                             },
                         ),

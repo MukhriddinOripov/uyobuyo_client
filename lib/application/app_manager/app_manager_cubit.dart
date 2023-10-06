@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uyobuyo_client/infrastructure/services/network_provider.dart';
 import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 
@@ -21,12 +22,8 @@ class AppManagerCubit extends Cubit<AppManagerState> {
       await AppTheme.init();
 
       phoneNumber = prefs.getUserPhone;
-      //
-      // await NetworkProvider.init().then((value) async {
-      //   Dio(options).get(NetworkProvider.routes.user).then(
-      //         (value) => print("line 30: $value"),
-      //       );
-      // });
+
+      await NetworkProvider.init();
       emit(AppManagerLoaded());
     } catch (e) {
       print("line 19: $e");

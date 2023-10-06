@@ -39,7 +39,7 @@ final GoRouter _router = GoRouter(
       path: Routes.otpPage.path,
       pageBuilder: (context, state) => MaterialPage<void>(
         key: state.pageKey,
-        child: const OtpPage(),
+        child: OtpPage(params: state.extra),
       ),
     ),
     GoRoute(

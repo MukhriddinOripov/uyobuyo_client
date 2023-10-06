@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/reverse_lat_lang_model.dart';
 import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 import 'package:uyobuyo_client/presentation/assets/icons.dart';
@@ -176,10 +176,36 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 Container(
-                  height: 9,
+                  height: 12,
                   width: 2,
-                  color: AppTheme.colors.black,
-                )
+                  decoration: BoxDecoration(
+                    color: AppTheme.colors.black,
+                    boxShadow: [
+                      if (ifVisibleBottom)
+                        BoxShadow(
+                          color: AppTheme.colors.black,
+                          blurRadius: 8,
+                          spreadRadius: 2,
+                          offset: const Offset(0, 8),
+                        ),
+                    ],
+                  ),
+                ),
+                if (!ifVisibleBottom)
+                  Container(
+                    height: 12,
+                    width: 12,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppTheme.colors.black,
+                          blurRadius: 6,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                  ),
               ],
             ),
           ),
@@ -248,8 +274,7 @@ class _MainPageState extends State<MainPage> {
                             Container(
                               width: 48,
                               height: 6,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16), color: AppTheme.colors.black40),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: AppTheme.colors.black40),
                             ),
                             const SizedBox(height: 16),
                             Container(
@@ -268,9 +293,9 @@ class _MainPageState extends State<MainPage> {
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Куда едем?", style: AppTheme.data.textTheme.bodyMedium),
+                                        Text(context.loc.where_we_go, style: AppTheme.data.textTheme.bodyMedium),
                                         Text(
-                                          "Поездки во все регионы",
+                                          context.loc.trips_to_regions,
                                           style: AppTheme.data.textTheme.labelMedium
                                               ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
                                         ),
@@ -286,7 +311,7 @@ class _MainPageState extends State<MainPage> {
                                       color: AppTheme.colors.primary.withOpacity(0.8),
                                       borderRadius: BorderRadius.circular(16),
                                     ),
-                                    child: Image.asset(AppImages.orderImage),
+                                    child: SvgPicture.asset(AppImages.orderImage),
                                   )
                                 ],
                               ),
@@ -308,9 +333,9 @@ class _MainPageState extends State<MainPage> {
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Посылки", style: AppTheme.data.textTheme.bodyMedium),
+                                        Text(context.loc.delivery, style: AppTheme.data.textTheme.bodyMedium),
                                         Text(
-                                          "Посылки до 20 кг",
+                                          context.loc.weight_delivery,
                                           style: AppTheme.data.textTheme.labelMedium
                                               ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
                                         ),
@@ -325,7 +350,7 @@ class _MainPageState extends State<MainPage> {
                                       color: Colors.greenAccent.withOpacity(0.8),
                                       borderRadius: BorderRadius.circular(16),
                                     ),
-                                    child: Image.asset(AppImages.deliveryImage),
+                                    child: SvgPicture.asset(AppImages.deliveryImage),
                                   )
                                 ],
                               ),
@@ -334,9 +359,7 @@ class _MainPageState extends State<MainPage> {
                           ],
                         ),
                       )
-                    : const SizedBox(
-                        height: 1,
-                      )
+                    : const SizedBox()
               ],
             ),
           ),
@@ -371,14 +394,12 @@ class _MainPageState extends State<MainPage> {
                         SizedBox(height: 4.h),
                         Text(
                           "+998 (99) 999-99-99",
-                          style: AppTheme.data.textTheme.labelMedium
-                              ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
+                          style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
                         ),
                         SizedBox(height: 4.h),
                         Text(
                           "ID:100104",
-                          style: AppTheme.data.textTheme.labelMedium
-                              ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.primary),
+                          style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.primary),
                         ),
                       ],
                     )
@@ -387,25 +408,20 @@ class _MainPageState extends State<MainPage> {
               ),
               const SizedBox(height: 40),
               Divider(color: AppTheme.colors.black20, height: 0.1),
-              drawerComponent(onTap: () {}, icon: AppIcons.clock, label: "История заказов"),
-              drawerComponent(onTap: () {}, icon: AppIcons.setting, label: "Настройки"),
-              drawerComponent(onTap: () {}, icon: AppIcons.faq, label: "FAQ"),
-              drawerComponent(onTap: () {}, icon: AppIcons.support, label: "Служба поддержки"),
-              drawerComponent(onTap: () {}, icon: AppIcons.info, label: "Инфо"),
+              drawerComponent(onTap: () {}, icon: AppIcons.clock, label: context.loc.history_order),
+              drawerComponent(onTap: () {}, icon: AppIcons.setting, label: context.loc.setting),
+              drawerComponent(onTap: () {}, icon: AppIcons.faq, label: context.loc.faq),
+              drawerComponent(onTap: () {}, icon: AppIcons.support, label: context.loc.support_service),
+              drawerComponent(onTap: () {}, icon: AppIcons.info, label: context.loc.info),
               const Spacer(),
               drawerComponent(
-                  onTap: () {},
-                  icon: AppIcons.logOut,
-                  label: "Выйти",
-                  textColor: AppTheme.colors.red,
-                  iconColor: AppTheme.colors.red),
+                  onTap: () {}, icon: AppIcons.logOut, label: context.loc.log_out, textColor: AppTheme.colors.red, iconColor: AppTheme.colors.red),
             ],
           ),
         ),
       );
 
-  Widget drawerComponent(
-      {required Function() onTap, required String icon, required String label, Color? textColor, Color? iconColor}) {
+  Widget drawerComponent({required Function() onTap, required String icon, required String label, Color? textColor, Color? iconColor}) {
     return InkWell(
       onTap: onTap,
       child: Column(
@@ -424,8 +440,7 @@ class _MainPageState extends State<MainPage> {
                 const SizedBox(width: 12),
                 Text(
                   label,
-                  style: AppTheme.data.textTheme.bodySmall
-                      ?.copyWith(fontWeight: FontWeight.w500, color: textColor ?? AppTheme.colors.black80),
+                  style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: textColor ?? AppTheme.colors.black80),
                 ),
               ],
             ),
