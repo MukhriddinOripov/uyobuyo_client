@@ -24,6 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   late String confirmationToken;
   late String password;
   late String firstPinCode;
+  late AuthConfirm token;
 
   AuthBloc() : super(const AuthState.initial()) {
     on<_SendSms>(_sendSms, transformer: droppable());
@@ -55,14 +56,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future _confirmAuth(_ConfirmAuth event, Emitter<AuthState> emit) async {
     emit(const AuthState.loading(loading: true));
     try {
-      SharedPrefService prefs = await SharedPrefService.initialize();
       final AuthConfirm data = await repository.confirmAuth(phone: phoneNumber, otp: event.otp);
       emit(const AuthState.loading(loading: false));
+      token = data;
       if (data.success) {
-        // saveToken(data: data);
-        String accessToken = data.data.token;
-        prefs.setAccessToken(accessToken);
         if (data.data.hasExisted) {
+          await saveToken(data: token);
           emit(AuthState.userLogin(data: data.data.user));
         } else {
           emit(const AuthState.userRegister());
@@ -82,9 +81,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future _register(_Register event, Emitter<AuthState> emit) async {
     emit(const AuthState.loading(loading: true));
     try {
-      final RegisterModel data = await repository.register(name: event.name, birthDate: event.birthDate, gender: event.gender, city: event.gender);
+      final RegisterModel data = await repository.register(name: event.name, birthDate: event.birthDate, gender: event.gender, city: event.city);
       emit(const AuthState.loading(loading: false));
       if (data.success) {
+        await saveToken(data: token);
         emit(AuthState.registerSuccess(data: data.data));
       } else {
         emit(const AuthState.registerError());
@@ -107,12 +107,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthState.loading(loading: false));
     emit(const AuthState.logOutedState());
   }
-}
 
-saveToken({required AuthConfirm data}) async {
-  // String refreshToken = (data.data as Body).refreshToken;
-  String accessToken = data.data.token;
-  SharedPrefService prefs = await SharedPrefService.initialize();
-  // prefs.setRefreshToken(refreshToken);
-  prefs.setAccessToken(accessToken);
+  Future<void> saveToken({required AuthConfirm data}) async {
+    // String refreshToken = (data.data as Body).refreshToken;
+    String accessToken = data.data.token;
+    SharedPrefService prefs = await SharedPrefService.initialize();
+    // prefs.setRefreshToken(refreshToken);
+    prefs.setAccessToken(accessToken);
+  }
 }

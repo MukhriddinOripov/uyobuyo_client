@@ -39,12 +39,12 @@ class _OnboardPageState extends State<OnboardPage> {
         currentLanIndex = 1;
       });
     }
-    // else {
-    //   setState(() {
-    //     currentLan = "Ўз";
-    //     currentLanIndex = 2;
-    //   });
-    // }
+    else if(pref.getLanguage == "en") {
+      setState(() {
+        currentLan = "Ўз";
+        currentLanIndex = 2;
+      });
+    }
   }
 
   @override
@@ -125,7 +125,7 @@ class _OnboardPageState extends State<OnboardPage> {
                   MainButtonComponent(
                     name: context.loc.onboardSheetBtnText,
                     onPressed: () {
-                      context.pushNamed(Routes.checkPhonePage.name);
+                      context.pushNamed(Routes.registerPage.name);
                     },
                   ),
                   const SizedBox(height: 32)
@@ -160,13 +160,13 @@ class _OnboardPageState extends State<OnboardPage> {
             saveLanguage("O'z", "uz", 1);
           },
         ),
-        // popupMenuItem(
-        //   language: 'Ўзбек',
-        //   icon: AppImages.flagUz,
-        //   onTap: () {
-        //     saveLanguage("Ўз", "uz_Cyrl", 2);
-        //   },
-        // )
+        popupMenuItem(
+          language: 'Ўзбек',
+          icon: AppImages.flagUz,
+          onTap: () {
+            saveLanguage("Ўз", "en", 2);
+          },
+        )
       ],
     );
   }

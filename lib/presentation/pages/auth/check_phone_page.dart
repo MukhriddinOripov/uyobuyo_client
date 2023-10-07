@@ -43,6 +43,7 @@ class _CheckPhonePageState extends BaseState<CheckPhonePage> {
   void dispose() {
     super.dispose();
     phoneController.dispose();
+    focusNode.dispose();
   }
 
   @override
@@ -78,37 +79,34 @@ class _CheckPhonePageState extends BaseState<CheckPhonePage> {
                 ),
                 const SizedBox(height: 32),
                 TextFieldComponent(
-                    controller: phoneController,
-                    inputFormatters: [mPhoneNumber],
-                    textInputAction: TextInputAction.send,
-                    textInputType: TextInputType.phone,
-                    prefixWidget: Padding(
-                      padding: const EdgeInsets.only(right: 5, bottom: 2.5),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const SizedBox(width: 4),
-                          Text(
-                            "+998",
-                            style: AppTheme.data.textTheme.bodyLarge
-                                ?.copyWith(color: phoneController.text.isNotEmpty ? AppTheme.colors.text900 : AppTheme.colors.black60),
-                          )
-                        ],
-                      ),
+                  controller: phoneController,
+                  inputFormatters: [mPhoneNumber],
+                  textInputAction: TextInputAction.send,
+                  textInputType: TextInputType.phone,
+                  prefixWidget: Padding(
+                    padding: const EdgeInsets.only(right: 5, bottom: 2.5),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(width: 4),
+                        Text(
+                          "+998",
+                          style: AppTheme.data.textTheme.bodyLarge
+                              ?.copyWith(color: phoneController.text.isNotEmpty ? AppTheme.colors.text900 : AppTheme.colors.black60),
+                        )
+                      ],
                     ),
-                    onChanged: (value) {},
-                    validator: (v) {
-                      InputValidations.phoneNumberV(v ?? '').fold(
-                        (l) => l.maybeMap(
-                          empty: (_) => "Введите свой номер телефона",
-                          invalidPhone: (_) => "Неправильная номер телефона",
-                          orElse: () => null,
-                        ),
-                        (r) => null,
-                      );
-
-                      return null;
-                    }),
+                  ),
+                  onChanged: (value) {},
+                  validator: (v) => (InputValidations.phoneNumberV(v ?? '').fold(
+                    (l) => l.maybeMap(
+                      empty: (_) => "Введите свой номер телефона",
+                      invalidPhone: (_) => "Неправильная номер телефона",
+                      orElse: () => null,
+                    ),
+                    (r) => null,
+                  )),
+                ),
                 const Spacer(),
                 MainButtonComponent(
                     name: context.loc.proceed,

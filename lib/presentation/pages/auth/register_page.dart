@@ -32,7 +32,6 @@ class _RegisterPageState extends BaseState<RegisterPage> {
   final fullNameController = TextEditingController();
   final dateController = TextEditingController();
   final genderController = TextEditingController();
-  bool isValid = false;
 
   @override
   void initState() {
@@ -141,18 +140,13 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                   onFieldSubmitted: (val) {},
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.text,
-                  validator: (v) {
-                    if (isValid) {
-                      InputValidations.defaultV(v ?? '').fold(
-                        (l) => l.maybeMap(
-                          empty: (_) => "Empty",
-                          orElse: () => null,
-                        ),
-                        (r) => null,
-                      );
-                    }
-                    return null;
-                  },
+                  validator: (v) => InputValidations.defaultV(v ?? '').fold(
+                    (l) => l.maybeMap(
+                      empty: (_) => "Введите свой имя и фамилия",
+                      orElse: () => null,
+                    ),
+                    (r) => null,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 TextFieldComponent(
@@ -177,18 +171,13 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                       color: _focusNodes[2].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
                     ),
                   ),
-                  validator: (v) {
-                    if (isValid) {
-                      InputValidations.defaultV(v ?? '').fold(
-                        (l) => l.maybeMap(
-                          empty: (_) => "Empty",
-                          orElse: () => null,
-                        ),
-                        (r) => null,
-                      );
-                    }
-                    return null;
-                  },
+                  validator: (v) => InputValidations.defaultV(v ?? '').fold(
+                    (l) => l.maybeMap(
+                      empty: (_) => "Введите свой день рождения",
+                      orElse: () => null,
+                    ),
+                    (r) => null,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 TextFieldComponent(
@@ -214,18 +203,13 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                       color: _focusNodes[3].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
                     ),
                   ),
-                  validator: (v) {
-                    if (isValid) {
-                      InputValidations.defaultV(v ?? '').fold(
-                        (l) => l.maybeMap(
-                          empty: (_) => "Empty",
-                          orElse: () => null,
-                        ),
-                        (r) => null,
-                      );
-                    }
-                    return null;
-                  },
+                  validator: (v) => InputValidations.defaultV(v ?? '').fold(
+                    (l) => l.maybeMap(
+                      empty: (_) => "Выберите свой пол",
+                      orElse: () => null,
+                    ),
+                    (r) => null,
+                  ),
                 ),
                 const Spacer(),
                 BlocListener<AuthBloc, AuthState>(
@@ -242,14 +226,15 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                   child: MainButtonComponent(
                     name: context.loc.create,
                     onPressed: () {
-                      context.go(Routes.mainPage.path);
-                      context.read<AuthBloc>().add(
-                            AuthEvent.register(
-                                name: fullNameController.text,
-                                birthDate: dateController.text,
-                                gender: genderController.text == context.loc.man ? "MALE" : "FEMALE",
-                                city: "Tashkent"),
-                          );
+                      if (formKey.currentState?.validate() ?? false) {
+                        context.read<AuthBloc>().add(
+                              AuthEvent.register(
+                                  name: fullNameController.text,
+                                  birthDate: dateController.text,
+                                  gender: genderController.text == context.loc.man ? "MALE" : "FEMALE",
+                                  city: "Tashkent"),
+                            );
+                      }
                     },
                   ),
                 ),
