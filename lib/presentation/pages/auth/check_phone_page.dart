@@ -10,18 +10,19 @@ import 'package:uyobuyo_client/infrastructure/common/utils/input_masks.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/common/validations/input_validations.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
+import 'package:uyobuyo_client/presentation/pages/base_page.dart';
 import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
 import 'package:uyobuyo_client/presentation/components/text_field_component.dart';
 import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 
-class CheckPhonePage extends StatefulWidget {
+class CheckPhonePage extends BaseScreen {
   const CheckPhonePage({super.key});
 
   @override
-  State<CheckPhonePage> createState() => _CheckPhonePageState();
+  State<BaseScreen> createState() => _CheckPhonePageState();
 }
 
-class _CheckPhonePageState extends State<CheckPhonePage> {
+class _CheckPhonePageState extends BaseState<CheckPhonePage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final FocusNode focusNode = FocusNode();
   final phoneController = TextEditingController();
@@ -51,6 +52,9 @@ class _CheckPhonePageState extends State<CheckPhonePage> {
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           state.maybeWhen(
+              loading: (loading) {
+                showLoading(needLoading: loading);
+              },
               successSendSms: (phone) {
                 context.pushNamed(Routes.otpPage.name, extra: {'phone': phone});
               },

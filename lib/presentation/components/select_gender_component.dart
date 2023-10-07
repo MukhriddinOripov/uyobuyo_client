@@ -86,7 +86,7 @@ Future<void> selectGenderComponent({
                   });
                 },
                 title: Text(
-                  gender = context.loc.man,
+                  context.loc.man,
                   style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 leading: Radio(
@@ -96,7 +96,8 @@ Future<void> selectGenderComponent({
                   onChanged: (value) {
                     setState(() {
                       selectedOption = value;
-                      gender = gender = context.loc.man;
+                      gender = context.loc.man;
+                      selectedGender(gender);
                     });
                   },
                 ),
@@ -110,12 +111,12 @@ Future<void> selectGenderComponent({
                 onTap: () {
                   setState(() {
                     selectedOption = 2;
-                    gender = gender = context.loc.woman;
+                    gender = context.loc.woman;
                     selectedGender(gender);
                   });
                 },
                 title: Text(
-                  gender = context.loc.woman,
+                  context.loc.woman,
                   style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 leading: Radio(
@@ -125,7 +126,8 @@ Future<void> selectGenderComponent({
                   onChanged: (value) {
                     setState(() {
                       selectedOption = value;
-                      gender = gender = context.loc.woman;
+                      gender = context.loc.woman;
+                      selectedGender(gender);
                     });
                   },
                 ),

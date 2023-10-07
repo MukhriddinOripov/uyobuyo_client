@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
+import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/reverse_lat_lang_model.dart';
@@ -11,6 +14,7 @@ import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart'
 import 'package:uyobuyo_client/presentation/assets/icons.dart';
 import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
+import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MainPage extends StatefulWidget {
@@ -370,7 +374,7 @@ class _MainPageState extends State<MainPage> {
 
   Widget drawer() => Drawer(
         child: Padding(
-          padding: EdgeInsets.only(top: 87.h, bottom: 80.h),
+          padding: EdgeInsets.only(top: 87.h, bottom: 40.h),
           child: Column(
             children: [
               Padding(
@@ -414,8 +418,22 @@ class _MainPageState extends State<MainPage> {
               drawerComponent(onTap: () {}, icon: AppIcons.support, label: context.loc.support_service),
               drawerComponent(onTap: () {}, icon: AppIcons.info, label: context.loc.info),
               const Spacer(),
-              drawerComponent(
-                  onTap: () {}, icon: AppIcons.logOut, label: context.loc.log_out, textColor: AppTheme.colors.red, iconColor: AppTheme.colors.red),
+              BlocListener<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  state.maybeWhen(
+                    logOutedState: () => context.go(Routes.onboardPage.path),
+                    orElse: () {},
+                  );
+                },
+                child: drawerComponent(
+                    onTap: () {
+                      context.read<AuthBloc>().add(const AuthEvent.logOut());
+                    },
+                    icon: AppIcons.logOut,
+                    label: context.loc.log_out,
+                    textColor: AppTheme.colors.red,
+                    iconColor: AppTheme.colors.red),
+              ),
             ],
           ),
         ),

@@ -11,18 +11,19 @@ import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 import 'package:uyobuyo_client/presentation/components/countdown_timer.dart';
 import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
+import 'package:uyobuyo_client/presentation/pages/base_page.dart';
 import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 
-class OtpPage extends StatefulWidget {
+class OtpPage extends BaseScreen {
   final Object? params;
 
   const OtpPage({Key? key, this.params}) : super(key: key);
 
   @override
-  State<OtpPage> createState() => _OtpPageState();
+  State<BaseScreen> createState() => _OtpPageState();
 }
 
-class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin, CodeAutoFill {
+class _OtpPageState extends BaseState<OtpPage> with SingleTickerProviderStateMixin, CodeAutoFill {
   final otpController = TextEditingController();
   bool valid = false;
   late String phone;
@@ -152,6 +153,9 @@ class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin, 
               BlocListener<AuthBloc, AuthState>(
                 listener: (context, state) {
                   state.maybeWhen(
+                      loading: (loading) {
+                        showLoading(needLoading: loading);
+                      },
                       userLogin: (userData) {
                         context.go(Routes.mainPage.path);
                       },

@@ -29,14 +29,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_SendSms>(_sendSms, transformer: droppable());
     on<_ConfirmAuth>(_confirmAuth, transformer: droppable());
     on<_Register>(_register, transformer: droppable());
+    on<_LogOut>(_logOut, transformer: droppable());
   }
 
   Future _sendSms(_SendSms event, Emitter<AuthState> emit) async {
-    emit(const AuthState.loading());
+    emit(const AuthState.loading(loading: true));
     try {
-      final data = await repository.sendSms(
-        phone: filter.fPhoneNumber(event.phoneNumber),
-      );
+      final data = await repository.sendSms(phone: filter.fPhoneNumber(event.phoneNumber));
+      emit(const AuthState.loading(loading: false));
       if (data.statusCode == 200) {
         phoneNumber = filter.fPhoneNumber(event.phoneNumber);
         emit(AuthState.successSendSms(phoneNumber: phoneNumber));
@@ -53,10 +53,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future _confirmAuth(_ConfirmAuth event, Emitter<AuthState> emit) async {
-    emit(const AuthState.loading());
+    emit(const AuthState.loading(loading: true));
     try {
       SharedPrefService prefs = await SharedPrefService.initialize();
       final AuthConfirm data = await repository.confirmAuth(phone: phoneNumber, otp: event.otp);
+      emit(const AuthState.loading(loading: false));
       if (data.success) {
         // saveToken(data: data);
         String accessToken = data.data.token;
@@ -79,9 +80,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future _register(_Register event, Emitter<AuthState> emit) async {
-    emit(const AuthState.loading());
+    emit(const AuthState.loading(loading: true));
     try {
       final RegisterModel data = await repository.register(name: event.name, birthDate: event.birthDate, gender: event.gender, city: event.gender);
+      emit(const AuthState.loading(loading: false));
       if (data.success) {
         emit(AuthState.registerSuccess(data: data.data));
       } else {
@@ -96,6 +98,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       log(e.toString());
     }
+  }
+
+  Future _logOut(_LogOut event, Emitter<AuthState> emit) async {
+    emit(const AuthState.loading(loading: true));
+    SharedPrefService prefs = await SharedPrefService.initialize();
+    prefs.logOut();
+    emit(const AuthState.loading(loading: false));
+    emit(const AuthState.logOutedState());
   }
 }
 

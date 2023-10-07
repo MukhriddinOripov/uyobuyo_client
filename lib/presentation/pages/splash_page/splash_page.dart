@@ -71,7 +71,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                         (value) => Future.delayed(const Duration(milliseconds: 500)).then((value) async {
                           SharedPrefService prefs = await SharedPrefService.initialize();
                           String accessToken = prefs.getAccessToken;
-                          print("line 74 token $accessToken");
                           if (accessToken.isNotEmpty) {
                             context.go(Routes.mainPage.path);
                           } else {

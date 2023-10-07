@@ -55,8 +55,9 @@ class _OnboardPageState extends State<OnboardPage> {
         children: [
           Image.asset(
             AppImages.onboard,
-            width: double.infinity,
-            height: double.infinity,
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height,
+            fit: BoxFit.fill,
           ),
           Positioned(
             top: 70,

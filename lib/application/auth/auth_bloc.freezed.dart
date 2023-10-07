@@ -23,6 +23,7 @@ mixin _$AuthEvent {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         register,
+    required TResult Function() logOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,6 +33,7 @@ mixin _$AuthEvent {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         register,
+    TResult? Function()? logOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -40,6 +42,7 @@ mixin _$AuthEvent {
     TResult Function(String otp)? confirmAuth,
     TResult Function(String name, String birthDate, String gender, String city)?
         register,
+    TResult Function()? logOut,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,6 +51,7 @@ mixin _$AuthEvent {
     required TResult Function(_SendSms value) sendSms,
     required TResult Function(_ConfirmAuth value) confirmAuth,
     required TResult Function(_Register value) register,
+    required TResult Function(_LogOut value) logOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +59,7 @@ mixin _$AuthEvent {
     TResult? Function(_SendSms value)? sendSms,
     TResult? Function(_ConfirmAuth value)? confirmAuth,
     TResult? Function(_Register value)? register,
+    TResult? Function(_LogOut value)? logOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -62,6 +67,7 @@ mixin _$AuthEvent {
     TResult Function(_SendSms value)? sendSms,
     TResult Function(_ConfirmAuth value)? confirmAuth,
     TResult Function(_Register value)? register,
+    TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -154,6 +160,7 @@ class _$SendSmsImpl implements _SendSms {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         register,
+    required TResult Function() logOut,
   }) {
     return sendSms(phoneNumber);
   }
@@ -166,6 +173,7 @@ class _$SendSmsImpl implements _SendSms {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         register,
+    TResult? Function()? logOut,
   }) {
     return sendSms?.call(phoneNumber);
   }
@@ -177,6 +185,7 @@ class _$SendSmsImpl implements _SendSms {
     TResult Function(String otp)? confirmAuth,
     TResult Function(String name, String birthDate, String gender, String city)?
         register,
+    TResult Function()? logOut,
     required TResult orElse(),
   }) {
     if (sendSms != null) {
@@ -191,6 +200,7 @@ class _$SendSmsImpl implements _SendSms {
     required TResult Function(_SendSms value) sendSms,
     required TResult Function(_ConfirmAuth value) confirmAuth,
     required TResult Function(_Register value) register,
+    required TResult Function(_LogOut value) logOut,
   }) {
     return sendSms(this);
   }
@@ -201,6 +211,7 @@ class _$SendSmsImpl implements _SendSms {
     TResult? Function(_SendSms value)? sendSms,
     TResult? Function(_ConfirmAuth value)? confirmAuth,
     TResult? Function(_Register value)? register,
+    TResult? Function(_LogOut value)? logOut,
   }) {
     return sendSms?.call(this);
   }
@@ -211,6 +222,7 @@ class _$SendSmsImpl implements _SendSms {
     TResult Function(_SendSms value)? sendSms,
     TResult Function(_ConfirmAuth value)? confirmAuth,
     TResult Function(_Register value)? register,
+    TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) {
     if (sendSms != null) {
@@ -298,6 +310,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         register,
+    required TResult Function() logOut,
   }) {
     return confirmAuth(otp);
   }
@@ -310,6 +323,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         register,
+    TResult? Function()? logOut,
   }) {
     return confirmAuth?.call(otp);
   }
@@ -321,6 +335,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     TResult Function(String otp)? confirmAuth,
     TResult Function(String name, String birthDate, String gender, String city)?
         register,
+    TResult Function()? logOut,
     required TResult orElse(),
   }) {
     if (confirmAuth != null) {
@@ -335,6 +350,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     required TResult Function(_SendSms value) sendSms,
     required TResult Function(_ConfirmAuth value) confirmAuth,
     required TResult Function(_Register value) register,
+    required TResult Function(_LogOut value) logOut,
   }) {
     return confirmAuth(this);
   }
@@ -345,6 +361,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     TResult? Function(_SendSms value)? sendSms,
     TResult? Function(_ConfirmAuth value)? confirmAuth,
     TResult? Function(_Register value)? register,
+    TResult? Function(_LogOut value)? logOut,
   }) {
     return confirmAuth?.call(this);
   }
@@ -355,6 +372,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     TResult Function(_SendSms value)? sendSms,
     TResult Function(_ConfirmAuth value)? confirmAuth,
     TResult Function(_Register value)? register,
+    TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) {
     if (confirmAuth != null) {
@@ -471,6 +489,7 @@ class _$RegisterImpl implements _Register {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         register,
+    required TResult Function() logOut,
   }) {
     return register(name, birthDate, gender, city);
   }
@@ -483,6 +502,7 @@ class _$RegisterImpl implements _Register {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         register,
+    TResult? Function()? logOut,
   }) {
     return register?.call(name, birthDate, gender, city);
   }
@@ -494,6 +514,7 @@ class _$RegisterImpl implements _Register {
     TResult Function(String otp)? confirmAuth,
     TResult Function(String name, String birthDate, String gender, String city)?
         register,
+    TResult Function()? logOut,
     required TResult orElse(),
   }) {
     if (register != null) {
@@ -508,6 +529,7 @@ class _$RegisterImpl implements _Register {
     required TResult Function(_SendSms value) sendSms,
     required TResult Function(_ConfirmAuth value) confirmAuth,
     required TResult Function(_Register value) register,
+    required TResult Function(_LogOut value) logOut,
   }) {
     return register(this);
   }
@@ -518,6 +540,7 @@ class _$RegisterImpl implements _Register {
     TResult? Function(_SendSms value)? sendSms,
     TResult? Function(_ConfirmAuth value)? confirmAuth,
     TResult? Function(_Register value)? register,
+    TResult? Function(_LogOut value)? logOut,
   }) {
     return register?.call(this);
   }
@@ -528,6 +551,7 @@ class _$RegisterImpl implements _Register {
     TResult Function(_SendSms value)? sendSms,
     TResult Function(_ConfirmAuth value)? confirmAuth,
     TResult Function(_Register value)? register,
+    TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) {
     if (register != null) {
@@ -554,16 +578,136 @@ abstract class _Register implements AuthEvent {
 }
 
 /// @nodoc
+abstract class _$$LogOutImplCopyWith<$Res> {
+  factory _$$LogOutImplCopyWith(
+          _$LogOutImpl value, $Res Function(_$LogOutImpl) then) =
+      __$$LogOutImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LogOutImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$LogOutImpl>
+    implements _$$LogOutImplCopyWith<$Res> {
+  __$$LogOutImplCopyWithImpl(
+      _$LogOutImpl _value, $Res Function(_$LogOutImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$LogOutImpl implements _LogOut {
+  const _$LogOutImpl();
+
+  @override
+  String toString() {
+    return 'AuthEvent.logOut()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$LogOutImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String phoneNumber) sendSms,
+    required TResult Function(String otp) confirmAuth,
+    required TResult Function(
+            String name, String birthDate, String gender, String city)
+        register,
+    required TResult Function() logOut,
+  }) {
+    return logOut();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String phoneNumber)? sendSms,
+    TResult? Function(String otp)? confirmAuth,
+    TResult? Function(
+            String name, String birthDate, String gender, String city)?
+        register,
+    TResult? Function()? logOut,
+  }) {
+    return logOut?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String phoneNumber)? sendSms,
+    TResult Function(String otp)? confirmAuth,
+    TResult Function(String name, String birthDate, String gender, String city)?
+        register,
+    TResult Function()? logOut,
+    required TResult orElse(),
+  }) {
+    if (logOut != null) {
+      return logOut();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_SendSms value) sendSms,
+    required TResult Function(_ConfirmAuth value) confirmAuth,
+    required TResult Function(_Register value) register,
+    required TResult Function(_LogOut value) logOut,
+  }) {
+    return logOut(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_SendSms value)? sendSms,
+    TResult? Function(_ConfirmAuth value)? confirmAuth,
+    TResult? Function(_Register value)? register,
+    TResult? Function(_LogOut value)? logOut,
+  }) {
+    return logOut?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_SendSms value)? sendSms,
+    TResult Function(_ConfirmAuth value)? confirmAuth,
+    TResult Function(_Register value)? register,
+    TResult Function(_LogOut value)? logOut,
+    required TResult orElse(),
+  }) {
+    if (logOut != null) {
+      return logOut(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LogOut implements AuthEvent {
+  const factory _LogOut() = _$LogOutImpl;
+}
+
+/// @nodoc
 mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(bool loading) loading,
     required TResult Function(String phoneNumber) successSendSms,
     required TResult Function(User data) userLogin,
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
   }) =>
@@ -571,24 +715,26 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(bool loading)? loading,
     TResult? Function(String phoneNumber)? successSendSms,
     TResult? Function(User data)? userLogin,
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool loading)? loading,
     TResult Function(String phoneNumber)? successSendSms,
     TResult Function(User data)? userLogin,
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
   }) =>
@@ -602,6 +748,7 @@ mixin _$AuthState {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) =>
       throw _privateConstructorUsedError;
@@ -614,6 +761,7 @@ mixin _$AuthState {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) =>
       throw _privateConstructorUsedError;
@@ -626,6 +774,7 @@ mixin _$AuthState {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
   }) =>
@@ -688,12 +837,13 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(bool loading) loading,
     required TResult Function(String phoneNumber) successSendSms,
     required TResult Function(User data) userLogin,
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
   }) {
@@ -704,12 +854,13 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(bool loading)? loading,
     TResult? Function(String phoneNumber)? successSendSms,
     TResult? Function(User data)? userLogin,
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
     return initial?.call();
@@ -719,12 +870,13 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool loading)? loading,
     TResult Function(String phoneNumber)? successSendSms,
     TResult Function(User data)? userLogin,
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
   }) {
@@ -744,6 +896,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
     return initial(this);
@@ -759,6 +912,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
     return initial?.call(this);
@@ -774,6 +928,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
   }) {
@@ -793,6 +948,8 @@ abstract class _$$LoadingImplCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
           _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
       __$$LoadingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({bool loading});
 }
 
 /// @nodoc
@@ -802,73 +959,100 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? loading = null,
+  }) {
+    return _then(_$LoadingImpl(
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$LoadingImpl implements _Loading {
-  const _$LoadingImpl();
+  const _$LoadingImpl({required this.loading});
+
+  @override
+  final bool loading;
 
   @override
   String toString() {
-    return 'AuthState.loading()';
+    return 'AuthState.loading(loading: $loading)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadingImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$LoadingImpl &&
+            (identical(other.loading, loading) || other.loading == loading));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, loading);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(bool loading) loading,
     required TResult Function(String phoneNumber) successSendSms,
     required TResult Function(User data) userLogin,
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
   }) {
-    return loading();
+    return loading(this.loading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(bool loading)? loading,
     TResult? Function(String phoneNumber)? successSendSms,
     TResult? Function(User data)? userLogin,
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
-    return loading?.call();
+    return loading?.call(this.loading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool loading)? loading,
     TResult Function(String phoneNumber)? successSendSms,
     TResult Function(User data)? userLogin,
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading();
+      return loading(this.loading);
     }
     return orElse();
   }
@@ -883,6 +1067,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
     return loading(this);
@@ -898,6 +1083,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
     return loading?.call(this);
@@ -913,6 +1099,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
   }) {
@@ -924,7 +1111,12 @@ class _$LoadingImpl implements _Loading {
 }
 
 abstract class _Loading implements AuthState {
-  const factory _Loading() = _$LoadingImpl;
+  const factory _Loading({required final bool loading}) = _$LoadingImpl;
+
+  bool get loading;
+  @JsonKey(ignore: true)
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -994,12 +1186,13 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(bool loading) loading,
     required TResult Function(String phoneNumber) successSendSms,
     required TResult Function(User data) userLogin,
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
   }) {
@@ -1010,12 +1203,13 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(bool loading)? loading,
     TResult? Function(String phoneNumber)? successSendSms,
     TResult? Function(User data)? userLogin,
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
     return successSendSms?.call(phoneNumber);
@@ -1025,12 +1219,13 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool loading)? loading,
     TResult Function(String phoneNumber)? successSendSms,
     TResult Function(User data)? userLogin,
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
   }) {
@@ -1050,6 +1245,7 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
     return successSendSms(this);
@@ -1065,6 +1261,7 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
     return successSendSms?.call(this);
@@ -1080,6 +1277,7 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
   }) {
@@ -1165,12 +1363,13 @@ class _$UserLoginImpl implements _UserLogin {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(bool loading) loading,
     required TResult Function(String phoneNumber) successSendSms,
     required TResult Function(User data) userLogin,
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
   }) {
@@ -1181,12 +1380,13 @@ class _$UserLoginImpl implements _UserLogin {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(bool loading)? loading,
     TResult? Function(String phoneNumber)? successSendSms,
     TResult? Function(User data)? userLogin,
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
     return userLogin?.call(data);
@@ -1196,12 +1396,13 @@ class _$UserLoginImpl implements _UserLogin {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool loading)? loading,
     TResult Function(String phoneNumber)? successSendSms,
     TResult Function(User data)? userLogin,
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
   }) {
@@ -1221,6 +1422,7 @@ class _$UserLoginImpl implements _UserLogin {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
     return userLogin(this);
@@ -1236,6 +1438,7 @@ class _$UserLoginImpl implements _UserLogin {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
     return userLogin?.call(this);
@@ -1251,6 +1454,7 @@ class _$UserLoginImpl implements _UserLogin {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
   }) {
@@ -1309,12 +1513,13 @@ class _$UserRegisterImpl implements _UserRegister {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(bool loading) loading,
     required TResult Function(String phoneNumber) successSendSms,
     required TResult Function(User data) userLogin,
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
   }) {
@@ -1325,12 +1530,13 @@ class _$UserRegisterImpl implements _UserRegister {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(bool loading)? loading,
     TResult? Function(String phoneNumber)? successSendSms,
     TResult? Function(User data)? userLogin,
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
     return userRegister?.call();
@@ -1340,12 +1546,13 @@ class _$UserRegisterImpl implements _UserRegister {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool loading)? loading,
     TResult Function(String phoneNumber)? successSendSms,
     TResult Function(User data)? userLogin,
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
   }) {
@@ -1365,6 +1572,7 @@ class _$UserRegisterImpl implements _UserRegister {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
     return userRegister(this);
@@ -1380,6 +1588,7 @@ class _$UserRegisterImpl implements _UserRegister {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
     return userRegister?.call(this);
@@ -1395,6 +1604,7 @@ class _$UserRegisterImpl implements _UserRegister {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
   }) {
@@ -1475,12 +1685,13 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(bool loading) loading,
     required TResult Function(String phoneNumber) successSendSms,
     required TResult Function(User data) userLogin,
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
   }) {
@@ -1491,12 +1702,13 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(bool loading)? loading,
     TResult? Function(String phoneNumber)? successSendSms,
     TResult? Function(User data)? userLogin,
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
     return registerSuccess?.call(data);
@@ -1506,12 +1718,13 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool loading)? loading,
     TResult Function(String phoneNumber)? successSendSms,
     TResult Function(User data)? userLogin,
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
   }) {
@@ -1531,6 +1744,7 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
     return registerSuccess(this);
@@ -1546,6 +1760,7 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
     return registerSuccess?.call(this);
@@ -1561,6 +1776,7 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
   }) {
@@ -1646,12 +1862,13 @@ class _$RegisterErrorImpl implements _RegisterError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(bool loading) loading,
     required TResult Function(String phoneNumber) successSendSms,
     required TResult Function(User data) userLogin,
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
   }) {
@@ -1662,12 +1879,13 @@ class _$RegisterErrorImpl implements _RegisterError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(bool loading)? loading,
     TResult? Function(String phoneNumber)? successSendSms,
     TResult? Function(User data)? userLogin,
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
     return registerError?.call(msg);
@@ -1677,12 +1895,13 @@ class _$RegisterErrorImpl implements _RegisterError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool loading)? loading,
     TResult Function(String phoneNumber)? successSendSms,
     TResult Function(User data)? userLogin,
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
   }) {
@@ -1702,6 +1921,7 @@ class _$RegisterErrorImpl implements _RegisterError {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
     return registerError(this);
@@ -1717,6 +1937,7 @@ class _$RegisterErrorImpl implements _RegisterError {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
     return registerError?.call(this);
@@ -1732,6 +1953,7 @@ class _$RegisterErrorImpl implements _RegisterError {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
   }) {
@@ -1749,6 +1971,151 @@ abstract class _RegisterError implements AuthState {
   @JsonKey(ignore: true)
   _$$RegisterErrorImplCopyWith<_$RegisterErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$LogOutedStateImplCopyWith<$Res> {
+  factory _$$LogOutedStateImplCopyWith(
+          _$LogOutedStateImpl value, $Res Function(_$LogOutedStateImpl) then) =
+      __$$LogOutedStateImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LogOutedStateImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$LogOutedStateImpl>
+    implements _$$LogOutedStateImplCopyWith<$Res> {
+  __$$LogOutedStateImplCopyWithImpl(
+      _$LogOutedStateImpl _value, $Res Function(_$LogOutedStateImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$LogOutedStateImpl implements _LogOutedState {
+  const _$LogOutedStateImpl();
+
+  @override
+  String toString() {
+    return 'AuthState.logOutedState()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$LogOutedStateImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(bool loading) loading,
+    required TResult Function(String phoneNumber) successSendSms,
+    required TResult Function(User data) userLogin,
+    required TResult Function() userRegister,
+    required TResult Function(RegisterData data) registerSuccess,
+    required TResult Function(String? msg) registerError,
+    required TResult Function() logOutedState,
+    required TResult Function(String error, ExceptionType serverException)
+        authError,
+  }) {
+    return logOutedState();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(bool loading)? loading,
+    TResult? Function(String phoneNumber)? successSendSms,
+    TResult? Function(User data)? userLogin,
+    TResult? Function()? userRegister,
+    TResult? Function(RegisterData data)? registerSuccess,
+    TResult? Function(String? msg)? registerError,
+    TResult? Function()? logOutedState,
+    TResult? Function(String error, ExceptionType serverException)? authError,
+  }) {
+    return logOutedState?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(bool loading)? loading,
+    TResult Function(String phoneNumber)? successSendSms,
+    TResult Function(User data)? userLogin,
+    TResult Function()? userRegister,
+    TResult Function(RegisterData data)? registerSuccess,
+    TResult Function(String? msg)? registerError,
+    TResult Function()? logOutedState,
+    TResult Function(String error, ExceptionType serverException)? authError,
+    required TResult orElse(),
+  }) {
+    if (logOutedState != null) {
+      return logOutedState();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_SuccessSendSms value) successSendSms,
+    required TResult Function(_UserLogin value) userLogin,
+    required TResult Function(_UserRegister value) userRegister,
+    required TResult Function(_RegisterSuccess value) registerSuccess,
+    required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_LogOutedState value) logOutedState,
+    required TResult Function(_AuthError value) authError,
+  }) {
+    return logOutedState(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_SuccessSendSms value)? successSendSms,
+    TResult? Function(_UserLogin value)? userLogin,
+    TResult? Function(_UserRegister value)? userRegister,
+    TResult? Function(_RegisterSuccess value)? registerSuccess,
+    TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_LogOutedState value)? logOutedState,
+    TResult? Function(_AuthError value)? authError,
+  }) {
+    return logOutedState?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_SuccessSendSms value)? successSendSms,
+    TResult Function(_UserLogin value)? userLogin,
+    TResult Function(_UserRegister value)? userRegister,
+    TResult Function(_RegisterSuccess value)? registerSuccess,
+    TResult Function(_RegisterError value)? registerError,
+    TResult Function(_LogOutedState value)? logOutedState,
+    TResult Function(_AuthError value)? authError,
+    required TResult orElse(),
+  }) {
+    if (logOutedState != null) {
+      return logOutedState(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LogOutedState implements AuthState {
+  const factory _LogOutedState() = _$LogOutedStateImpl;
 }
 
 /// @nodoc
@@ -1825,12 +2192,13 @@ class _$AuthErrorImpl implements _AuthError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(bool loading) loading,
     required TResult Function(String phoneNumber) successSendSms,
     required TResult Function(User data) userLogin,
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
   }) {
@@ -1841,12 +2209,13 @@ class _$AuthErrorImpl implements _AuthError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(bool loading)? loading,
     TResult? Function(String phoneNumber)? successSendSms,
     TResult? Function(User data)? userLogin,
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
     return authError?.call(error, serverException);
@@ -1856,12 +2225,13 @@ class _$AuthErrorImpl implements _AuthError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(bool loading)? loading,
     TResult Function(String phoneNumber)? successSendSms,
     TResult Function(User data)? userLogin,
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
   }) {
@@ -1881,6 +2251,7 @@ class _$AuthErrorImpl implements _AuthError {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
     return authError(this);
@@ -1896,6 +2267,7 @@ class _$AuthErrorImpl implements _AuthError {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
     return authError?.call(this);
@@ -1911,6 +2283,7 @@ class _$AuthErrorImpl implements _AuthError {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
   }) {

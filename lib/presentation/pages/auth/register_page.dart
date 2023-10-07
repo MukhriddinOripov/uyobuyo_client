@@ -14,16 +14,17 @@ import 'package:uyobuyo_client/presentation/components/calendar_component.dart';
 import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
 import 'package:uyobuyo_client/presentation/components/select_gender_component.dart';
 import 'package:uyobuyo_client/presentation/components/text_field_component.dart';
+import 'package:uyobuyo_client/presentation/pages/base_page.dart';
 import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends BaseScreen {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<BaseScreen> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends BaseState<RegisterPage> {
   final formKey = GlobalKey<FormState>();
 
   final List<FocusNode> _focusNodes = [FocusNode(), FocusNode(), FocusNode(), FocusNode()];
@@ -75,185 +76,185 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: kPaddingDefault.w),
-          child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 32),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        context.loc.back,
-                        style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
-                      )),
-                  const SizedBox(height: 32),
-                  Text(
-                    context.loc.create_account,
-                    style: AppTheme.data.textTheme.displaySmall?.copyWith(fontSize: 24),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    context.loc.enter_user_info,
-                    style: AppTheme.data.textTheme.bodySmall?.copyWith(
-                      color: AppTheme.colors.black60,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  // TextFieldComponent(
-                  //   title: context.loc.photo,
-                  //   focusNode: _focusNodes[0],
-                  //   controller: imageController,
-                  //   readOnly: true,
-                  //   hint: context.loc.enter_photo,
-                  //   onFieldSubmitted: (val) {},
-                  //   textInputAction: TextInputAction.next,
-                  //   textInputType: TextInputType.text,
-                  //   suffixWidget: GestureDetector(
-                  //     onTap: () {},
-                  //     child: SvgPicture.asset(
-                  //       AppIcons.attach,
-                  //       color: _focusNodes[0].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
-                  //     ),
-                  //   ),
-                  //   validator: (v) {
-                  //     if (isValid) {
-                  //       InputValidations.defaultV(v ?? '').fold(
-                  //         (l) => l.maybeMap(
-                  //           empty: (_) => "Empty",
-                  //           orElse: () => null,
-                  //         ),
-                  //         (r) => null,
-                  //       );
-                  //     }
-                  //     return null;
-                  //   },
-                  // ),
-                  // const SizedBox(height: 16),
-                  TextFieldComponent(
-                    title: context.loc.full_name,
-                    focusNode: _focusNodes[1],
-                    controller: fullNameController,
-                    hint: context.loc.enter_full_name,
-                    onFieldSubmitted: (val) {},
-                    textInputAction: TextInputAction.next,
-                    textInputType: TextInputType.text,
-                    validator: (v) {
-                      if (isValid) {
-                        InputValidations.defaultV(v ?? '').fold(
-                          (l) => l.maybeMap(
-                            empty: (_) => "Empty",
-                            orElse: () => null,
-                          ),
-                          (r) => null,
-                        );
-                      }
-                      return null;
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 32),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
                     },
+                    child: Text(
+                      context.loc.back,
+                      style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
+                    )),
+                const SizedBox(height: 32),
+                Text(
+                  context.loc.create_account,
+                  style: AppTheme.data.textTheme.displaySmall?.copyWith(fontSize: 24),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  context.loc.enter_user_info,
+                  style: AppTheme.data.textTheme.bodySmall?.copyWith(
+                    color: AppTheme.colors.black60,
                   ),
-                  const SizedBox(height: 16),
-                  TextFieldComponent(
-                    title: context.loc.bright_day,
-                    focusNode: _focusNodes[2],
-                    controller: dateController,
-                    inputFormatters: [mDate],
-                    hint: "ХХ.XX.XXXX",
-                    onFieldSubmitted: (val) {},
-                    textInputAction: TextInputAction.next,
-                    textInputType: TextInputType.number,
-                    suffixWidget: GestureDetector(
-                      onTap: () {
-                        calendarComponent(
-                            context: context,
-                            selectedDate: (date) {
-                              dateController.text = date;
-                            });
-                      },
-                      child: SvgPicture.asset(
-                        AppIcons.calendar,
-                        color: _focusNodes[2].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
-                      ),
-                    ),
-                    validator: (v) {
-                      if (isValid) {
-                        InputValidations.defaultV(v ?? '').fold(
-                          (l) => l.maybeMap(
-                            empty: (_) => "Empty",
-                            orElse: () => null,
-                          ),
-                          (r) => null,
-                        );
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  TextFieldComponent(
-                    title: context.loc.gender,
-                    focusNode: _focusNodes[3],
-                    controller: genderController,
-                    readOnly: true,
-                    hint: context.loc.enter_sex,
-                    onFieldSubmitted: (val) {},
-                    textInputAction: TextInputAction.done,
-                    textInputType: TextInputType.text,
-                    suffixWidget: GestureDetector(
-                      onTap: () {
-                        selectGenderComponent(
+                ),
+                const SizedBox(height: 24),
+                // TextFieldComponent(
+                //   title: context.loc.photo,
+                //   focusNode: _focusNodes[0],
+                //   controller: imageController,
+                //   readOnly: true,
+                //   hint: context.loc.enter_photo,
+                //   onFieldSubmitted: (val) {},
+                //   textInputAction: TextInputAction.next,
+                //   textInputType: TextInputType.text,
+                //   suffixWidget: GestureDetector(
+                //     onTap: () {},
+                //     child: SvgPicture.asset(
+                //       AppIcons.attach,
+                //       color: _focusNodes[0].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
+                //     ),
+                //   ),
+                //   validator: (v) {
+                //     if (isValid) {
+                //       InputValidations.defaultV(v ?? '').fold(
+                //         (l) => l.maybeMap(
+                //           empty: (_) => "Empty",
+                //           orElse: () => null,
+                //         ),
+                //         (r) => null,
+                //       );
+                //     }
+                //     return null;
+                //   },
+                // ),
+                // const SizedBox(height: 16),
+                TextFieldComponent(
+                  title: context.loc.full_name,
+                  focusNode: _focusNodes[1],
+                  controller: fullNameController,
+                  hint: context.loc.enter_full_name,
+                  onFieldSubmitted: (val) {},
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.text,
+                  validator: (v) {
+                    if (isValid) {
+                      InputValidations.defaultV(v ?? '').fold(
+                        (l) => l.maybeMap(
+                          empty: (_) => "Empty",
+                          orElse: () => null,
+                        ),
+                        (r) => null,
+                      );
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFieldComponent(
+                  title: context.loc.bright_day,
+                  focusNode: _focusNodes[2],
+                  controller: dateController,
+                  inputFormatters: [mDate],
+                  hint: "ХХ.XX.XXXX",
+                  onFieldSubmitted: (val) {},
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.number,
+                  suffixWidget: GestureDetector(
+                    onTap: () {
+                      calendarComponent(
                           context: context,
-                          selectedGender: (val) {
-                            genderController.text = val;
-                          },
-                        );
-                      },
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        color: _focusNodes[3].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
-                      ),
-                    ),
-                    validator: (v) {
-                      if (isValid) {
-                        InputValidations.defaultV(v ?? '').fold(
-                          (l) => l.maybeMap(
-                            empty: (_) => "Empty",
-                            orElse: () => null,
-                          ),
-                          (r) => null,
-                        );
-                      }
-                      return null;
+                          selectedDate: (date) {
+                            dateController.text = date;
+                          });
                     },
-                  ),
-                  SizedBox(
-                    height: MediaQuery.sizeOf(context).height < 848 ? (MediaQuery.sizeOf(context).height - 640) : 32,
-                  ),
-                  BlocListener<AuthBloc, AuthState>(
-                    listener: (context, state) {
-                      state.maybeWhen(
-                          registerSuccess: (phone) {
-                            context.go(Routes.mainPage.path);
-                          },
-                          orElse: () {});
-                    },
-                    child: MainButtonComponent(
-                      name: context.loc.create,
-                      onPressed: () {
-                        context.go(Routes.mainPage.path);
-                        context.read<AuthBloc>().add(
-                              AuthEvent.register(
-                                  name: fullNameController.text,
-                                  birthDate: dateController.text,
-                                  gender: genderController.text == context.loc.man ? "MALE" : "FEMALE",
-                                  city: "Tashkent"),
-                            );
-                      },
+                    child: SvgPicture.asset(
+                      AppIcons.calendar,
+                      color: _focusNodes[2].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
                     ),
                   ),
-                ],
-              ),
+                  validator: (v) {
+                    if (isValid) {
+                      InputValidations.defaultV(v ?? '').fold(
+                        (l) => l.maybeMap(
+                          empty: (_) => "Empty",
+                          orElse: () => null,
+                        ),
+                        (r) => null,
+                      );
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFieldComponent(
+                  title: context.loc.gender,
+                  focusNode: _focusNodes[3],
+                  controller: genderController,
+                  readOnly: true,
+                  hint: context.loc.enter_sex,
+                  onFieldSubmitted: (val) {},
+                  textInputAction: TextInputAction.done,
+                  textInputType: TextInputType.text,
+                  suffixWidget: GestureDetector(
+                    onTap: () {
+                      selectGenderComponent(
+                        context: context,
+                        selectedGender: (val) {
+                          genderController.text = val;
+                        },
+                      );
+                    },
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      color: _focusNodes[3].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
+                    ),
+                  ),
+                  validator: (v) {
+                    if (isValid) {
+                      InputValidations.defaultV(v ?? '').fold(
+                        (l) => l.maybeMap(
+                          empty: (_) => "Empty",
+                          orElse: () => null,
+                        ),
+                        (r) => null,
+                      );
+                    }
+                    return null;
+                  },
+                ),
+                const Spacer(),
+                BlocListener<AuthBloc, AuthState>(
+                  listener: (context, state) {
+                    state.maybeWhen(
+                        loading: (loading) {
+                          showLoading(needLoading: loading);
+                        },
+                        registerSuccess: (phone) {
+                          context.go(Routes.mainPage.path);
+                        },
+                        orElse: () {});
+                  },
+                  child: MainButtonComponent(
+                    name: context.loc.create,
+                    onPressed: () {
+                      context.go(Routes.mainPage.path);
+                      context.read<AuthBloc>().add(
+                            AuthEvent.register(
+                                name: fullNameController.text,
+                                birthDate: dateController.text,
+                                gender: genderController.text == context.loc.man ? "MALE" : "FEMALE",
+                                city: "Tashkent"),
+                          );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 32),
+              ],
             ),
           ),
         ),
