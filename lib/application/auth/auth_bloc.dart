@@ -85,7 +85,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthState.loading(loading: true));
     try {
       final RegisterModel data = await repository.register(name: event.name, birthDate: event.birthDate, gender: event.gender, city: event.city);
-      emit(const AuthState.loading(loading: false));
       if (data.success) {
         await saveToken(data: token);
         emit(AuthState.registerSuccess(data: data.data));
@@ -106,7 +105,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future _updateImage(_UpdateImage event, Emitter<AuthState> emit) async {
     try {
       final UpdateImage data = await repository.updateImage(image: event.image);
+      emit(const AuthState.loading(loading: false));
       if (data.success) {
+
         emit(AuthState.updateImageSuccess(data: data));
       } else {
         emit(const AuthState.updateImageError(msg: "error"));
