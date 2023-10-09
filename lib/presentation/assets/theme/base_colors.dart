@@ -4,33 +4,43 @@ abstract class BaseColors {
   const BaseColors();
 
   Color get primary => const Color.fromRGBO(255, 190, 45, 1);
-  Color get primary5 => const Color.fromRGBO(244, 252, 249, 1);
-  Color get primary10 => const Color.fromRGBO(234, 249, 244, 1);
-  Color get primary20 => const Color.fromRGBO(213, 243, 232, 1);
-  Color get primary60 => const Color.fromRGBO(129, 218, 187, 1);
-  Color get primary90 => const Color.fromRGBO(66, 201, 153, 1);
+  Color get primary5 => const Color.fromRGBO(255, 252, 244, 1);
+  Color get primary20 => const Color.fromRGBO(255, 242, 213, 1);
+  Color get primary40 => const Color.fromRGBO(255, 229, 171, 1);
+  Color get primary60 => const Color.fromRGBO(255, 216, 129, 1);
+  Color get primary80 => const Color.fromRGBO(255, 203, 87, 1);
 
+  Color get blue => const Color.fromRGBO(31, 51, 173, 1);
+  Color get blue5 => const Color.fromRGBO(244, 245, 251, 1);
+  Color get blue20 => const Color.fromRGBO(210, 214, 239, 1);
+  Color get blue40 => const Color.fromRGBO(165, 173, 222, 1);
+  Color get blue60 => const Color.fromRGBO(121, 133, 206, 1);
+  Color get blue80 => const Color.fromRGBO(76, 92, 189, 1);
 
-  Color get containerBlack => const Color.fromRGBO(118, 118, 128, 0.08);
-
-  Color get blue => const Color.fromRGBO(77, 129, 181, 1);
-  Color get black => const Color.fromRGBO(21, 20, 31, 1);
-  Color get black90 => const Color.fromRGBO(33, 31, 50, 1);
-  Color get black80 => const Color.fromRGBO(82, 82, 92, 1);
-  Color get black60 => const Color.fromRGBO(162, 160, 168, 1);
-  Color get black40 => const Color.fromRGBO(204, 202, 207, 1);
-  Color get black20 => const Color.fromRGBO(220, 219, 224, 1);
-  Color get black10 => const Color.fromRGBO(232, 232, 232, 1);
-  Color get black8 => const Color.fromRGBO(240, 240, 240, 1);
-  Color get black5 => const Color.fromRGBO(249, 249, 250, 1);
+  Color get black80 => const Color.fromRGBO(57, 62, 84, 1);
+  Color get black60 => const Color.fromRGBO(106, 110, 127, 1);
+  Color get black40 => const Color.fromRGBO(156, 159, 169, 1);
+  Color get black20 => const Color.fromRGBO(205, 207, 212, 1);
+  Color get black5 => const Color.fromRGBO(243, 243, 244, 1);
+  Color get black => const Color.fromRGBO(0, 0, 0, 1);
+  Color get dark => const Color.fromRGBO(7, 14, 41, 1);
   Color get white => const Color.fromRGBO(255, 255, 255, 1);
-  Color get red => const Color.fromRGBO(255, 80, 40, 1);
-  Color get errorDark => const Color.fromRGBO(210, 50, 50, 1);
-  Color get border => const Color.fromRGBO(233, 234, 237, 1);
-  Color get grey => const Color.fromRGBO(12, 32, 115, 0.1);
-  Color get blueGem => const Color.fromRGBO(78, 15, 138, 1);
- Color get selago => const Color.fromRGBO(245,247,254, 1);
- Color get  greyScale => const Color.fromRGBO(250,250,250, 1);
+
+  Color get red => const Color.fromRGBO(173, 31, 31, 1);
+  Color get red5 => const Color.fromRGBO(251, 244, 244, 1);
+  Color get red20 => const Color.fromRGBO(239, 210, 210, 1);
+  Color get red40 => const Color.fromRGBO(222, 165, 165, 1);
+  Color get red60 => const Color.fromRGBO(206, 121, 121, 1);
+  Color get red80 => const Color.fromRGBO(189, 76, 76, 1);
+
+  Color get green => const Color.fromRGBO(31, 173, 96, 1);
+  Color get green5 => const Color.fromRGBO(244, 251, 247, 1);
+  Color get green20 => const Color.fromRGBO(210, 239, 223, 1);
+  Color get green40 => const Color.fromRGBO(165, 222, 191, 1);
+  Color get green60 => const Color.fromRGBO(121, 206, 160, 1);
+  Color get green80 => const Color.fromRGBO(76, 189, 128, 1);
+
+
 
   Color get text900;
   Color get text500;

@@ -285,7 +285,7 @@ class _MainPageState extends State<MainPage> {
                               height: 74,
                               width: MediaQuery.sizeOf(context).width - 32,
                               decoration: BoxDecoration(
-                                color: AppTheme.colors.primary.withOpacity(0.4),
+                                color: AppTheme.colors.primary40,
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Row(
@@ -312,7 +312,7 @@ class _MainPageState extends State<MainPage> {
                                     alignment: Alignment.centerRight,
                                     padding: const EdgeInsets.only(left: 16),
                                     decoration: BoxDecoration(
-                                      color: AppTheme.colors.primary.withOpacity(0.8),
+                                      color: AppTheme.colors.primary80,
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: SvgPicture.asset(AppImages.orderImage),
@@ -325,7 +325,7 @@ class _MainPageState extends State<MainPage> {
                               height: 74,
                               width: MediaQuery.sizeOf(context).width - 32,
                               decoration: BoxDecoration(
-                                color: Colors.greenAccent.withOpacity(0.4),
+                                color: AppTheme.colors.green20,
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Row(
@@ -351,7 +351,7 @@ class _MainPageState extends State<MainPage> {
                                     width: 80,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      color: Colors.greenAccent.withOpacity(0.8),
+                                      color: AppTheme.colors.green60,
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: SvgPicture.asset(AppImages.deliveryImage),

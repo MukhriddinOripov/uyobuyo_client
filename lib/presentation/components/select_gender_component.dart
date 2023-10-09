@@ -38,7 +38,7 @@ Future<void> selectGenderComponent({
                 height: 6.h,
                 width: 48.w,
                 decoration: BoxDecoration(
-                  color: AppTheme.colors.black10,
+                  color: AppTheme.colors.black5,
                   borderRadius: BorderRadius.circular(24.r),
                 ),
               ),

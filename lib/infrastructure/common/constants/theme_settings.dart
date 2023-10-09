@@ -2,10 +2,9 @@ import 'dart:ui';
 
 import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 
-
 const Map<String, Map<String, Color>> constantColors = {
   SharedPrefService.lightTheme: {
-    ColorNames.text900: Color.fromRGBO(21, 20, 31, 1),
+    ColorNames.text900: Color.fromRGBO(0, 0, 0, 1),
     ColorNames.text500: Color.fromRGBO(162, 160, 168, 1),
     ColorNames.fillColor: Color.fromRGBO(118, 118, 128, 0.08),
     ColorNames.checkBackClr: Color.fromRGBO(245, 247, 254, 1),
