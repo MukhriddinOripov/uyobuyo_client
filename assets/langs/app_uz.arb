@@ -43,5 +43,9 @@
   "faq": "FAQ",
   "support_service": "Qo'llab-quvvatlash xizmati",
   "info": "Ma'lumot",
-  "log_out": "Chiqish"
+  "log_out": "Chiqish",
+  "choose_type": "Tanlang",
+  "camera": "Kamera",
+  "gallery": "Galereya"
+
 }

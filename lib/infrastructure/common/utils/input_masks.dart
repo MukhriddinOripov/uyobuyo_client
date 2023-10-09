@@ -6,4 +6,4 @@ final mCardPan = MaskTextInputFormatter(mask: "#### #### #### ####", filter: {"#
 
 final mCardExpiry = MaskTextInputFormatter(mask: "##/##", filter: {"#": RegExp(r'[0-9]')});
 
-final mDate = MaskTextInputFormatter(mask: "##.##.####", filter: {"#": RegExp(r'[0-9]')});
+final mDate = MaskTextInputFormatter(mask: "####-##-##", filter: {"#": RegExp(r'[0-9]')});

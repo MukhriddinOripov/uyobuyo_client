@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uyobuyo_client/infrastructure/dto/exceptions/server_exception.dart';
 import 'package:uyobuyo_client/infrastructure/dto/filter/requests_filter.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/auth_confrim_model.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/register_model.dart';
+import 'package:uyobuyo_client/infrastructure/dto/models/auth/upload_image_model.dart';
 import 'package:uyobuyo_client/infrastructure/repositories/auth/auth_repository.dart';
 import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 
@@ -30,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_SendSms>(_sendSms, transformer: droppable());
     on<_ConfirmAuth>(_confirmAuth, transformer: droppable());
     on<_Register>(_register, transformer: droppable());
+    on<_UpdateImage>(_updateImage, transformer: droppable());
     on<_LogOut>(_logOut, transformer: droppable());
   }
 
@@ -98,6 +101,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       log(e.toString());
     }
+  }
+
+  Future _updateImage(_UpdateImage event, Emitter<AuthState> emit) async {
+    try {
+      final UpdateImage data = await repository.updateImage(image: event.image);
+      if (data.success) {
+        emit(AuthState.updateImageSuccess(data: data));
+      } else {
+        emit(const AuthState.updateImageError(msg: "error"));
+      }
+    } catch (_) {}
   }
 
   Future _logOut(_LogOut event, Emitter<AuthState> emit) async {

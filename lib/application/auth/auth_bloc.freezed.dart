@@ -23,6 +23,7 @@ mixin _$AuthEvent {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         register,
+    required TResult Function(dynamic image) updateImage,
     required TResult Function() logOut,
   }) =>
       throw _privateConstructorUsedError;
@@ -33,6 +34,7 @@ mixin _$AuthEvent {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         register,
+    TResult? Function(dynamic image)? updateImage,
     TResult? Function()? logOut,
   }) =>
       throw _privateConstructorUsedError;
@@ -42,6 +44,7 @@ mixin _$AuthEvent {
     TResult Function(String otp)? confirmAuth,
     TResult Function(String name, String birthDate, String gender, String city)?
         register,
+    TResult Function(dynamic image)? updateImage,
     TResult Function()? logOut,
     required TResult orElse(),
   }) =>
@@ -51,6 +54,7 @@ mixin _$AuthEvent {
     required TResult Function(_SendSms value) sendSms,
     required TResult Function(_ConfirmAuth value) confirmAuth,
     required TResult Function(_Register value) register,
+    required TResult Function(_UpdateImage value) updateImage,
     required TResult Function(_LogOut value) logOut,
   }) =>
       throw _privateConstructorUsedError;
@@ -59,6 +63,7 @@ mixin _$AuthEvent {
     TResult? Function(_SendSms value)? sendSms,
     TResult? Function(_ConfirmAuth value)? confirmAuth,
     TResult? Function(_Register value)? register,
+    TResult? Function(_UpdateImage value)? updateImage,
     TResult? Function(_LogOut value)? logOut,
   }) =>
       throw _privateConstructorUsedError;
@@ -67,6 +72,7 @@ mixin _$AuthEvent {
     TResult Function(_SendSms value)? sendSms,
     TResult Function(_ConfirmAuth value)? confirmAuth,
     TResult Function(_Register value)? register,
+    TResult Function(_UpdateImage value)? updateImage,
     TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) =>
@@ -160,6 +166,7 @@ class _$SendSmsImpl implements _SendSms {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         register,
+    required TResult Function(dynamic image) updateImage,
     required TResult Function() logOut,
   }) {
     return sendSms(phoneNumber);
@@ -173,6 +180,7 @@ class _$SendSmsImpl implements _SendSms {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         register,
+    TResult? Function(dynamic image)? updateImage,
     TResult? Function()? logOut,
   }) {
     return sendSms?.call(phoneNumber);
@@ -185,6 +193,7 @@ class _$SendSmsImpl implements _SendSms {
     TResult Function(String otp)? confirmAuth,
     TResult Function(String name, String birthDate, String gender, String city)?
         register,
+    TResult Function(dynamic image)? updateImage,
     TResult Function()? logOut,
     required TResult orElse(),
   }) {
@@ -200,6 +209,7 @@ class _$SendSmsImpl implements _SendSms {
     required TResult Function(_SendSms value) sendSms,
     required TResult Function(_ConfirmAuth value) confirmAuth,
     required TResult Function(_Register value) register,
+    required TResult Function(_UpdateImage value) updateImage,
     required TResult Function(_LogOut value) logOut,
   }) {
     return sendSms(this);
@@ -211,6 +221,7 @@ class _$SendSmsImpl implements _SendSms {
     TResult? Function(_SendSms value)? sendSms,
     TResult? Function(_ConfirmAuth value)? confirmAuth,
     TResult? Function(_Register value)? register,
+    TResult? Function(_UpdateImage value)? updateImage,
     TResult? Function(_LogOut value)? logOut,
   }) {
     return sendSms?.call(this);
@@ -222,6 +233,7 @@ class _$SendSmsImpl implements _SendSms {
     TResult Function(_SendSms value)? sendSms,
     TResult Function(_ConfirmAuth value)? confirmAuth,
     TResult Function(_Register value)? register,
+    TResult Function(_UpdateImage value)? updateImage,
     TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) {
@@ -310,6 +322,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         register,
+    required TResult Function(dynamic image) updateImage,
     required TResult Function() logOut,
   }) {
     return confirmAuth(otp);
@@ -323,6 +336,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         register,
+    TResult? Function(dynamic image)? updateImage,
     TResult? Function()? logOut,
   }) {
     return confirmAuth?.call(otp);
@@ -335,6 +349,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     TResult Function(String otp)? confirmAuth,
     TResult Function(String name, String birthDate, String gender, String city)?
         register,
+    TResult Function(dynamic image)? updateImage,
     TResult Function()? logOut,
     required TResult orElse(),
   }) {
@@ -350,6 +365,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     required TResult Function(_SendSms value) sendSms,
     required TResult Function(_ConfirmAuth value) confirmAuth,
     required TResult Function(_Register value) register,
+    required TResult Function(_UpdateImage value) updateImage,
     required TResult Function(_LogOut value) logOut,
   }) {
     return confirmAuth(this);
@@ -361,6 +377,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     TResult? Function(_SendSms value)? sendSms,
     TResult? Function(_ConfirmAuth value)? confirmAuth,
     TResult? Function(_Register value)? register,
+    TResult? Function(_UpdateImage value)? updateImage,
     TResult? Function(_LogOut value)? logOut,
   }) {
     return confirmAuth?.call(this);
@@ -372,6 +389,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     TResult Function(_SendSms value)? sendSms,
     TResult Function(_ConfirmAuth value)? confirmAuth,
     TResult Function(_Register value)? register,
+    TResult Function(_UpdateImage value)? updateImage,
     TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) {
@@ -489,6 +507,7 @@ class _$RegisterImpl implements _Register {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         register,
+    required TResult Function(dynamic image) updateImage,
     required TResult Function() logOut,
   }) {
     return register(name, birthDate, gender, city);
@@ -502,6 +521,7 @@ class _$RegisterImpl implements _Register {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         register,
+    TResult? Function(dynamic image)? updateImage,
     TResult? Function()? logOut,
   }) {
     return register?.call(name, birthDate, gender, city);
@@ -514,6 +534,7 @@ class _$RegisterImpl implements _Register {
     TResult Function(String otp)? confirmAuth,
     TResult Function(String name, String birthDate, String gender, String city)?
         register,
+    TResult Function(dynamic image)? updateImage,
     TResult Function()? logOut,
     required TResult orElse(),
   }) {
@@ -529,6 +550,7 @@ class _$RegisterImpl implements _Register {
     required TResult Function(_SendSms value) sendSms,
     required TResult Function(_ConfirmAuth value) confirmAuth,
     required TResult Function(_Register value) register,
+    required TResult Function(_UpdateImage value) updateImage,
     required TResult Function(_LogOut value) logOut,
   }) {
     return register(this);
@@ -540,6 +562,7 @@ class _$RegisterImpl implements _Register {
     TResult? Function(_SendSms value)? sendSms,
     TResult? Function(_ConfirmAuth value)? confirmAuth,
     TResult? Function(_Register value)? register,
+    TResult? Function(_UpdateImage value)? updateImage,
     TResult? Function(_LogOut value)? logOut,
   }) {
     return register?.call(this);
@@ -551,6 +574,7 @@ class _$RegisterImpl implements _Register {
     TResult Function(_SendSms value)? sendSms,
     TResult Function(_ConfirmAuth value)? confirmAuth,
     TResult Function(_Register value)? register,
+    TResult Function(_UpdateImage value)? updateImage,
     TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) {
@@ -574,6 +598,163 @@ abstract class _Register implements AuthEvent {
   String get city;
   @JsonKey(ignore: true)
   _$$RegisterImplCopyWith<_$RegisterImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateImageImplCopyWith<$Res> {
+  factory _$$UpdateImageImplCopyWith(
+          _$UpdateImageImpl value, $Res Function(_$UpdateImageImpl) then) =
+      __$$UpdateImageImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({dynamic image});
+}
+
+/// @nodoc
+class __$$UpdateImageImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$UpdateImageImpl>
+    implements _$$UpdateImageImplCopyWith<$Res> {
+  __$$UpdateImageImplCopyWithImpl(
+      _$UpdateImageImpl _value, $Res Function(_$UpdateImageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? image = freezed,
+  }) {
+    return _then(_$UpdateImageImpl(
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdateImageImpl implements _UpdateImage {
+  const _$UpdateImageImpl({this.image});
+
+  @override
+  final dynamic image;
+
+  @override
+  String toString() {
+    return 'AuthEvent.updateImage(image: $image)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateImageImpl &&
+            const DeepCollectionEquality().equals(other.image, image));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(image));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateImageImplCopyWith<_$UpdateImageImpl> get copyWith =>
+      __$$UpdateImageImplCopyWithImpl<_$UpdateImageImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String phoneNumber) sendSms,
+    required TResult Function(String otp) confirmAuth,
+    required TResult Function(
+            String name, String birthDate, String gender, String city)
+        register,
+    required TResult Function(dynamic image) updateImage,
+    required TResult Function() logOut,
+  }) {
+    return updateImage(image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String phoneNumber)? sendSms,
+    TResult? Function(String otp)? confirmAuth,
+    TResult? Function(
+            String name, String birthDate, String gender, String city)?
+        register,
+    TResult? Function(dynamic image)? updateImage,
+    TResult? Function()? logOut,
+  }) {
+    return updateImage?.call(image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String phoneNumber)? sendSms,
+    TResult Function(String otp)? confirmAuth,
+    TResult Function(String name, String birthDate, String gender, String city)?
+        register,
+    TResult Function(dynamic image)? updateImage,
+    TResult Function()? logOut,
+    required TResult orElse(),
+  }) {
+    if (updateImage != null) {
+      return updateImage(image);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_SendSms value) sendSms,
+    required TResult Function(_ConfirmAuth value) confirmAuth,
+    required TResult Function(_Register value) register,
+    required TResult Function(_UpdateImage value) updateImage,
+    required TResult Function(_LogOut value) logOut,
+  }) {
+    return updateImage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_SendSms value)? sendSms,
+    TResult? Function(_ConfirmAuth value)? confirmAuth,
+    TResult? Function(_Register value)? register,
+    TResult? Function(_UpdateImage value)? updateImage,
+    TResult? Function(_LogOut value)? logOut,
+  }) {
+    return updateImage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_SendSms value)? sendSms,
+    TResult Function(_ConfirmAuth value)? confirmAuth,
+    TResult Function(_Register value)? register,
+    TResult Function(_UpdateImage value)? updateImage,
+    TResult Function(_LogOut value)? logOut,
+    required TResult orElse(),
+  }) {
+    if (updateImage != null) {
+      return updateImage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateImage implements AuthEvent {
+  const factory _UpdateImage({final dynamic image}) = _$UpdateImageImpl;
+
+  dynamic get image;
+  @JsonKey(ignore: true)
+  _$$UpdateImageImplCopyWith<_$UpdateImageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -620,6 +801,7 @@ class _$LogOutImpl implements _LogOut {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         register,
+    required TResult Function(dynamic image) updateImage,
     required TResult Function() logOut,
   }) {
     return logOut();
@@ -633,6 +815,7 @@ class _$LogOutImpl implements _LogOut {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         register,
+    TResult? Function(dynamic image)? updateImage,
     TResult? Function()? logOut,
   }) {
     return logOut?.call();
@@ -645,6 +828,7 @@ class _$LogOutImpl implements _LogOut {
     TResult Function(String otp)? confirmAuth,
     TResult Function(String name, String birthDate, String gender, String city)?
         register,
+    TResult Function(dynamic image)? updateImage,
     TResult Function()? logOut,
     required TResult orElse(),
   }) {
@@ -660,6 +844,7 @@ class _$LogOutImpl implements _LogOut {
     required TResult Function(_SendSms value) sendSms,
     required TResult Function(_ConfirmAuth value) confirmAuth,
     required TResult Function(_Register value) register,
+    required TResult Function(_UpdateImage value) updateImage,
     required TResult Function(_LogOut value) logOut,
   }) {
     return logOut(this);
@@ -671,6 +856,7 @@ class _$LogOutImpl implements _LogOut {
     TResult? Function(_SendSms value)? sendSms,
     TResult? Function(_ConfirmAuth value)? confirmAuth,
     TResult? Function(_Register value)? register,
+    TResult? Function(_UpdateImage value)? updateImage,
     TResult? Function(_LogOut value)? logOut,
   }) {
     return logOut?.call(this);
@@ -682,6 +868,7 @@ class _$LogOutImpl implements _LogOut {
     TResult Function(_SendSms value)? sendSms,
     TResult Function(_ConfirmAuth value)? confirmAuth,
     TResult Function(_Register value)? register,
+    TResult Function(_UpdateImage value)? updateImage,
     TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) {
@@ -707,6 +894,8 @@ mixin _$AuthState {
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
     required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
@@ -721,6 +910,8 @@ mixin _$AuthState {
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
     TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) =>
@@ -734,6 +925,8 @@ mixin _$AuthState {
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
     TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
@@ -748,6 +941,8 @@ mixin _$AuthState {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
     required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) =>
@@ -761,6 +956,8 @@ mixin _$AuthState {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
     TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) =>
@@ -774,6 +971,8 @@ mixin _$AuthState {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
     TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
@@ -843,6 +1042,8 @@ class _$InitialImpl implements _Initial {
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
     required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
@@ -860,6 +1061,8 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
     TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
@@ -876,6 +1079,8 @@ class _$InitialImpl implements _Initial {
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
     TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
@@ -896,6 +1101,8 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
     required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
@@ -912,6 +1119,8 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
     TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
@@ -928,6 +1137,8 @@ class _$InitialImpl implements _Initial {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
     TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
@@ -1014,6 +1225,8 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
     required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
@@ -1031,6 +1244,8 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
     TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
@@ -1047,6 +1262,8 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
     TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
@@ -1067,6 +1284,8 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
     required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
@@ -1083,6 +1302,8 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
     TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
@@ -1099,6 +1320,8 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
     TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
@@ -1192,6 +1415,8 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
     required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
@@ -1209,6 +1434,8 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
     TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
@@ -1225,6 +1452,8 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
     TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
@@ -1245,6 +1474,8 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
     required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
@@ -1261,6 +1492,8 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
     TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
@@ -1277,6 +1510,8 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
     TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
@@ -1369,6 +1604,8 @@ class _$UserLoginImpl implements _UserLogin {
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
     required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
@@ -1386,6 +1623,8 @@ class _$UserLoginImpl implements _UserLogin {
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
     TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
@@ -1402,6 +1641,8 @@ class _$UserLoginImpl implements _UserLogin {
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
     TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
@@ -1422,6 +1663,8 @@ class _$UserLoginImpl implements _UserLogin {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
     required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
@@ -1438,6 +1681,8 @@ class _$UserLoginImpl implements _UserLogin {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
     TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
@@ -1454,6 +1699,8 @@ class _$UserLoginImpl implements _UserLogin {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
     TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
@@ -1519,6 +1766,8 @@ class _$UserRegisterImpl implements _UserRegister {
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
     required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
@@ -1536,6 +1785,8 @@ class _$UserRegisterImpl implements _UserRegister {
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
     TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
@@ -1552,6 +1803,8 @@ class _$UserRegisterImpl implements _UserRegister {
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
     TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
@@ -1572,6 +1825,8 @@ class _$UserRegisterImpl implements _UserRegister {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
     required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
@@ -1588,6 +1843,8 @@ class _$UserRegisterImpl implements _UserRegister {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
     TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
@@ -1604,6 +1861,8 @@ class _$UserRegisterImpl implements _UserRegister {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
     TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
@@ -1691,6 +1950,8 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
     required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
@@ -1708,6 +1969,8 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
     TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
@@ -1724,6 +1987,8 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
     TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
@@ -1744,6 +2009,8 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
     required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
@@ -1760,6 +2027,8 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
     TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
@@ -1776,6 +2045,8 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
     TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
@@ -1868,6 +2139,8 @@ class _$RegisterErrorImpl implements _RegisterError {
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
     required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
@@ -1885,6 +2158,8 @@ class _$RegisterErrorImpl implements _RegisterError {
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
     TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
@@ -1901,6 +2176,8 @@ class _$RegisterErrorImpl implements _RegisterError {
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
     TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
@@ -1921,6 +2198,8 @@ class _$RegisterErrorImpl implements _RegisterError {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
     required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
@@ -1937,6 +2216,8 @@ class _$RegisterErrorImpl implements _RegisterError {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
     TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
@@ -1953,6 +2234,8 @@ class _$RegisterErrorImpl implements _RegisterError {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
     TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
@@ -1970,6 +2253,385 @@ abstract class _RegisterError implements AuthState {
   String? get msg;
   @JsonKey(ignore: true)
   _$$RegisterErrorImplCopyWith<_$RegisterErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateImageSuccessImplCopyWith<$Res> {
+  factory _$$UpdateImageSuccessImplCopyWith(_$UpdateImageSuccessImpl value,
+          $Res Function(_$UpdateImageSuccessImpl) then) =
+      __$$UpdateImageSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({UpdateImage data});
+}
+
+/// @nodoc
+class __$$UpdateImageSuccessImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$UpdateImageSuccessImpl>
+    implements _$$UpdateImageSuccessImplCopyWith<$Res> {
+  __$$UpdateImageSuccessImplCopyWithImpl(_$UpdateImageSuccessImpl _value,
+      $Res Function(_$UpdateImageSuccessImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+  }) {
+    return _then(_$UpdateImageSuccessImpl(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as UpdateImage,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdateImageSuccessImpl implements _UpdateImageSuccess {
+  const _$UpdateImageSuccessImpl({required this.data});
+
+  @override
+  final UpdateImage data;
+
+  @override
+  String toString() {
+    return 'AuthState.updateImageSuccess(data: $data)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateImageSuccessImpl &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateImageSuccessImplCopyWith<_$UpdateImageSuccessImpl> get copyWith =>
+      __$$UpdateImageSuccessImplCopyWithImpl<_$UpdateImageSuccessImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(bool loading) loading,
+    required TResult Function(String phoneNumber) successSendSms,
+    required TResult Function(User data) userLogin,
+    required TResult Function() userRegister,
+    required TResult Function(RegisterData data) registerSuccess,
+    required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
+    required TResult Function() logOutedState,
+    required TResult Function(String error, ExceptionType serverException)
+        authError,
+  }) {
+    return updateImageSuccess(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(bool loading)? loading,
+    TResult? Function(String phoneNumber)? successSendSms,
+    TResult? Function(User data)? userLogin,
+    TResult? Function()? userRegister,
+    TResult? Function(RegisterData data)? registerSuccess,
+    TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
+    TResult? Function()? logOutedState,
+    TResult? Function(String error, ExceptionType serverException)? authError,
+  }) {
+    return updateImageSuccess?.call(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(bool loading)? loading,
+    TResult Function(String phoneNumber)? successSendSms,
+    TResult Function(User data)? userLogin,
+    TResult Function()? userRegister,
+    TResult Function(RegisterData data)? registerSuccess,
+    TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
+    TResult Function()? logOutedState,
+    TResult Function(String error, ExceptionType serverException)? authError,
+    required TResult orElse(),
+  }) {
+    if (updateImageSuccess != null) {
+      return updateImageSuccess(data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_SuccessSendSms value) successSendSms,
+    required TResult Function(_UserLogin value) userLogin,
+    required TResult Function(_UserRegister value) userRegister,
+    required TResult Function(_RegisterSuccess value) registerSuccess,
+    required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
+    required TResult Function(_LogOutedState value) logOutedState,
+    required TResult Function(_AuthError value) authError,
+  }) {
+    return updateImageSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_SuccessSendSms value)? successSendSms,
+    TResult? Function(_UserLogin value)? userLogin,
+    TResult? Function(_UserRegister value)? userRegister,
+    TResult? Function(_RegisterSuccess value)? registerSuccess,
+    TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
+    TResult? Function(_LogOutedState value)? logOutedState,
+    TResult? Function(_AuthError value)? authError,
+  }) {
+    return updateImageSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_SuccessSendSms value)? successSendSms,
+    TResult Function(_UserLogin value)? userLogin,
+    TResult Function(_UserRegister value)? userRegister,
+    TResult Function(_RegisterSuccess value)? registerSuccess,
+    TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
+    TResult Function(_LogOutedState value)? logOutedState,
+    TResult Function(_AuthError value)? authError,
+    required TResult orElse(),
+  }) {
+    if (updateImageSuccess != null) {
+      return updateImageSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateImageSuccess implements AuthState {
+  const factory _UpdateImageSuccess({required final UpdateImage data}) =
+      _$UpdateImageSuccessImpl;
+
+  UpdateImage get data;
+  @JsonKey(ignore: true)
+  _$$UpdateImageSuccessImplCopyWith<_$UpdateImageSuccessImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateImageErrorImplCopyWith<$Res> {
+  factory _$$UpdateImageErrorImplCopyWith(_$UpdateImageErrorImpl value,
+          $Res Function(_$UpdateImageErrorImpl) then) =
+      __$$UpdateImageErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String? msg});
+}
+
+/// @nodoc
+class __$$UpdateImageErrorImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$UpdateImageErrorImpl>
+    implements _$$UpdateImageErrorImplCopyWith<$Res> {
+  __$$UpdateImageErrorImplCopyWithImpl(_$UpdateImageErrorImpl _value,
+      $Res Function(_$UpdateImageErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? msg = freezed,
+  }) {
+    return _then(_$UpdateImageErrorImpl(
+      msg: freezed == msg
+          ? _value.msg
+          : msg // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdateImageErrorImpl implements _UpdateImageError {
+  const _$UpdateImageErrorImpl({this.msg});
+
+  @override
+  final String? msg;
+
+  @override
+  String toString() {
+    return 'AuthState.updateImageError(msg: $msg)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateImageErrorImpl &&
+            (identical(other.msg, msg) || other.msg == msg));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, msg);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateImageErrorImplCopyWith<_$UpdateImageErrorImpl> get copyWith =>
+      __$$UpdateImageErrorImplCopyWithImpl<_$UpdateImageErrorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(bool loading) loading,
+    required TResult Function(String phoneNumber) successSendSms,
+    required TResult Function(User data) userLogin,
+    required TResult Function() userRegister,
+    required TResult Function(RegisterData data) registerSuccess,
+    required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
+    required TResult Function() logOutedState,
+    required TResult Function(String error, ExceptionType serverException)
+        authError,
+  }) {
+    return updateImageError(msg);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(bool loading)? loading,
+    TResult? Function(String phoneNumber)? successSendSms,
+    TResult? Function(User data)? userLogin,
+    TResult? Function()? userRegister,
+    TResult? Function(RegisterData data)? registerSuccess,
+    TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
+    TResult? Function()? logOutedState,
+    TResult? Function(String error, ExceptionType serverException)? authError,
+  }) {
+    return updateImageError?.call(msg);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(bool loading)? loading,
+    TResult Function(String phoneNumber)? successSendSms,
+    TResult Function(User data)? userLogin,
+    TResult Function()? userRegister,
+    TResult Function(RegisterData data)? registerSuccess,
+    TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
+    TResult Function()? logOutedState,
+    TResult Function(String error, ExceptionType serverException)? authError,
+    required TResult orElse(),
+  }) {
+    if (updateImageError != null) {
+      return updateImageError(msg);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_SuccessSendSms value) successSendSms,
+    required TResult Function(_UserLogin value) userLogin,
+    required TResult Function(_UserRegister value) userRegister,
+    required TResult Function(_RegisterSuccess value) registerSuccess,
+    required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
+    required TResult Function(_LogOutedState value) logOutedState,
+    required TResult Function(_AuthError value) authError,
+  }) {
+    return updateImageError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_SuccessSendSms value)? successSendSms,
+    TResult? Function(_UserLogin value)? userLogin,
+    TResult? Function(_UserRegister value)? userRegister,
+    TResult? Function(_RegisterSuccess value)? registerSuccess,
+    TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
+    TResult? Function(_LogOutedState value)? logOutedState,
+    TResult? Function(_AuthError value)? authError,
+  }) {
+    return updateImageError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_SuccessSendSms value)? successSendSms,
+    TResult Function(_UserLogin value)? userLogin,
+    TResult Function(_UserRegister value)? userRegister,
+    TResult Function(_RegisterSuccess value)? registerSuccess,
+    TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
+    TResult Function(_LogOutedState value)? logOutedState,
+    TResult Function(_AuthError value)? authError,
+    required TResult orElse(),
+  }) {
+    if (updateImageError != null) {
+      return updateImageError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateImageError implements AuthState {
+  const factory _UpdateImageError({final String? msg}) = _$UpdateImageErrorImpl;
+
+  String? get msg;
+  @JsonKey(ignore: true)
+  _$$UpdateImageErrorImplCopyWith<_$UpdateImageErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2018,6 +2680,8 @@ class _$LogOutedStateImpl implements _LogOutedState {
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
     required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
@@ -2035,6 +2699,8 @@ class _$LogOutedStateImpl implements _LogOutedState {
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
     TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
@@ -2051,6 +2717,8 @@ class _$LogOutedStateImpl implements _LogOutedState {
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
     TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
@@ -2071,6 +2739,8 @@ class _$LogOutedStateImpl implements _LogOutedState {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
     required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
@@ -2087,6 +2757,8 @@ class _$LogOutedStateImpl implements _LogOutedState {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
     TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
@@ -2103,6 +2775,8 @@ class _$LogOutedStateImpl implements _LogOutedState {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
     TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),
@@ -2198,6 +2872,8 @@ class _$AuthErrorImpl implements _AuthError {
     required TResult Function() userRegister,
     required TResult Function(RegisterData data) registerSuccess,
     required TResult Function(String? msg) registerError,
+    required TResult Function(UpdateImage data) updateImageSuccess,
+    required TResult Function(String? msg) updateImageError,
     required TResult Function() logOutedState,
     required TResult Function(String error, ExceptionType serverException)
         authError,
@@ -2215,6 +2891,8 @@ class _$AuthErrorImpl implements _AuthError {
     TResult? Function()? userRegister,
     TResult? Function(RegisterData data)? registerSuccess,
     TResult? Function(String? msg)? registerError,
+    TResult? Function(UpdateImage data)? updateImageSuccess,
+    TResult? Function(String? msg)? updateImageError,
     TResult? Function()? logOutedState,
     TResult? Function(String error, ExceptionType serverException)? authError,
   }) {
@@ -2231,6 +2909,8 @@ class _$AuthErrorImpl implements _AuthError {
     TResult Function()? userRegister,
     TResult Function(RegisterData data)? registerSuccess,
     TResult Function(String? msg)? registerError,
+    TResult Function(UpdateImage data)? updateImageSuccess,
+    TResult Function(String? msg)? updateImageError,
     TResult Function()? logOutedState,
     TResult Function(String error, ExceptionType serverException)? authError,
     required TResult orElse(),
@@ -2251,6 +2931,8 @@ class _$AuthErrorImpl implements _AuthError {
     required TResult Function(_UserRegister value) userRegister,
     required TResult Function(_RegisterSuccess value) registerSuccess,
     required TResult Function(_RegisterError value) registerError,
+    required TResult Function(_UpdateImageSuccess value) updateImageSuccess,
+    required TResult Function(_UpdateImageError value) updateImageError,
     required TResult Function(_LogOutedState value) logOutedState,
     required TResult Function(_AuthError value) authError,
   }) {
@@ -2267,6 +2949,8 @@ class _$AuthErrorImpl implements _AuthError {
     TResult? Function(_UserRegister value)? userRegister,
     TResult? Function(_RegisterSuccess value)? registerSuccess,
     TResult? Function(_RegisterError value)? registerError,
+    TResult? Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult? Function(_UpdateImageError value)? updateImageError,
     TResult? Function(_LogOutedState value)? logOutedState,
     TResult? Function(_AuthError value)? authError,
   }) {
@@ -2283,6 +2967,8 @@ class _$AuthErrorImpl implements _AuthError {
     TResult Function(_UserRegister value)? userRegister,
     TResult Function(_RegisterSuccess value)? registerSuccess,
     TResult Function(_RegisterError value)? registerError,
+    TResult Function(_UpdateImageSuccess value)? updateImageSuccess,
+    TResult Function(_UpdateImageError value)? updateImageError,
     TResult Function(_LogOutedState value)? logOutedState,
     TResult Function(_AuthError value)? authError,
     required TResult orElse(),

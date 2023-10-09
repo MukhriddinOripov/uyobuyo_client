@@ -43,6 +43,9 @@
   "faq": "FAQ",
   "support_service": "Служба поддержки",
   "info": "Инфо",
-  "log_out": "Выйти"
+  "log_out": "Выйти",
+  "choose_type": "Выберите тип",
+  "camera": "Камера",
+  "gallery": "Галерея"
 
 }
