@@ -27,6 +27,7 @@ class _CheckPhonePageState extends BaseState<CheckPhonePage> {
   final FocusNode focusNode = FocusNode();
   final phoneController = TextEditingController();
   bool isAgree = false;
+  bool valid = false;
 
   @override
   void initState() {
@@ -79,34 +80,35 @@ class _CheckPhonePageState extends BaseState<CheckPhonePage> {
                 ),
                 const SizedBox(height: 32),
                 TextFieldComponent(
-                  controller: phoneController,
-                  inputFormatters: [mPhoneNumber],
-                  textInputAction: TextInputAction.send,
-                  textInputType: TextInputType.phone,
-                  prefixWidget: Padding(
-                    padding: const EdgeInsets.only(right: 5, bottom: 2.5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(width: 4),
-                        Text(
-                          "+998",
-                          style: AppTheme.data.textTheme.bodyLarge
-                              ?.copyWith(color: phoneController.text.isNotEmpty ? AppTheme.colors.text900 : AppTheme.colors.black60),
-                        )
-                      ],
+                    controller: phoneController,
+                    inputFormatters: [mPhoneNumber],
+                    textInputAction: TextInputAction.send,
+                    textInputType: TextInputType.phone,
+                    prefixWidget: Padding(
+                      padding: const EdgeInsets.only(right: 5, bottom: 2.5),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(width: 4),
+                          Text(
+                            "+998",
+                            style: AppTheme.data.textTheme.bodyLarge
+                                ?.copyWith(color: phoneController.text.isNotEmpty ? AppTheme.colors.text900 : AppTheme.colors.black60),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  onChanged: (value) {},
-                  validator: (v) => (InputValidations.phoneNumberV(v ?? '').fold(
-                    (l) => l.maybeMap(
-                      empty: (_) => "Введите свой номер телефона",
-                      invalidPhone: (_) => "Неправильная номер телефона",
-                      orElse: () => null,
-                    ),
-                    (r) => null,
-                  )),
-                ),
+                    onChanged: (value) {},
+                    validator: (v) => valid
+                        ? InputValidations.phoneNumberV(v ?? '').fold(
+                            (l) => l.maybeMap(
+                              empty: (_) => "Введите свой номер телефона",
+                              invalidPhone: (_) => "Неправильная номер телефона",
+                              orElse: () => null,
+                            ),
+                            (r) => null,
+                          )
+                        : null),
                 const Spacer(),
                 MainButtonComponent(
                     name: context.loc.proceed,
@@ -120,6 +122,7 @@ class _CheckPhonePageState extends BaseState<CheckPhonePage> {
                               ),
                             );
                       }
+                      valid = true;
                       setState(() {});
                     }),
                 const SizedBox(height: 16),
