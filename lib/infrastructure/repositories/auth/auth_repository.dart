@@ -34,15 +34,10 @@ class AuthRepository implements IAuth {
           'city': city,
         },
       );
-
-      print("line 38");
       return RegisterModel.fromJson(response.data ?? {});
-    } catch (e,stack) {
-      print("line 39 $stack");
-      return RegisterModel.fromJson( {});
+    } catch (e) {
+      return RegisterModel.fromJson({});
     }
-
-
   }
 
   @override

@@ -60,6 +60,12 @@ class _CheckPhonePageState extends BaseState<CheckPhonePage> {
               successSendSms: (phone) {
                 context.pushNamed(Routes.otpPage.name, extra: {'phone': phone});
               },
+              errorSendSms: (msg) {
+                showMessage(msg ?? '');
+              },
+              authError: (msg, type) {
+                showMessage(msg);
+              },
               orElse: () {});
         },
         child: Padding(
@@ -98,7 +104,13 @@ class _CheckPhonePageState extends BaseState<CheckPhonePage> {
                         ],
                       ),
                     ),
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      if (value.length == 12) {
+                        setState(() {
+                          valid = true;
+                        });
+                      }
+                    },
                     validator: (v) => valid
                         ? InputValidations.phoneNumberV(v ?? '').fold(
                             (l) => l.maybeMap(
@@ -112,18 +124,21 @@ class _CheckPhonePageState extends BaseState<CheckPhonePage> {
                 const Spacer(),
                 MainButtonComponent(
                     name: context.loc.proceed,
-                    backgroundColor:
-                        (formKey.currentState?.validate() ?? false) && isAgree ? AppTheme.colors.primary : AppTheme.colors.primary.withOpacity(0.4),
+                    backgroundColor: (formKey.currentState?.validate() ?? valid) && isAgree && valid
+                        ? AppTheme.colors.primary
+                        : AppTheme.colors.primary.withOpacity(0.4),
                     onPressed: () {
-                      if ((formKey.currentState?.validate() ?? false) && isAgree) {
+                      if ((formKey.currentState?.validate() ?? valid) && isAgree && valid) {
                         context.read<AuthBloc>().add(
                               AuthEvent.sendSms(
                                 phoneNumber: "998${phoneController.text}",
                               ),
                             );
                       }
-                      valid = true;
-                      setState(() {});
+
+                      setState(() {
+                        valid = true;
+                      });
                     }),
                 const SizedBox(height: 16),
                 Row(

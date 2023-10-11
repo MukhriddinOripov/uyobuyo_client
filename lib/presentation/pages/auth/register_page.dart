@@ -37,7 +37,7 @@ class _RegisterPageState extends BaseState<RegisterPage> {
   final genderController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   XFile? selectedFile;
-  late dynamic formData;
+  late FormData formData;
 
   @override
   void initState() {
@@ -76,11 +76,11 @@ class _RegisterPageState extends BaseState<RegisterPage> {
       if (_focusNodes[0].hasFocus) {
         await showImageTypeComponent(
             context: context,
-            valueChanged: (value) {
+            valueChanged: (value) async {
               if (value) {
-                _onImageButtonPressed(ImageSource.gallery, context: context);
+                await _onImageButtonPressed(ImageSource.gallery, context: context);
               } else {
-                _onImageButtonPressed(ImageSource.camera, context: context);
+                await _onImageButtonPressed(ImageSource.camera, context: context);
               }
             }).then((value) => FocusManager.instance.primaryFocus?.unfocus());
       }
@@ -127,18 +127,17 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                   controller: imageController,
                   readOnly: true,
                   hint: context.loc.enter_photo,
-                  onFieldSubmitted: (val) {},
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.text,
                   suffixWidget: GestureDetector(
-                    onTap: () {
-                      showImageTypeComponent(
+                    onTap: () async {
+                      await showImageTypeComponent(
                           context: context,
-                          valueChanged: (value) {
+                          valueChanged: (value) async {
                             if (value) {
-                              _onImageButtonPressed(ImageSource.gallery, context: context);
+                              await _onImageButtonPressed(ImageSource.gallery, context: context);
                             } else {
-                              _onImageButtonPressed(ImageSource.camera, context: context);
+                              await _onImageButtonPressed(ImageSource.camera, context: context);
                             }
                           });
                     },
@@ -242,11 +241,9 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                         loading: (loading) {
                           showLoading(needLoading: loading);
                         },
-                        updateImageSuccess: (_) {
-                          context.go(Routes.mainPage.path);
-                        },
+                        updateImageSuccess: (_) {},
                         registerSuccess: (phone) {
-                          if (selectedFile != null) context.read<AuthBloc>().add(AuthEvent.updateImage(image: formData!));
+                          context.go(Routes.mainPage.path);
                         },
                         orElse: () {});
                   },
@@ -290,6 +287,7 @@ class _RegisterPageState extends BaseState<RegisterPage> {
           formData = FormData.fromMap({
             "file": await MultipartFile.fromFile(pickedFile.path, filename: imageController.text),
           });
+          context.read<AuthBloc>().add(AuthEvent.updateImage(image: formData));
         });
       } catch (_) {}
     }

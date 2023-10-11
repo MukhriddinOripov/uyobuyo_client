@@ -26,7 +26,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   late String confirmationToken;
   late String password;
   late String firstPinCode;
-  late AuthConfirm token;
 
   AuthBloc() : super(const AuthState.initial()) {
     on<_SendSms>(_sendSms, transformer: droppable());
@@ -44,8 +43,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (data.statusCode == 200) {
         phoneNumber = filter.fPhoneNumber(event.phoneNumber);
         emit(AuthState.successSendSms(phoneNumber: phoneNumber));
+      } else {
+        emit(AuthState.errorSendSms(msg: data.statusMessage));
       }
     } catch (e) {
+      print("error $e");
+      emit(const AuthState.loading(loading: false));
       emit(
         AuthState.authError(
           error: e.toString(),
@@ -61,16 +64,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final AuthConfirm data = await repository.confirmAuth(phone: phoneNumber, otp: event.otp);
       emit(const AuthState.loading(loading: false));
-      token = data;
       if (data.success) {
+        await saveToken(data: data);
         if (data.data.hasExisted) {
-          await saveToken(data: token);
           emit(AuthState.userLogin(data: data.data.user));
         } else {
           emit(const AuthState.userRegister());
         }
       }
     } catch (e) {
+      emit(const AuthState.loading(loading: false));
       emit(
         AuthState.authError(
           error: e.toString(),
@@ -85,8 +88,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthState.loading(loading: true));
     try {
       final RegisterModel data = await repository.register(name: event.name, birthDate: event.birthDate, gender: event.gender, city: event.city);
+      emit(const AuthState.loading(loading: true));
       if (data.success) {
-        await saveToken(data: token);
         emit(AuthState.registerSuccess(data: data.data));
       } else {
         emit(const AuthState.registerError());
@@ -105,9 +108,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future _updateImage(_UpdateImage event, Emitter<AuthState> emit) async {
     try {
       final UpdateImage data = await repository.updateImage(image: event.image);
-      emit(const AuthState.loading(loading: false));
       if (data.success) {
-
         emit(AuthState.updateImageSuccess(data: data));
       } else {
         emit(const AuthState.updateImageError(msg: "error"));

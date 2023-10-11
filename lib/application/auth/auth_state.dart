@@ -5,6 +5,7 @@ class AuthState with _$AuthState {
   const factory AuthState.initial() = _Initial;
   const factory AuthState.loading({required bool loading}) = _Loading;
   const factory AuthState.successSendSms({required String phoneNumber}) = _SuccessSendSms;
+  const factory AuthState.errorSendSms({ String? msg}) = _ErrorSendSms;
   const factory AuthState.userLogin({required User data}) = _UserLogin;
   const factory AuthState.userRegister() = _UserRegister;
   const factory AuthState.registerSuccess({required RegisterData data}) = _RegisterSuccess;

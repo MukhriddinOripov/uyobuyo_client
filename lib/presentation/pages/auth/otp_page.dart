@@ -29,6 +29,7 @@ class _OtpPageState extends BaseState<OtpPage> with SingleTickerProviderStateMix
   late String phone;
   late AnimationController _controller;
   late int totalTimeInSeconds;
+  late bool _hideResendButton;
 
   @override
   void codeUpdated() {
@@ -44,14 +45,24 @@ class _OtpPageState extends BaseState<OtpPage> with SingleTickerProviderStateMix
 
     ///listen for the SMS code
     listenForCode();
-    _controller = AnimationController(vsync: this, duration: const Duration(seconds: kTime))..addStatusListener((status) {});
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: kTime))
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.dismissed) {
+          setState(() {
+            _hideResendButton = !_hideResendButton;
+          });
+        }
+      });
     _controller.reverse(from: _controller.value == 0.0 ? 1.0 : _controller.value);
     _startCountdown();
   }
 
   Future<void> _startCountdown() async {
     setState(() {
-      totalTimeInSeconds = kTime;
+      setState(() {
+        _hideResendButton = true;
+        totalTimeInSeconds = kTime;
+      });
     });
     _controller.reverse(from: _controller.value == 0.0 ? 1.0 : _controller.value);
   }
@@ -190,13 +201,16 @@ class _OtpPageState extends BaseState<OtpPage> with SingleTickerProviderStateMix
                       children: <TextSpan>[
                         TextSpan(
                           text: context.loc.resend,
-                          style: AppTheme.data.textTheme.bodySmall!.copyWith(color: AppTheme.colors.primary),
+                          style: AppTheme.data.textTheme.bodySmall!
+                              .copyWith(color: !_hideResendButton ? AppTheme.colors.primary : AppTheme.colors.primary40),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              setState(() {
-                                _startCountdown();
-                                context.read<AuthBloc>().add(AuthEvent.sendSms(phoneNumber: phone));
-                              });
+                              if (!_hideResendButton) {
+                                setState(() {
+                                  _startCountdown();
+                                  context.read<AuthBloc>().add(AuthEvent.sendSms(phoneNumber: phone));
+                                });
+                              }
                             },
                         ),
                       ],

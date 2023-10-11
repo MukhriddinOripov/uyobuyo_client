@@ -1,30 +1,28 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:go_router/go_router.dart';
-import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
-import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/reverse_lat_lang_model.dart';
 import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 import 'package:uyobuyo_client/presentation/assets/icons.dart';
 import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
-import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
+import 'package:uyobuyo_client/presentation/pages/base_page.dart';
+import 'package:uyobuyo_client/presentation/pages/main_page/component/drawer_component.dart';
+import 'package:uyobuyo_client/presentation/pages/main_page/component/main_bottom_sheet_component.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-class MainPage extends StatefulWidget {
+class MainPage extends BaseScreen {
   const MainPage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<BaseScreen> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends BaseState<MainPage> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   String currentLocationName = '';
   late YandexMapController yandexMapController;
@@ -140,7 +138,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _globalKey,
-      drawer: drawer(),
+      drawer: const DrawerComponent(),
       body: Stack(
         children: [
           YandexMap(
@@ -185,31 +183,15 @@ class _MainPageState extends State<MainPage> {
                   decoration: BoxDecoration(
                     color: AppTheme.colors.black,
                     boxShadow: [
-                      if (ifVisibleBottom)
-                        BoxShadow(
-                          color: AppTheme.colors.black,
-                          blurRadius: 8,
-                          spreadRadius: 2,
-                          offset: const Offset(0, 8),
-                        ),
+                      BoxShadow(
+                        color: AppTheme.colors.black,
+                        blurRadius: 8,
+                        spreadRadius: 2,
+                        offset: const Offset(0, 8),
+                      ),
                     ],
                   ),
                 ),
-                if (!ifVisibleBottom)
-                  Container(
-                    height: 12,
-                    width: 12,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppTheme.colors.black,
-                          blurRadius: 6,
-                          offset: const Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                  ),
               ],
             ),
           ),
@@ -263,207 +245,44 @@ class _MainPageState extends State<MainPage> {
                     child: const Icon(Icons.my_location),
                   ),
                 ),
-                ifVisibleBottom
-                    ? Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
-                        width: MediaQuery.sizeOf(context).width,
-                        decoration: BoxDecoration(
-                          color: AppTheme.colors.white,
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(32),
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 48,
-                              height: 6,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: AppTheme.colors.black40),
-                            ),
-                            const SizedBox(height: 16),
-                            Container(
-                              height: 74,
-                              width: MediaQuery.sizeOf(context).width - 32,
-                              decoration: BoxDecoration(
-                                color: AppTheme.colors.primary40,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: kPaddingDefault),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(context.loc.where_we_go, style: AppTheme.data.textTheme.bodyMedium),
-                                        Text(
-                                          context.loc.trips_to_regions,
-                                          style: AppTheme.data.textTheme.labelMedium
-                                              ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 74,
-                                    width: 80,
-                                    alignment: Alignment.centerRight,
-                                    padding: const EdgeInsets.only(left: 16),
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.colors.primary80,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: SvgPicture.asset(AppImages.orderImage),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            Container(
-                              height: 74,
-                              width: MediaQuery.sizeOf(context).width - 32,
-                              decoration: BoxDecoration(
-                                color: AppTheme.colors.green20,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: kPaddingDefault),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(context.loc.delivery, style: AppTheme.data.textTheme.bodyMedium),
-                                        Text(
-                                          context.loc.weight_delivery,
-                                          style: AppTheme.data.textTheme.labelMedium
-                                              ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 74,
-                                    width: 80,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.colors.green60,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: SvgPicture.asset(AppImages.deliveryImage),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                          ],
-                        ),
-                      )
-                    : const SizedBox()
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget drawer() => Drawer(
-        child: Padding(
-          padding: EdgeInsets.only(top: 87.h, bottom: 40.h),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(right: kPaddingDefault.w, left: kPaddingDefault.w),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 48.w,
-                      width: 48,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(image: AssetImage(AppImages.onboard), fit: BoxFit.fill),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Аброр Ахмедов", style: AppTheme.data.textTheme.headlineMedium),
-                        SizedBox(height: 4.h),
-                        Text(
-                          "+998 (99) 999-99-99",
-                          style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
-                        ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          "ID:100104",
-                          style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.primary),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 40),
-              Divider(color: AppTheme.colors.black20, height: 0.1),
-              drawerComponent(onTap: () {}, icon: AppIcons.clock, label: context.loc.history_order),
-              drawerComponent(onTap: () {}, icon: AppIcons.setting, label: context.loc.setting),
-              drawerComponent(onTap: () {}, icon: AppIcons.faq, label: context.loc.faq),
-              drawerComponent(onTap: () {}, icon: AppIcons.support, label: context.loc.support_service),
-              drawerComponent(onTap: () {}, icon: AppIcons.info, label: context.loc.info),
-              const Spacer(),
-              BlocListener<AuthBloc, AuthState>(
-                listener: (context, state) {
-                  state.maybeWhen(
-                    logOutedState: () => context.go(Routes.onboardPage.path),
-                    orElse: () {},
-                  );
-                },
-                child: drawerComponent(
-                    onTap: () {
-                      context.read<AuthBloc>().add(const AuthEvent.logOut());
-                    },
-                    icon: AppIcons.logOut,
-                    label: context.loc.log_out,
-                    textColor: AppTheme.colors.red,
-                    iconColor: AppTheme.colors.red),
-              ),
-            ],
-          ),
-        ),
-      );
-
-  Widget drawerComponent({required Function() onTap, required String icon, required String label, Color? textColor, Color? iconColor}) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            color: Colors.transparent,
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
-            child: Row(
-              children: [
-                SvgPicture.asset(
-                  icon,
-                  width: 24,
-                  height: 24,
-                  color: iconColor ?? AppTheme.colors.black80,
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  label,
-                  style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: textColor ?? AppTheme.colors.black80),
+                MainBottomSheetComponent(
+                  ifVisibleBottom: ifVisibleBottom,
+                  onTapOrder: () {
+                    // createOrderOrDeliverySheetComponent(
+                    //     context: context,
+                    //     title: 'ул. Беруний, Дом 179',
+                    //     subtitle: "Массив Чиланзар, Чиланзарский район, Ташкент",
+                    //     onTapFrom: () {
+                    //       Navigator.pop(context);
+                    //       orderModalBottomSheetComponent(context: context, title: "Откуда", subtitle: "");
+                    //     },
+                    //     onTapTo: () {
+                    //       orderModalBottomSheetComponent(context: context, title: "Kуда", subtitle: "");
+                    //     },
+                    //     onTapBtn: () {
+                    //       orderModalBottomSheetComponent(context: context, title: "Kуда", subtitle: "");
+                    //     });
+                  },
+                  onTapDelivery: () {
+                    // createOrderOrDeliverySheetComponent(
+                    //     context: context,
+                    //     title: 'ул. Беруний, Дом 179',
+                    //     subtitle: "Массив Чиланзар, Чиланзарский район, Ташкент",
+                    //     onTapFrom: () {
+                    //       Navigator.pop(context);
+                    //       orderModalBottomSheetComponent(context: context, title: "Откуда", subtitle: "");
+                    //     },
+                    //     onTapTo: () {
+                    //       orderModalBottomSheetComponent(context: context, title: "Kуда", subtitle: "");
+                    //     },
+                    //     onTapBtn: () {
+                    //       orderModalBottomSheetComponent(context: context, title: "Kуда", subtitle: "");
+                    //     });
+                  },
                 ),
               ],
             ),
           ),
-          Divider(color: AppTheme.colors.black20, height: 0.1),
         ],
       ),
     );

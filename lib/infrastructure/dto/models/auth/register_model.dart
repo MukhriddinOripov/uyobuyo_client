@@ -22,7 +22,7 @@ class RegisterData {
   final String gender;
   final bool active;
   final String language;
-  final String imageUrl;
+  final dynamic imageUrl;
   final List<int> birthDate;
   final String city;
 
