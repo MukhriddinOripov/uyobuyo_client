@@ -10,4 +10,7 @@ class AppIcons {
   static const String logOut = 'assets/icons/log_out.svg';
   static const String setting = 'assets/icons/setting.svg';
   static const String support = 'assets/icons/support.svg';
+  static const String call = 'assets/icons/call.svg';
+  static const String cancel = 'assets/icons/cancel.svg';
+  static const String orderDetail = 'assets/icons/order_detail.svg';
 }

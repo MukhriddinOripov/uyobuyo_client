@@ -194,9 +194,10 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                       color: _focusNodes[2].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
                     ),
                   ),
-                  validator: (v) => InputValidations.defaultV(v ?? '').fold(
+                  validator: (v) => InputValidations.dateV(v ?? '').fold(
                     (l) => l.maybeMap(
                       empty: (_) => "Введите свой день рождения",
+                      invalidPhone: (_) => "Неправильная дата",
                       orElse: () => null,
                     ),
                     (r) => null,

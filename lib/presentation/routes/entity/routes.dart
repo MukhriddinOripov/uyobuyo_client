@@ -16,6 +16,10 @@ class Routes implements Coordinate {
   static const otpPage = Routes._(name: 'otp_page', path: '/otp_page');
   static const registerPage = Routes._(name: 'register_page', path: '/register_page');
   static const mainPage = Routes._(name: 'main_page', path: '/main_page');
+  static const chooseLocationInMapPage = Routes._(name: 'choose_location_in_map_page', path: '/choose_location_in_map_page');
+  static const orderAccepted = Routes._(name: 'order_accepted_page', path: '/order_accepted_page');
+  static const orderDetailAfterCreatePage = Routes._(name: 'order_detail_after_create_page', path: '/order_detail_after_create_page');
+  static const orderCancelPage = Routes._(name: 'order_cancel_page', path: '/order_cancel_page');
 
   @override
   String toString() => 'name=$name, path=$path';

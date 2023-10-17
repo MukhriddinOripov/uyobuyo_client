@@ -125,7 +125,7 @@ class _OnboardPageState extends State<OnboardPage> {
                   MainButtonComponent(
                     name: context.loc.onboardSheetBtnText,
                     onPressed: () {
-                      context.pushNamed(Routes.checkPhonePage.name);
+                      context.pushNamed(Routes.registerPage.name);
                     },
                   ),
                   const SizedBox(height: 32)

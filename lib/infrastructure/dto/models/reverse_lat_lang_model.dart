@@ -18,14 +18,14 @@ class LatLangResultModel {
   });
 
   factory LatLangResultModel.fromJson(Map<String, dynamic> json) => LatLangResultModel(
-    lat: json["lat"],
-    lon: json["lon"],
-    category: json["category"],
-    addresstype: json["addresstype"],
-    name: json["name"],
-    displayName: json["display_name"],
-    address: Address.fromJson(json["address"]),
-  );
+        lat: json["lat"],
+        lon: json["lon"],
+        category: json["category"],
+        addresstype: json["addresstype"],
+        name: json["name"],
+        displayName: json["display_name"],
+        address: Address.fromJson(json["address"]),
+      );
 }
 
 class Address {
@@ -34,10 +34,10 @@ class Address {
   final String? road;
   final String? neighbourhood;
   final String? county;
-  final String city;
+  final String? city;
   final String? iso31662Lvl4;
-  final String postcode;
-  final String country;
+  final String? postcode;
+  final String? country;
   final String? countryCode;
 
   Address({
@@ -46,23 +46,23 @@ class Address {
     this.road,
     this.neighbourhood,
     this.county,
-    required this.city,
+    this.city,
     this.iso31662Lvl4,
-    required this.postcode,
-    required this.country,
+    this.postcode,
+    this.country,
     this.countryCode,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-    amenity: json["amenity"],
-    houseNumber: json["house_number"],
-    road: json["road"],
-    neighbourhood: json["neighbourhood"],
-    county: json["county"],
-    city: json["city"],
-    iso31662Lvl4: json["ISO3166-2-lvl4"],
-    postcode: json["postcode"],
-    country: json["country"],
-    countryCode: json["country_code"],
-  );
+        amenity: json["amenity"],
+        houseNumber: json["house_number"],
+        road: json["road"],
+        neighbourhood: json["neighbourhood"],
+        county: json["county"],
+        city: json["city"],
+        iso31662Lvl4: json["ISO3166-2-lvl4"],
+        postcode: json["postcode"],
+        country: json["country"],
+        countryCode: json["country_code"],
+      );
 }

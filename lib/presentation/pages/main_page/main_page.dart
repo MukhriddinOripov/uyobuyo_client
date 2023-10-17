@@ -1,18 +1,27 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
+import 'package:uyobuyo_client/application/select_address/select_address_cubit.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/reverse_lat_lang_model.dart';
 import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 import 'package:uyobuyo_client/presentation/assets/icons.dart';
 import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
+import 'package:uyobuyo_client/presentation/components/geodecoder.dart';
 import 'package:uyobuyo_client/presentation/pages/base_page.dart';
+import 'package:uyobuyo_client/presentation/pages/main_page/component/create_order_or_delivery_sheet.dart';
 import 'package:uyobuyo_client/presentation/pages/main_page/component/drawer_component.dart';
 import 'package:uyobuyo_client/presentation/pages/main_page/component/main_bottom_sheet_component.dart';
+import 'package:uyobuyo_client/presentation/pages/main_page/component/order_detail.dart';
+import 'package:uyobuyo_client/presentation/pages/main_page/component/order_dialog.dart';
+import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MainPage extends BaseScreen {
@@ -24,7 +33,14 @@ class MainPage extends BaseScreen {
 
 class _MainPageState extends BaseState<MainPage> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+  final GeocoderService geocoderService = GeocoderService(apiKey: 'dc40f6be-0f3d-4889-ba75-fcb1adac0b7c');
   String currentLocationName = '';
+  LatLangResultModel? fullLocationName;
+  String selectAddressFrom = '';
+  String selectSubAddressFrom = '';
+  String selectAddressTo = '';
+  String selectSubAddressTo = '';
+
   late YandexMapController yandexMapController;
   final List<MapObject> mapObjects = [];
   List<MapObject> placeMarks = [];
@@ -69,8 +85,19 @@ class _MainPageState extends BaseState<MainPage> {
       desiredAccuracy: LocationAccuracy.best,
     );
     position = currentPosition;
-    getAddressByLatLong(latitude: currentPosition.latitude, longitude: currentPosition.longitude);
-
+    // final Map<dynamic, dynamic> address = await geocoderService.convertToAddress(
+    //   latitude: currentPosition.latitude,
+    //   longitude: currentPosition.longitude,
+    // );
+    await getAddressByLatLong(
+      latitude: currentPosition.latitude,
+      longitude: currentPosition.longitude,
+    );
+    // setState(() {
+    //   fullLocationName = address;
+    //   currentLocationName =
+    //       "${address["house"]}${address["house"].isNotEmpty ? ', ' : ""}${address["district"].isNotEmpty ? address["district"].last : address["street"].isNotEmpty ? address["street"] : address["unknown"].isNotEmpty ? address['unknown'] : address["area"]}";
+    // });
     await addObjectToMap();
     setState(() {});
   }
@@ -99,6 +126,7 @@ class _MainPageState extends BaseState<MainPage> {
 
   Future getAddressByLatLong({required double latitude, required double longitude}) async {
     SharedPrefService pref = await SharedPrefService.initialize();
+
     Dio(
       BaseOptions(
         baseUrl: 'https://nominatim.openstreetmap.org',
@@ -111,9 +139,10 @@ class _MainPageState extends BaseState<MainPage> {
     ).get('/reverse?format=jsonv2&lat=$latitude&lon=$longitude').then(
       (value) {
         LatLangResultModel data = LatLangResultModel.fromJson(value.data);
-
         setState(() {
-          currentLocationName = "${data.address.houseNumber ?? ""}, ${data.address.road ?? ""}, ${data.address.county}";
+          fullLocationName = data;
+          currentLocationName =
+              "${data.address.houseNumber != null ? "${data.address.houseNumber}" : ""}${data.address.road != null ? ", ${data.address.road}" : ""}${data.address.county != null ? ", ${data.address.county}" : ""}";
         });
       },
     );
@@ -125,7 +154,19 @@ class _MainPageState extends BaseState<MainPage> {
       final centerCoordinates = position.target;
       print('Latitude: ${centerCoordinates.latitude}, Longitude: ${centerCoordinates.longitude}');
       await Future.delayed(const Duration(milliseconds: 500));
-      await getAddressByLatLong(latitude: centerCoordinates.latitude, longitude: centerCoordinates.longitude);
+      // final address = await geocoderService.convertToAddress(
+      //   latitude: centerCoordinates.latitude,
+      //   longitude: centerCoordinates.longitude,
+      // );
+      await getAddressByLatLong(
+        latitude: centerCoordinates.latitude,
+        longitude: centerCoordinates.longitude,
+      );
+      // setState(() {
+      //   fullLocationName = address;
+      //   currentLocationName =
+      //       "${address["house"]}${address["house"].isNotEmpty ? ', ' : ""}${address["district"].isNotEmpty ? address["district"].last : address["street"].isNotEmpty ? address["street"] : address["unknown"].isNotEmpty ? address['unknown'] : address["area"]}";
+      // });
       ifVisibleBottom = true;
     } else {
       setState(() {
@@ -237,6 +278,10 @@ class _MainPageState extends BaseState<MainPage> {
                         await _checkLocationPermission();
                       }
                     }
+                    selectAddressTo = '';
+                    selectSubAddressTo = '';
+                    selectAddressFrom = '';
+                    selectSubAddressFrom = '';
                   },
                   child: Container(
                     padding: const EdgeInsets.all(12),
@@ -245,40 +290,192 @@ class _MainPageState extends BaseState<MainPage> {
                     child: const Icon(Icons.my_location),
                   ),
                 ),
-                MainBottomSheetComponent(
-                  ifVisibleBottom: ifVisibleBottom,
-                  onTapOrder: () {
-                    // createOrderOrDeliverySheetComponent(
-                    //     context: context,
-                    //     title: 'ул. Беруний, Дом 179',
-                    //     subtitle: "Массив Чиланзар, Чиланзарский район, Ташкент",
-                    //     onTapFrom: () {
-                    //       Navigator.pop(context);
-                    //       orderModalBottomSheetComponent(context: context, title: "Откуда", subtitle: "");
-                    //     },
-                    //     onTapTo: () {
-                    //       orderModalBottomSheetComponent(context: context, title: "Kуда", subtitle: "");
-                    //     },
-                    //     onTapBtn: () {
-                    //       orderModalBottomSheetComponent(context: context, title: "Kуда", subtitle: "");
-                    //     });
+                BlocListener<SelectAddressCubit, SelectAddressState>(
+                  listener: (context, state) {
+                    if (state is SelectAddressFrom) {
+                      setState(() {
+                        selectAddressFrom = state.address;
+                        selectSubAddressFrom = state.subAddress;
+                      });
+                    }
+                    if (state is SelectAddressTo) {
+                      setState(() {
+                        selectAddressTo = state.address;
+                        selectSubAddressTo = state.subAddress;
+                      });
+                    }
                   },
-                  onTapDelivery: () {
-                    // createOrderOrDeliverySheetComponent(
-                    //     context: context,
-                    //     title: 'ул. Беруний, Дом 179',
-                    //     subtitle: "Массив Чиланзар, Чиланзарский район, Ташкент",
-                    //     onTapFrom: () {
-                    //       Navigator.pop(context);
-                    //       orderModalBottomSheetComponent(context: context, title: "Откуда", subtitle: "");
-                    //     },
-                    //     onTapTo: () {
-                    //       orderModalBottomSheetComponent(context: context, title: "Kуда", subtitle: "");
-                    //     },
-                    //     onTapBtn: () {
-                    //       orderModalBottomSheetComponent(context: context, title: "Kуда", subtitle: "");
-                    //     });
-                  },
+                  child: MainBottomSheetComponent(
+                    ifVisibleBottom: ifVisibleBottom,
+                    onTapOrder: () {
+                      setState(() {
+                        createOrderOrDeliverySheetComponent(
+                            context: context,
+                            titleTo: selectAddressTo,
+                            subtitleTo: selectSubAddressTo,
+                            title: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
+                            subtitle: selectSubAddressFrom.isEmpty
+                                ? (fullLocationName != null
+                                    ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                                    : "")
+                                : selectSubAddressFrom,
+                            onTapFrom: () {
+                              orderModalBottomSheetComponent(
+                                  context: context,
+                                  title: "Откуда",
+                                  addressControllerText: selectAddressFrom,
+                                  onTapChooseMap: () {
+                                    context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
+                                      'lat': position?.latitude ?? 0,
+                                      'long': position?.longitude ?? 0,
+                                      "indicatorColor": AppTheme.colors.dark
+                                    });
+                                  },
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  });
+                            },
+                            onTapTo: () async {
+                              orderModalBottomSheetComponent(
+                                  context: context,
+                                  title: "Kуда",
+                                  addressControllerText: selectAddressTo,
+                                  btnTitle: context.loc.proceed,
+                                  onTapChooseMap: () {
+                                    context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
+                                      'lat': position?.latitude ?? 0,
+                                      'long': position?.longitude ?? 0,
+                                      "indicatorColor": AppTheme.colors.primary
+                                    });
+                                  },
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    orderDetailModalBottomSheetComponent(
+                                        context: context,
+                                        addressTo: selectAddressTo,
+                                        subAddressTo: selectSubAddressTo,
+                                        addressFrom: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
+                                        subAddressFrom: selectSubAddressFrom.isNotEmpty
+                                            ? selectSubAddressFrom
+                                            : (fullLocationName != null
+                                                ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                                                : ""));
+                                  });
+                            },
+                            onTapBtn: () {
+                              orderModalBottomSheetComponent(
+                                  context: context,
+                                  title: "Kуда",
+                                  btnTitle: context.loc.proceed,
+                                  addressControllerText: selectAddressTo,
+                                  onTapChooseMap: () {
+                                    context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
+                                      'lat': position?.latitude ?? 0,
+                                      'long': position?.longitude ?? 0,
+                                      "indicatorColor": AppTheme.colors.primary
+                                    });
+                                  },
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    orderDetailModalBottomSheetComponent(
+                                        context: context,
+                                        addressTo: selectAddressTo,
+                                        subAddressTo: selectSubAddressTo,
+                                        addressFrom: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
+                                        subAddressFrom: selectSubAddressFrom.isNotEmpty
+                                            ? selectSubAddressFrom
+                                            : (fullLocationName != null
+                                                ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                                                : ""));
+                                  });
+                            });
+                      });
+                    },
+                    onTapDelivery: () {
+                      setState(() {
+                        createOrderOrDeliverySheetComponent(
+                            context: context,
+                            titleTo: selectAddressTo,
+                            subtitleTo: selectSubAddressTo,
+                            title: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
+                            subtitle: selectSubAddressFrom.isEmpty
+                                ? (fullLocationName != null
+                                    ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                                    : "")
+                                : selectSubAddressFrom,
+                            onTapFrom: () {
+                              orderModalBottomSheetComponent(
+                                  context: context,
+                                  title: "Откуда",
+                                  addressControllerText: selectAddressFrom,
+                                  onTapChooseMap: () {
+                                    context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
+                                      'lat': position?.latitude ?? 0,
+                                      'long': position?.longitude ?? 0,
+                                      "indicatorColor": AppTheme.colors.dark
+                                    });
+                                  },
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  });
+                            },
+                            onTapTo: () async {
+                              orderModalBottomSheetComponent(
+                                  context: context,
+                                  title: "Kуда",
+                                  addressControllerText: selectAddressTo,
+                                  btnTitle: context.loc.proceed,
+                                  onTapChooseMap: () {
+                                    context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
+                                      'lat': position?.latitude ?? 0,
+                                      'long': position?.longitude ?? 0,
+                                      "indicatorColor": AppTheme.colors.primary
+                                    });
+                                  },
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    orderDetailModalBottomSheetComponent(
+                                        context: context,
+                                        addressTo: selectAddressTo,
+                                        subAddressTo: selectSubAddressTo,
+                                        addressFrom: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
+                                        subAddressFrom: selectSubAddressFrom.isNotEmpty
+                                            ? selectSubAddressFrom
+                                            : (fullLocationName != null
+                                                ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                                                : ""));
+                                  });
+                            },
+                            onTapBtn: () {
+                              orderModalBottomSheetComponent(
+                                  context: context,
+                                  title: "Kуда",
+                                  btnTitle: context.loc.proceed,
+                                  addressControllerText: selectAddressTo,
+                                  onTapChooseMap: () {
+                                    context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
+                                      'lat': position?.latitude ?? 0,
+                                      'long': position?.longitude ?? 0,
+                                      "indicatorColor": AppTheme.colors.primary
+                                    });
+                                  },
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    orderDetailModalBottomSheetComponent(
+                                        context: context,
+                                        addressTo: selectAddressTo,
+                                        subAddressTo: selectSubAddressTo,
+                                        addressFrom: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
+                                        subAddressFrom: selectSubAddressFrom.isNotEmpty
+                                            ? selectSubAddressFrom
+                                            : (fullLocationName != null
+                                                ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                                                : ""));
+                                  });
+                            });
+                      });
+                    },
+                  ),
                 ),
               ],
             ),

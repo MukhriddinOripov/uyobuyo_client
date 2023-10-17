@@ -10,12 +10,21 @@ import 'package:uyobuyo_client/application/app_manager/app_manager_cubit.dart';
 import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/application/language_provider.dart';
 import 'package:uyobuyo_client/presentation/pages/app_widget.dart';
+import 'application/select_address/select_address_cubit.dart';
 import 'firebase_options.dart';
 
 late final InternetConnectionChecker customInstance;
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
   await Firebase.initializeApp(
     name: "uyoBuyo",
     options: DefaultFirebaseOptions.currentPlatform,
@@ -71,6 +80,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ),
         BlocProvider(
           create: (context) => AuthBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SelectAddressCubit(),
         ),
       ],
       child: ScreenUtilInit(

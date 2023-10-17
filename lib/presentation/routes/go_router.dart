@@ -58,6 +58,38 @@ final GoRouter _router = GoRouter(
         child: const MainPage(),
       ),
     ),
+    GoRoute(
+      name: Routes.chooseLocationInMapPage.name,
+      path: Routes.chooseLocationInMapPage.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: ChooseLocationInMapPage(extra: state.extra),
+      ),
+    ),
+    GoRoute(
+      name: Routes.orderAccepted.name,
+      path: Routes.orderAccepted.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const OrderAcceptedPage(),
+      ),
+    ),
+    GoRoute(
+      name: Routes.orderDetailAfterCreatePage.name,
+      path: Routes.orderDetailAfterCreatePage.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const OrderDetailAfterCreatePage(),
+      ),
+    ),
+    GoRoute(
+      name: Routes.orderCancelPage.name,
+      path: Routes.orderCancelPage.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const OrderCancelPage(),
+      ),
+    ),
   ],
   errorBuilder: (context, state) {
     return Scaffold(
