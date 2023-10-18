@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/auth_confrim_model.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/register_model.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/upload_image_model.dart';
+import 'package:uyobuyo_client/infrastructure/dto/models/auth/user_data_model.dart';
 
 abstract class IAuth {
   const IAuth._();
@@ -23,4 +24,6 @@ abstract class IAuth {
   Future<UpdateImage> updateImage({
     required FormData image,
   });
+
+  Future<UserDataModel> getUserData();
 }

@@ -25,39 +25,57 @@ class _DrawerComponentState extends State<DrawerComponent> {
       child: Padding(
         padding: EdgeInsets.only(top: 87.h, bottom: 40.h),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: EdgeInsets.only(right: kPaddingDefault.w, left: kPaddingDefault.w),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 48.w,
-                    width: 48,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(image: AssetImage(AppImages.onboard), fit: BoxFit.fill),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Аброр Ахмедов", style: AppTheme.data.textTheme.headlineMedium),
-                      SizedBox(height: 4.h),
-                      Text(
-                        "+998 (99) 999-99-99",
-                        style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        "ID:100104",
-                        style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.primary),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                    loadedUserData: (data) => Padding(
+                          padding: EdgeInsets.only(right: kPaddingDefault.w, left: kPaddingDefault.w),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              data.imageUrl != null
+                                  ? Container(
+                                      height: 48.w,
+                                      width: 48,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(image: NetworkImage(data.imageUrl), fit: BoxFit.fill),
+                                      ),
+                                    )
+                                  : Container(
+                                      height: 48.w,
+                                      width: 48,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(image: AssetImage(AppImages.onboard), fit: BoxFit.fill),
+                                      ),
+                                    ),
+                              const SizedBox(width: 12),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(data.name, style: AppTheme.data.textTheme.headlineMedium),
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    data.phoneNumber,
+                                    style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
+                                  ),
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    "${data.login}",
+                                    style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.primary),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                    orElse: () {
+                      return const SizedBox();
+                    });
+              },
             ),
             const SizedBox(height: 40),
             Divider(color: AppTheme.colors.black20, height: 0.1),
@@ -118,5 +136,4 @@ class _DrawerComponentState extends State<DrawerComponent> {
       ),
     );
   }
-
 }

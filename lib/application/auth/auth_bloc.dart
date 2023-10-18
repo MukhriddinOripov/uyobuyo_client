@@ -9,6 +9,7 @@ import 'package:uyobuyo_client/infrastructure/dto/filter/requests_filter.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/auth_confrim_model.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/register_model.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/upload_image_model.dart';
+import 'package:uyobuyo_client/infrastructure/dto/models/auth/user_data_model.dart';
 import 'package:uyobuyo_client/infrastructure/repositories/auth/auth_repository.dart';
 import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 
@@ -32,6 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_ConfirmAuth>(_confirmAuth, transformer: droppable());
     on<_Register>(_register, transformer: droppable());
     on<_UpdateImage>(_updateImage, transformer: droppable());
+    on<_GetUserData>(_getUserData, transformer: droppable());
     on<_LogOut>(_logOut, transformer: droppable());
   }
 
@@ -112,6 +114,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthState.updateImageSuccess(data: data));
       } else {
         emit(const AuthState.updateImageError(msg: "error"));
+      }
+    } catch (_) {}
+  }
+
+  Future _getUserData(_GetUserData event, Emitter<AuthState> emit) async {
+    try {
+      final UserDataModel data = await repository.getUserData();
+      if (data.success) {
+        emit(AuthState.loadedUserData(data: data.data));
+      } else {
+        emit(const AuthState.errorUserData(msg: "error"));
       }
     } catch (_) {}
   }

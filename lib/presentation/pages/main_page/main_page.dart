@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/application/select_address/select_address_cubit.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
@@ -65,6 +66,7 @@ class _MainPageState extends BaseState<MainPage> {
   @override
   void initState() {
     super.initState();
+    context.read<AuthBloc>().add(const AuthEvent.getUserData());
     AndroidYandexMap.useAndroidViewSurface = false;
     _checkLocationPermission();
   }
@@ -323,7 +325,7 @@ class _MainPageState extends BaseState<MainPage> {
                               orderModalBottomSheetComponent(
                                   context: context,
                                   title: "Откуда",
-                                  addressControllerText: selectAddressFrom,
+                                  addressControllerText: selectAddressFrom.isNotEmpty ? selectAddressFrom : currentLocationName,
                                   onTapChooseMap: () {
                                     context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
                                       'lat': position?.latitude ?? 0,
@@ -391,89 +393,93 @@ class _MainPageState extends BaseState<MainPage> {
                             });
                       });
                     },
-                    onTapDelivery: () {
-                      setState(() {
-                        createOrderOrDeliverySheetComponent(
-                            context: context,
-                            titleTo: selectAddressTo,
-                            subtitleTo: selectSubAddressTo,
-                            title: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
-                            subtitle: selectSubAddressFrom.isEmpty
-                                ? (fullLocationName != null
-                                    ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
-                                    : "")
-                                : selectSubAddressFrom,
-                            onTapFrom: () {
-                              orderModalBottomSheetComponent(
-                                  context: context,
-                                  title: "Откуда",
-                                  addressControllerText: selectAddressFrom,
-                                  onTapChooseMap: () {
-                                    context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
-                                      'lat': position?.latitude ?? 0,
-                                      'long': position?.longitude ?? 0,
-                                      "indicatorColor": AppTheme.colors.dark
-                                    });
-                                  },
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  });
-                            },
-                            onTapTo: () async {
-                              orderModalBottomSheetComponent(
-                                  context: context,
-                                  title: "Kуда",
-                                  addressControllerText: selectAddressTo,
-                                  btnTitle: context.loc.proceed,
-                                  onTapChooseMap: () {
-                                    context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
-                                      'lat': position?.latitude ?? 0,
-                                      'long': position?.longitude ?? 0,
-                                      "indicatorColor": AppTheme.colors.primary
-                                    });
-                                  },
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    orderDetailModalBottomSheetComponent(
-                                        context: context,
-                                        addressTo: selectAddressTo,
-                                        subAddressTo: selectSubAddressTo,
-                                        addressFrom: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
-                                        subAddressFrom: selectSubAddressFrom.isNotEmpty
-                                            ? selectSubAddressFrom
-                                            : (fullLocationName != null
-                                                ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
-                                                : ""));
-                                  });
-                            },
-                            onTapBtn: () {
-                              orderModalBottomSheetComponent(
-                                  context: context,
-                                  title: "Kуда",
-                                  btnTitle: context.loc.proceed,
-                                  addressControllerText: selectAddressTo,
-                                  onTapChooseMap: () {
-                                    context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
-                                      'lat': position?.latitude ?? 0,
-                                      'long': position?.longitude ?? 0,
-                                      "indicatorColor": AppTheme.colors.primary
-                                    });
-                                  },
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    orderDetailModalBottomSheetComponent(
-                                        context: context,
-                                        addressTo: selectAddressTo,
-                                        subAddressTo: selectSubAddressTo,
-                                        addressFrom: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
-                                        subAddressFrom: selectSubAddressFrom.isNotEmpty
-                                            ? selectSubAddressFrom
-                                            : (fullLocationName != null
-                                                ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
-                                                : ""));
-                                  });
-                            });
-                      });
+                    onTapDelivery: () async {
+                      SharedPrefService prefs = await SharedPrefService.initialize();
+                      var token = prefs.getAccessToken;
+                      print("line 397 $token");
+                      // setState(() {
+                      //   createOrderOrDeliverySheetComponent(
+                      //       context: context,
+                      //       titleTo: selectAddressTo,
+                      //       subtitleTo: selectSubAddressTo,
+                      //       title: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
+                      //       subtitle: selectSubAddressFrom.isEmpty
+                      //           ? (fullLocationName != null
+                      //               ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                      //               : "")
+                      //           : selectSubAddressFrom,
+                      //       onTapFrom: () {
+                      //         orderModalBottomSheetComponent(
+                      //             context: context,
+                      //             title: "Откуда",
+                      //             addressControllerText: selectAddressFrom.isNotEmpty ? selectAddressFrom : currentLocationName,
+                      //             onTapChooseMap: () {
+                      //               context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
+                      //                 'lat': position?.latitude ?? 0,
+                      //                 'long': position?.longitude ?? 0,
+                      //                 "indicatorColor": AppTheme.colors.dark
+                      //               });
+                      //             },
+                      //             onTap: () {
+                      //
+                      //               Navigator.pop(context);
+                      //             });
+                      //       },
+                      //       onTapTo: () async {
+                      //         orderModalBottomSheetComponent(
+                      //             context: context,
+                      //             title: "Kуда",
+                      //             addressControllerText: selectAddressTo,
+                      //             btnTitle: context.loc.proceed,
+                      //             onTapChooseMap: () {
+                      //               context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
+                      //                 'lat': position?.latitude ?? 0,
+                      //                 'long': position?.longitude ?? 0,
+                      //                 "indicatorColor": AppTheme.colors.primary
+                      //               });
+                      //             },
+                      //             onTap: () {
+                      //               Navigator.pop(context);
+                      //               orderDetailModalBottomSheetComponent(
+                      //                   context: context,
+                      //                   addressTo: selectAddressTo,
+                      //                   subAddressTo: selectSubAddressTo,
+                      //                   addressFrom: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
+                      //                   subAddressFrom: selectSubAddressFrom.isNotEmpty
+                      //                       ? selectSubAddressFrom
+                      //                       : (fullLocationName != null
+                      //                           ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                      //                           : ""));
+                      //             });
+                      //       },
+                      //       onTapBtn: () {
+                      //         orderModalBottomSheetComponent(
+                      //             context: context,
+                      //             title: "Kуда",
+                      //             btnTitle: context.loc.proceed,
+                      //             addressControllerText: selectAddressTo,
+                      //             onTapChooseMap: () {
+                      //               context.pushNamed(Routes.chooseLocationInMapPage.name, extra: {
+                      //                 'lat': position?.latitude ?? 0,
+                      //                 'long': position?.longitude ?? 0,
+                      //                 "indicatorColor": AppTheme.colors.primary
+                      //               });
+                      //             },
+                      //             onTap: () {
+                      //               Navigator.pop(context);
+                      //               orderDetailModalBottomSheetComponent(
+                      //                   context: context,
+                      //                   addressTo: selectAddressTo,
+                      //                   subAddressTo: selectSubAddressTo,
+                      //                   addressFrom: selectAddressFrom.isEmpty ? currentLocationName : selectAddressFrom,
+                      //                   subAddressFrom: selectSubAddressFrom.isNotEmpty
+                      //                       ? selectSubAddressFrom
+                      //                       : (fullLocationName != null
+                      //                           ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                      //                           : ""));
+                      //             });
+                      //       });
+                      // });
                     },
                   ),
                 ),

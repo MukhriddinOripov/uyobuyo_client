@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:uyobuyo_client/application/select_address/select_address_cubit.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
+import 'package:uyobuyo_client/infrastructure/common/validations/input_validations.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
 import 'package:uyobuyo_client/presentation/components/text_field_component.dart';
@@ -25,6 +26,7 @@ Future<void> orderModalBottomSheetComponent(
     ),
     builder: (context) {
       final addressController = TextEditingController();
+      final formKey = GlobalKey<FormState>();
       addressController.text = addressControllerText ?? '';
       return BlocListener<SelectAddressCubit, SelectAddressState>(
         listener: (context, state) {
@@ -44,41 +46,59 @@ Future<void> orderModalBottomSheetComponent(
               right: 16.w,
               bottom: 49.h,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    height: 6.h,
-                    width: 48.w,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE3E8FC),
-                      borderRadius: BorderRadius.circular(24.r),
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      height: 6.h,
+                      width: 48.w,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE3E8FC),
+                        borderRadius: BorderRadius.circular(24.r),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 16.h),
-                Text(
-                  title,
-                  style: AppTheme.data.textTheme.displaySmall?.copyWith(fontSize: 24),
-                ),
-                SizedBox(height: 16.h),
-                TextFieldComponent(
-                  controller: addressController,
-                  suffixWidget: TextButton(
-                      onPressed: onTapChooseMap,
-                      child: Text(
-                        "Карта",
-                        style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.primary),
-                      )),
-                ),
-                const Spacer(),
-                MainButtonComponent(
-                  name: btnTitle ?? context.loc.back,
-                  onPressed: onTap ?? () => Navigator.pop(context),
-                ),
-              ],
+                  SizedBox(height: 16.h),
+                  Text(
+                    title,
+                    style: AppTheme.data.textTheme.displaySmall?.copyWith(fontSize: 24),
+                  ),
+                  SizedBox(height: 16.h),
+                  TextFieldComponent(
+                    key: formKey,
+                    controller: addressController,
+                    onChanged: (val) {
+                      context.read<SelectAddressCubit>().getAddress(
+                            address: addressController.text,
+                            subAddress: addressController.text,
+                            isFrom: true,
+                          );
+                    },
+                    suffixWidget: TextButton(
+                        onPressed: onTapChooseMap,
+                        child: Text(
+                          "Карта",
+                          style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.primary),
+                        )),
+                    validator: (v) => InputValidations.defaultV(v ?? '').fold(
+                      (l) => l.maybeMap(
+                        empty: (_) => "Введите свой имя и фамилия",
+                        orElse: () => null,
+                      ),
+                      (r) => null,
+                    ),
+                  ),
+                  const Spacer(),
+                  MainButtonComponent(
+                    name: btnTitle ?? context.loc.back,
+                    onPressed: onTap ?? () => Navigator.pop(context),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -8,4 +8,5 @@ class IRoutes {
   String get confirmAuth => '/api/v1/auth/customer/confirm';
   String get register => '/api/v1/customer/update_after_auth';
   String get updateProfileImage => '/api/v1/customer/attachment';
+  String get userData => '/api/v1/customer';
 }
