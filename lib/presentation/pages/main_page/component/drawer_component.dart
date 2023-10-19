@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,28 +36,56 @@ class _DrawerComponentState extends State<DrawerComponent> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              data.imageUrl != null
-                                  ? Container(
-                                      height: 48.w,
-                                      width: 48,
+                              Container(
+                                height: 48.w,
+                                width: 48.w,
+                                decoration: const BoxDecoration(color: Colors.transparent, shape: BoxShape.circle),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(kBorderRadiusDefault.r),
+                                  child: CachedNetworkImage(
+                                    imageUrl: data.imageUrl ?? '',
+                                    imageBuilder: (context, imageProvider) => Container(
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        image: DecorationImage(image: NetworkImage(data.imageUrl), fit: BoxFit.fill),
-                                      ),
-                                    )
-                                  : Container(
-                                      height: 48.w,
-                                      width: 48,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(image: AssetImage(AppImages.onboard), fit: BoxFit.fill),
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
+                                    placeholder: (context, url) => Container(
+                                      height: 48.w,
+                                      width: 48.w,
+                                      padding: const EdgeInsets.all(10),
+                                      child: const CircularProgressIndicator(),
+                                    ),
+                                    errorWidget: (context, url, error) => Center(
+                                      child: Container(
+                                        width: 48,
+                                        height: 48,
+                                        padding: const EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: AppTheme.colors.black20),
+                                        ),
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              image: AssetImage(AppImages.noImage),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               const SizedBox(width: 12),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(data.name, style: AppTheme.data.textTheme.headlineMedium),
+                                  Text(data.name ?? '', style: AppTheme.data.textTheme.headlineMedium),
                                   SizedBox(height: 4.h),
                                   Text(
                                     data.phoneNumber,
@@ -64,7 +93,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
                                   ),
                                   SizedBox(height: 4.h),
                                   Text(
-                                    "${data.login}",
+                                    data.login,
                                     style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.primary),
                                   ),
                                 ],
@@ -101,6 +130,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
                   textColor: AppTheme.colors.red,
                   iconColor: AppTheme.colors.red),
             ),
+            const SizedBox(height: 56),
           ],
         ),
       ),

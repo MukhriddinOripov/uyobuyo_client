@@ -10,4 +10,5 @@ class AppImages {
   static const String deliveryImage = 'assets/images/delivery_image.svg';
   static const String indicator = 'assets/images/indicator.png';
   static const String successImage = 'assets/images/success_image.png';
+  static const String noImage = 'assets/images/no_image.png';
 }

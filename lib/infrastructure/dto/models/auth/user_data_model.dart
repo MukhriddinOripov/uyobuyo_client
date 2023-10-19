@@ -17,9 +17,9 @@ class UserData {
   final dynamic id;
   final String login;
   final String phoneNumber;
-  final String name;
+  final String? name;
   final String role;
-  final String gender;
+  final String? gender;
   final bool active;
   final String language;
   final dynamic hasActiveOrder;

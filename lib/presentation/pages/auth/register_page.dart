@@ -252,9 +252,12 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                     name: context.loc.create,
                     onPressed: () {
                       if (formKey.currentState?.validate() ?? false) {
+                        String year = dateController.text.substring(6, 10);
+                        String month = dateController.text.substring(3, 5);
+                        String day = dateController.text.substring(0, 2);
                         context.read<AuthBloc>().add(AuthEvent.register(
                             name: fullNameController.text,
-                            birthDate: dateController.text,
+                            birthDate: "$year-$month-$day",
                             gender: genderController.text == context.loc.man ? "MALE" : "FEMALE",
                             city: "Tashkent"));
                       }

@@ -24,26 +24,18 @@ class InputValidations {
       month = 99;
       day = 99;
     } else {
-      year = int.parse(input.substring(0, 4));
-      month = int.parse(input.substring(5, 7));
-      day = int.parse(input.substring(8, 10));
+      year = int.parse(input.substring(6, 10));
+      month = int.parse(input.substring(3, 5));
+      day = int.parse(input.substring(0, 2));
     }
-
     int nowYear = DateTime.now().year;
-    print("line $year year");
-    print("line $month month");
-    print("line $day day");
-    print("line ${input.length} day");
     if (input.isEmpty) {
       return left(InputFailures.empty(input));
     } else if (input.length < 10 || year < 1900 || month > 12 || day > 31 || year > nowYear) {
-      print("line false");
       return left(InputFailures.invalidPhone(input));
     } else if (input.length == 10 && year > 1900 && month < 12 && day <= 31 && year <= nowYear) {
-      print("line true");
       return right(input);
     } else {
-      print("line or");
       return left(InputFailures.invalidPhone(input));
     }
   }

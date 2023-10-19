@@ -44,7 +44,7 @@ class AuthRepository implements IAuth {
   @override
   Future<UpdateImage> updateImage({required FormData image}) async {
     try {
-      final Response response = await NetworkProvider.dio.put(
+      final Response response = await NetworkProvider.dio.post(
         NetworkProvider.routes.updateProfileImage,
         options: Options(headers: {'Content-Type': 'multipart/form-data'}),
         data: image,

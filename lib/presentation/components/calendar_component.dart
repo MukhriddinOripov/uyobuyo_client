@@ -23,7 +23,7 @@ Future<void> calendarComponent({
       ),
     ),
     builder: (context) {
-      final DateFormat formatter = DateFormat('yyyy-MM-dd', context.loc.localeName);
+      final DateFormat formatter = DateFormat('dd.MM.yyyy', context.loc.localeName);
       return StatefulBuilder(
         builder: (context, setState) => Container(
           padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 12, bottom: 32.h),

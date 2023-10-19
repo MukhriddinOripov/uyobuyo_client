@@ -5,10 +5,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uyobuyo_client/application/select_address/select_address_cubit.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/reverse_lat_lang_model.dart';
 import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
+import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class ChooseLocationInMapPage extends StatefulWidget {
@@ -334,6 +336,20 @@ class _ChooseLocationInMapPageState extends State<ChooseLocationInMapPage> {
                             )
                           ],
                         ),
+                      ),
+                      const SizedBox(height: 24),
+                      MainButtonComponent(
+                        name: context.loc.proceed,
+                        onPressed: () {
+                          context.read<SelectAddressCubit>().getAddress(
+                                address: currentLocationName,
+                                subAddress: fullLocationName != null
+                                    ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                                    : '',
+                                isFrom: indicatorColor == AppTheme.colors.dark,
+                              );
+                          context.pop();
+                        },
                       ),
                       const SizedBox(height: 24),
                     ],
