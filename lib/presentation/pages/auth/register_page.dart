@@ -46,7 +46,6 @@ class _RegisterPageState extends BaseState<RegisterPage> {
         setState(() {});
       });
     }
-    calledSelectGender();
     super.initState();
   }
 
@@ -56,35 +55,6 @@ class _RegisterPageState extends BaseState<RegisterPage> {
     for (var node in _focusNodes) {
       node.dispose();
     }
-  }
-
-  calledSelectGender() {
-    _focusNodes[3].addListener(() {
-      if (_focusNodes[3].hasFocus) {
-        selectGenderComponent(
-          context: context,
-          selectedGender: (val) {
-            genderController.text = val;
-            setState(() {});
-          },
-        ).then(
-          (value) => FocusManager.instance.primaryFocus?.unfocus(),
-        );
-      }
-    });
-    _focusNodes[0].addListener(() async {
-      if (_focusNodes[0].hasFocus) {
-        await showImageTypeComponent(
-            context: context,
-            valueChanged: (value) async {
-              if (value) {
-                await _onImageButtonPressed(ImageSource.gallery, context: context);
-              } else {
-                await _onImageButtonPressed(ImageSource.camera, context: context);
-              }
-            }).then((value) => FocusManager.instance.primaryFocus?.unfocus());
-      }
-    });
   }
 
   @override
@@ -121,43 +91,44 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                TextFieldComponent(
-                  title: context.loc.photo,
-                  focusNode: _focusNodes[0],
-                  controller: imageController,
-                  readOnly: true,
-                  hint: context.loc.enter_photo,
-                  textInputAction: TextInputAction.next,
-                  textInputType: TextInputType.text,
-                  suffixWidget: GestureDetector(
-                    onTap: () async {
-                      await showImageTypeComponent(
-                          context: context,
-                          valueChanged: (value) async {
-                            if (value) {
-                              await _onImageButtonPressed(ImageSource.gallery, context: context);
-                            } else {
-                              await _onImageButtonPressed(ImageSource.camera, context: context);
-                            }
-                          });
-                    },
-                    child: SvgPicture.asset(
+                GestureDetector(
+                  onTap: () async {
+                    await showImageTypeComponent(
+                        context: context,
+                        valueChanged: (value) async {
+                          if (value) {
+                            await _onImageButtonPressed(ImageSource.gallery, context: context);
+                          } else {
+                            await _onImageButtonPressed(ImageSource.camera, context: context);
+                          }
+                        });
+                  },
+                  child: TextFieldComponent(
+                    key: formKey,
+                    title: context.loc.photo,
+                    controller: imageController,
+                    readOnly: true,
+                    hint: context.loc.enter_photo,
+                    textInputAction: TextInputAction.next,
+                    textInputType: TextInputType.text,
+                    suffixWidget: SvgPicture.asset(
                       AppIcons.attach,
-                      color: _focusNodes[0].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
+                      color: AppTheme.colors.black60,
                     ),
-                  ),
-                  validator: (v) => InputValidations.defaultV(v ?? '').fold(
-                    (l) => l.maybeMap(
-                      empty: (_) => "Выберите свой фото",
-                      orElse: () => null,
+                    validator: (v) => InputValidations.defaultV(v ?? '').fold(
+                      (l) => l.maybeMap(
+                        empty: (_) => "Выберите свой фото",
+                        orElse: () => null,
+                      ),
+                      (r) => null,
                     ),
-                    (r) => null,
                   ),
                 ),
                 const SizedBox(height: 16),
                 TextFieldComponent(
+                  key: formKey,
                   title: context.loc.full_name,
-                  focusNode: _focusNodes[1],
+                  focusNode: _focusNodes[0],
                   controller: fullNameController,
                   hint: context.loc.enter_full_name,
                   onFieldSubmitted: (val) {},
@@ -173,8 +144,9 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                 ),
                 const SizedBox(height: 16),
                 TextFieldComponent(
+                  key: formKey,
                   title: context.loc.bright_day,
-                  focusNode: _focusNodes[2],
+                  focusNode: _focusNodes[1],
                   controller: dateController,
                   inputFormatters: [mDate],
                   hint: "ХХ.XX.XXXX",
@@ -191,7 +163,7 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                     },
                     child: SvgPicture.asset(
                       AppIcons.calendar,
-                      color: _focusNodes[2].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
+                      color: _focusNodes[1].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
                     ),
                   ),
                   validator: (v) => InputValidations.dateV(v ?? '').fold(
@@ -204,35 +176,35 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                TextFieldComponent(
-                  title: context.loc.gender,
-                  focusNode: _focusNodes[3],
-                  controller: genderController,
-                  readOnly: true,
-                  hint: context.loc.enter_sex,
-                  onFieldSubmitted: (val) {},
-                  textInputAction: TextInputAction.done,
-                  textInputType: TextInputType.text,
-                  suffixWidget: GestureDetector(
-                    onTap: () {
-                      selectGenderComponent(
-                        context: context,
-                        selectedGender: (val) {
-                          genderController.text = val;
-                        },
-                      );
-                    },
-                    child: Icon(
+                GestureDetector(
+                  onTap: () {
+                    selectGenderComponent(
+                      context: context,
+                      selectedGender: (val) {
+                        genderController.text = val;
+                      },
+                    );
+                  },
+                  child: TextFieldComponent(
+                    key: formKey,
+                    title: context.loc.gender,
+                    controller: genderController,
+                    readOnly: true,
+                    hint: context.loc.enter_sex,
+                    onFieldSubmitted: (val) {},
+                    textInputAction: TextInputAction.done,
+                    textInputType: TextInputType.text,
+                    suffixWidget: Icon(
                       Icons.arrow_forward_ios,
-                      color: _focusNodes[3].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
+                      color: AppTheme.colors.black60,
                     ),
-                  ),
-                  validator: (v) => InputValidations.defaultV(v ?? '').fold(
-                    (l) => l.maybeMap(
-                      empty: (_) => "Выберите свой пол",
-                      orElse: () => null,
+                    validator: (v) => InputValidations.defaultV(v ?? '').fold(
+                      (l) => l.maybeMap(
+                        empty: (_) => "Выберите свой пол",
+                        orElse: () => null,
+                      ),
+                      (r) => null,
                     ),
-                    (r) => null,
                   ),
                 ),
                 const Spacer(),
