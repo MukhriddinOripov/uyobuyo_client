@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:nominatim_geocoding/nominatim_geocoding.dart';
 import 'package:provider/provider.dart';
 import 'package:uyobuyo_client/application/app_manager/app_manager_cubit.dart';
 import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/application/language_provider.dart';
+import 'package:uyobuyo_client/application/main_page_manage/main_bloc.dart';
 import 'package:uyobuyo_client/presentation/pages/app_widget.dart';
-import 'application/select_address/select_address_cubit.dart';
 import 'firebase_options.dart';
 
 late final InternetConnectionChecker customInstance;
@@ -25,6 +26,7 @@ class MyHttpOverrides extends HttpOverrides {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
+  await NominatimGeocoding.init();
   await Firebase.initializeApp(
     name: "uyoBuyo",
     options: DefaultFirebaseOptions.currentPlatform,
@@ -82,7 +84,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           create: (context) => AuthBloc(),
         ),
         BlocProvider(
-          create: (context) => SelectAddressCubit(),
+          create: (context) => MainBloc(),
         ),
       ],
       child: ScreenUtilInit(

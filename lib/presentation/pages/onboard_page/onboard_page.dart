@@ -38,8 +38,7 @@ class _OnboardPageState extends State<OnboardPage> {
         currentLan = "O'z";
         currentLanIndex = 1;
       });
-    }
-    else if(pref.getLanguage == "en") {
+    } else if (pref.getLanguage == "en") {
       setState(() {
         currentLan = "Ўз";
         currentLanIndex = 2;
@@ -60,7 +59,7 @@ class _OnboardPageState extends State<OnboardPage> {
             fit: BoxFit.fill,
           ),
           Positioned(
-            top: MediaQuery.sizeOf(context).height*0.05,
+            top: MediaQuery.sizeOf(context).height * 0.05,
             right: 16,
             child: ElevatedButton(
               onPressed: () {
@@ -139,7 +138,7 @@ class _OnboardPageState extends State<OnboardPage> {
   }
 
   void _showPopupMenu() async {
-    final RelativeRect position = RelativeRect.fromLTRB(MediaQuery.sizeOf(context).width,MediaQuery.sizeOf(context).height*0.05, 16, 0);
+    final RelativeRect position = RelativeRect.fromLTRB(MediaQuery.sizeOf(context).width, MediaQuery.sizeOf(context).height * 0.05, 16, 0);
     await showMenu(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       context: context,

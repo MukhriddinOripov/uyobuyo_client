@@ -23,6 +23,7 @@ dependencies:
   yandex_mapkit: ^3.3.3
   flutter_rating_bar: ^4.0.1
   cached_network_image: ^3.3.0
+  nominatim_geocoding: ^0.0.6
 
 
   # Helpers

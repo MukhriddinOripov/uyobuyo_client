@@ -13,4 +13,9 @@ class AppIcons {
   static const String call = 'assets/icons/call.svg';
   static const String cancel = 'assets/icons/cancel.svg';
   static const String orderDetail = 'assets/icons/order_detail.svg';
+  static const String delete = 'assets/icons/delete.svg';
+  static const String language = 'assets/icons/language.svg';
+  static const String notification = 'assets/icons/notification.svg';
+  static const String agree = 'assets/icons/agree_icon.svg';
+  static const String message = 'assets/icons/message-notif.svg';
 }

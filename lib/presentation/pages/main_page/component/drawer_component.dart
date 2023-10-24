@@ -33,72 +33,82 @@ class _DrawerComponentState extends State<DrawerComponent> {
                 return state.maybeWhen(
                     loadedUserData: (data) => Padding(
                           padding: EdgeInsets.only(right: kPaddingDefault.w, left: kPaddingDefault.w),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 48.w,
-                                width: 48.w,
-                                decoration: const BoxDecoration(color: Colors.transparent, shape: BoxShape.circle),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(kBorderRadiusDefault.r),
-                                  child: CachedNetworkImage(
-                                    imageUrl: data.imageUrl ?? '',
-                                    imageBuilder: (context, imageProvider) => Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    placeholder: (context, url) => Container(
-                                      height: 48.w,
-                                      width: 48.w,
-                                      padding: const EdgeInsets.all(10),
-                                      child: const CircularProgressIndicator(),
-                                    ),
-                                    errorWidget: (context, url, error) => Center(
-                                      child: Container(
-                                        width: 48,
-                                        height: 48,
-                                        padding: const EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(color: AppTheme.colors.black20),
-                                        ),
-                                        child: Container(
-                                          decoration: const BoxDecoration(
+                          child: GestureDetector(
+                            onTap: () {
+                              context.pushNamed(Routes.profileDetailModule.name);
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 48.w,
+                                    width: 48.w,
+                                    decoration: const BoxDecoration(color: Colors.transparent, shape: BoxShape.circle),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(kBorderRadiusDefault.r),
+                                      child: CachedNetworkImage(
+                                        imageUrl: data.imageUrl ?? '',
+                                        imageBuilder: (context, imageProvider) => Container(
+                                          decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
-                                              image: AssetImage(AppImages.noImage),
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        placeholder: (context, url) => Container(
+                                          height: 48.w,
+                                          width: 48.w,
+                                          padding: const EdgeInsets.all(10),
+                                          child: const CircularProgressIndicator(),
+                                        ),
+                                        errorWidget: (context, url, error) => Center(
+                                          child: Container(
+                                            width: 48,
+                                            height: 48,
+                                            padding: const EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(color: AppTheme.colors.black20),
+                                            ),
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                  image: AssetImage(AppImages.noImage),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(data.name ?? '', style: AppTheme.data.textTheme.headlineMedium),
-                                  SizedBox(height: 4.h),
-                                  Text(
-                                    data.phoneNumber,
-                                    style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
-                                  ),
-                                  SizedBox(height: 4.h),
-                                  Text(
-                                    data.login,
-                                    style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.primary),
-                                  ),
+                                  const SizedBox(width: 12),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(data.name ?? '', style: AppTheme.data.textTheme.headlineMedium),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        data.phoneNumber,
+                                        style: AppTheme.data.textTheme.labelMedium
+                                            ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black60),
+                                      ),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        data.login,
+                                        style: AppTheme.data.textTheme.labelMedium
+                                            ?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.primary),
+                                      ),
+                                    ],
+                                  )
                                 ],
-                              )
-                            ],
+                              ),
+                            ),
                           ),
                         ),
                     orElse: () {
@@ -108,10 +118,30 @@ class _DrawerComponentState extends State<DrawerComponent> {
             ),
             const SizedBox(height: 40),
             Divider(color: AppTheme.colors.black20, height: 0.1),
-            drawerComponent(onTap: () {}, icon: AppIcons.clock, label: context.loc.history_order),
-            drawerComponent(onTap: () {}, icon: AppIcons.setting, label: context.loc.setting),
-            drawerComponent(onTap: () {}, icon: AppIcons.faq, label: context.loc.faq),
-            drawerComponent(onTap: () {}, icon: AppIcons.support, label: context.loc.support_service),
+            drawerComponent(
+                onTap: () {
+                  context.pushNamed(Routes.orderHistoryModule.name);
+                },
+                icon: AppIcons.clock,
+                label: context.loc.history_order),
+            drawerComponent(
+                onTap: () {
+                  context.pushNamed(Routes.settingModule.name);
+                },
+                icon: AppIcons.setting,
+                label: context.loc.setting),
+            drawerComponent(
+                onTap: () {
+                  context.pushNamed(Routes.faqModule.name);
+                },
+                icon: AppIcons.faq,
+                label: context.loc.faq),
+            drawerComponent(
+                onTap: () {
+                  context.pushNamed(Routes.supportModule.name);
+                },
+                icon: AppIcons.support,
+                label: context.loc.support_service),
             drawerComponent(onTap: () {}, icon: AppIcons.info, label: context.loc.info),
             const Spacer(),
             BlocListener<AuthBloc, AuthState>(

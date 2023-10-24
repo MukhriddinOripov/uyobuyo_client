@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uyobuyo_client/application/main_page_manage/main_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
-import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 
 class OrderCancelPage extends StatefulWidget {
   const OrderCancelPage({super.key});
@@ -213,7 +214,10 @@ class _OrderCancelPageState extends State<OrderCancelPage> {
               const Spacer(),
               MainButtonComponent(
                 name: context.loc.proceed,
-                onPressed: () => context.go(Routes.mainPage.path),
+                onPressed: () {
+                  context.pop();
+                  context.read<MainBloc>().add(const MainEvent.initMainPage());
+                },
               ),
             ],
           ),

@@ -1,18 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
+import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
+import 'package:uyobuyo_client/presentation/components/text_field_component.dart';
 
-Future<void> calendarComponent({
-  required BuildContext context,
-  required Function(String val) selectedDate,
-}) {
-  DateTime date = DateTime.now();
-
-  DateTime todayDate = DateTime.now();
-
+Future<void> putCommentDialog({required BuildContext context}) {
   return showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -23,7 +16,6 @@ Future<void> calendarComponent({
       ),
     ),
     builder: (context) {
-      final DateFormat formatter = DateFormat('dd MMMM yyyy', context.loc.localeName);
       return StatefulBuilder(
         builder: (context, setState) => Container(
           padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 12, bottom: 32.h),
@@ -60,38 +52,23 @@ Future<void> calendarComponent({
                     ),
                   ),
                   Text(
-                    context.loc.bright_day,
+                    "Дополнительно",
                     style: AppTheme.data.textTheme.titleLarge,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      if (date.isBefore(todayDate)) {
-                        selectedDate(formatter.format(date).toString());
-                      }
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      context.loc.choose,
-                      style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
-                    ),
-                  )
+                  const SizedBox(width: 32),
                 ],
               ),
-              const SizedBox(height: 16),
-              SizedBox(
-                height: 220.h,
-                child: CupertinoDatePicker(
-                  key: UniqueKey(),
-                  maximumDate: DateTime(DateTime.now().year + 1),
-                  minimumYear: DateTime.now().year - 100,
-                  maximumYear: DateTime.now().year,
-                  mode: CupertinoDatePickerMode.date,
-                  dateOrder: DatePickerDateOrder.dmy,
-                  initialDateTime: todayDate,
-                  onDateTimeChanged: (DateTime newDateTime) {
-                    date = newDateTime;
-                  },
-                ),
+              const SizedBox(height: 28),
+              const TextFieldComponent(
+                maxLines: 5,
+                hint: "Напишите комментарий к заказу",
+                textInputAction: TextInputAction.done,
+                textInputType: TextInputType.text,
+              ),
+              SizedBox(height: 32.h),
+              MainButtonComponent(
+                name: "Отправить",
+                onPressed: () => Navigator.pop(context),
               ),
             ],
           ),

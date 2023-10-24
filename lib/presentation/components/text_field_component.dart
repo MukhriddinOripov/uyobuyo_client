@@ -29,6 +29,7 @@ class TextFieldComponent extends StatelessWidget {
   final Color? colorSuffixSvgIcon;
   final Color? titleColor;
   final double? paddingPrefix;
+  final Function()? onTap;
 
   const TextFieldComponent({
     Key? key,
@@ -56,6 +57,7 @@ class TextFieldComponent extends StatelessWidget {
     this.titleColor,
     this.paddingPrefix,
     this.readOnly = false,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -67,13 +69,13 @@ class TextFieldComponent extends StatelessWidget {
           FittedBox(
             child: Text(
               title,
-              style: titleTextStyle ??
-                  AppTheme.data.textTheme.bodySmall?.copyWith(color: titleColor ?? AppTheme.colors.text500),
+              style: titleTextStyle ?? AppTheme.data.textTheme.bodySmall?.copyWith(color: titleColor ?? AppTheme.colors.text500),
             ),
           ),
         if (title.isNotEmpty) const SizedBox(height: 8),
         TextFormField(
           readOnly: readOnly,
+          onTap: onTap,
           controller: controller,
           focusNode: focusNode,
           minLines: minLines,

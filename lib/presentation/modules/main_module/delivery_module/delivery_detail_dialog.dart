@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -9,11 +8,11 @@ import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/presentation/assets/icons.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
-import 'package:uyobuyo_client/presentation/pages/main_page/component/additional_dialog.dart';
-import 'package:uyobuyo_client/presentation/pages/main_page/component/select_count_person.dart';
+import 'package:uyobuyo_client/presentation/modules/main_module/delivery_module/put_comment.dart';
+import 'package:uyobuyo_client/presentation/modules/main_module/delivery_module/register_delivery_dialog.dart';
 import 'package:uyobuyo_client/presentation/pages/main_page/component/select_order_type.dart';
 
-Future<void> orderDetailModalBottomSheetComponent({
+Future<void> deliveryDetailDialog({
   required BuildContext context,
   String? btnTitle,
 }) {
@@ -29,13 +28,7 @@ Future<void> orderDetailModalBottomSheetComponent({
     builder: (context) {
       final DateFormat formatter = DateFormat('dd MMMM', context.loc.localeName);
       String orderType = 'Срочная поездка';
-      String countPerson = 'Вся машина';
-      Map<String, bool> additionalValues = {
-        'nonSmokingDriver': false,
-        'onlyWoman': false,
-        'lotOfLuggage': false,
-      };
-      int countAdditionalValues = 0;
+      String countPerson = 'Коробка';
 
       return StatefulBuilder(
           builder: (context, setState) => SizedBox(
@@ -74,7 +67,7 @@ Future<void> orderDetailModalBottomSheetComponent({
                                 style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
                               )),
                           Text(
-                            "Детали заказа",
+                            "Детали доставка",
                             style: AppTheme.data.textTheme.titleLarge,
                           ),
                           const SizedBox(width: 32)
@@ -277,15 +270,15 @@ Future<void> orderDetailModalBottomSheetComponent({
                               const SizedBox(height: 8),
                               GestureDetector(
                                 onTap: () {
-                                  selectCountPerson(
-                                    context: context,
-                                    initVal: countPerson,
-                                    selectCountPerson: (val) {
-                                      setState(() {
-                                        countPerson = val;
-                                      });
-                                    },
-                                  );
+                                  // selectCountPerson(
+                                  //   context: context,
+                                  //   initVal: countPerson,
+                                  //   selectCountPerson: (val) {
+                                  //     setState(() {
+                                  //       countPerson = val;
+                                  //     });
+                                  //   },
+                                  // );
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
@@ -311,53 +304,25 @@ Future<void> orderDetailModalBottomSheetComponent({
                               const SizedBox(height: 16),
                               InkWell(
                                 onTap: () {
-                                  additionalDialog(
-                                    context: context,
-                                    initVal: additionalValues,
-                                    selectAdditional: (val) {
-                                      setState(() {
-                                        additionalValues = val;
-                                        if (additionalValues['nonSmokingDriver'] == true &&
-                                            additionalValues['onlyWoman'] == true &&
-                                            additionalValues['lotOfLuggage'] == true) {
-                                          countAdditionalValues = 3;
-                                        } else if ((additionalValues['nonSmokingDriver'] == true &&
-                                                additionalValues['onlyWoman'] == true &&
-                                                additionalValues['lotOfLuggage'] == false) ||
-                                            (additionalValues['nonSmokingDriver'] == true &&
-                                                additionalValues['onlyWoman'] == false &&
-                                                additionalValues['lotOfLuggage'] == true) ||
-                                            (additionalValues['nonSmokingDriver'] == false &&
-                                                additionalValues['onlyWoman'] == true &&
-                                                additionalValues['lotOfLuggage'] == true)) {
-                                          countAdditionalValues = 2;
-                                        } else if (additionalValues['nonSmokingDriver'] == true ||
-                                            additionalValues['onlyWoman'] == true ||
-                                            additionalValues['lotOfLuggage'] == true) {
-                                          countAdditionalValues = 1;
-                                        } else {
-                                          countAdditionalValues = 0;
-                                        }
-                                      });
-                                    },
-                                  );
+                                  putCommentDialog(context: context);
                                 },
                                 child: Column(
                                   children: [
+                                    Divider(color: AppTheme.colors.black20, height: 0.1),
                                     Container(
                                       color: Colors.transparent,
                                       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
                                       child: Row(
                                         children: [
                                           SvgPicture.asset(
-                                            AppIcons.faq,
+                                            AppIcons.message,
                                             width: 24,
                                             height: 24,
                                             color: AppTheme.colors.black80,
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            countAdditionalValues != 0 ? "$countAdditionalValues Услуги" : "Дополнительно",
+                                            "Комментарий",
                                             style: AppTheme.data.textTheme.bodySmall
                                                 ?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
                                           ),
@@ -390,11 +355,9 @@ Future<void> orderDetailModalBottomSheetComponent({
                       ),
                       SizedBox(height: 12.h),
                       MainButtonComponent(
-                        name: "Заказать",
+                        name: "Продолжить",
                         onPressed: () {
-                          context.read<MainBloc>().add(const MainEvent.createOrder());
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                          registerDeliveryDialog(context: context);
                         },
                       ),
                     ],

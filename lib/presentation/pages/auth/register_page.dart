@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/input_masks.dart';
@@ -59,6 +60,8 @@ class _RegisterPageState extends BaseState<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final DateFormat formatter = DateFormat('dd.MM.yyyy', context.loc.localeName);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -91,7 +94,7 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                GestureDetector(
+                TextFieldComponent(
                   onTap: () async {
                     await showImageTypeComponent(
                         context: context,
@@ -103,30 +106,26 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                           }
                         });
                   },
-                  child: TextFieldComponent(
-                    key: formKey,
-                    title: context.loc.photo,
-                    controller: imageController,
-                    readOnly: true,
-                    hint: context.loc.enter_photo,
-                    textInputAction: TextInputAction.next,
-                    textInputType: TextInputType.text,
-                    suffixWidget: SvgPicture.asset(
-                      AppIcons.attach,
-                      color: AppTheme.colors.black60,
+                  title: context.loc.photo,
+                  controller: imageController,
+                  readOnly: true,
+                  hint: context.loc.enter_photo,
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.text,
+                  suffixWidget: SvgPicture.asset(
+                    AppIcons.attach,
+                    color: AppTheme.colors.black60,
+                  ),
+                  validator: (v) => InputValidations.defaultV(v ?? '').fold(
+                    (l) => l.maybeMap(
+                      empty: (_) => "Выберите свой фото",
+                      orElse: () => null,
                     ),
-                    validator: (v) => InputValidations.defaultV(v ?? '').fold(
-                      (l) => l.maybeMap(
-                        empty: (_) => "Выберите свой фото",
-                        orElse: () => null,
-                      ),
-                      (r) => null,
-                    ),
+                    (r) => null,
                   ),
                 ),
                 const SizedBox(height: 16),
                 TextFieldComponent(
-                  key: formKey,
                   title: context.loc.full_name,
                   focusNode: _focusNodes[0],
                   controller: fullNameController,
@@ -144,16 +143,6 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                 ),
                 const SizedBox(height: 16),
                 TextFieldComponent(
-                  key: formKey,
-                  title: context.loc.bright_day,
-                  focusNode: _focusNodes[1],
-                  controller: dateController,
-                  inputFormatters: [mDate],
-                  hint: "ХХ.XX.XXXX",
-                  onFieldSubmitted: (val) {},
-                  textInputAction: TextInputAction.next,
-                  textInputType: TextInputType.number,
-                  suffixWidget: GestureDetector(
                     onTap: () {
                       calendarComponent(
                           context: context,
@@ -161,22 +150,33 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                             dateController.text = date;
                           });
                     },
-                    child: SvgPicture.asset(
-                      AppIcons.calendar,
-                      color: _focusNodes[1].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
+                    readOnly: true,
+                    title: context.loc.bright_day,
+                    focusNode: _focusNodes[1],
+                    controller: dateController,
+                    inputFormatters: [mDate],
+                    hint: "ХХ.XX.XXXX",
+                    onFieldSubmitted: (val) {},
+                    textInputAction: TextInputAction.next,
+                    textInputType: TextInputType.number,
+                    suffixWidget: GestureDetector(
+                      child: SvgPicture.asset(
+                        AppIcons.calendar,
+                        color: _focusNodes[1].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
+                      ),
                     ),
-                  ),
-                  validator: (v) => InputValidations.dateV(v ?? '').fold(
-                    (l) => l.maybeMap(
-                      empty: (_) => "Введите свой день рождения",
-                      invalidPhone: (_) => "Неправильная дата",
-                      orElse: () => null,
-                    ),
-                    (r) => null,
-                  ),
-                ),
+                    validator: (v) {
+                      return InputValidations.dateV(formatter.format(DateTime.parse(v ?? DateTime.now().toString())) ).fold(
+                        (l) => l.maybeMap(
+                          empty: (_) => "Введите свой день рождения",
+                          invalidPhone: (_) => "Неправильная дата",
+                          orElse: () => null,
+                        ),
+                        (r) => null,
+                      );
+                    }),
                 const SizedBox(height: 16),
-                GestureDetector(
+                TextFieldComponent(
                   onTap: () {
                     selectGenderComponent(
                       context: context,
@@ -185,26 +185,23 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                       },
                     );
                   },
-                  child: TextFieldComponent(
-                    key: formKey,
-                    title: context.loc.gender,
-                    controller: genderController,
-                    readOnly: true,
-                    hint: context.loc.enter_sex,
-                    onFieldSubmitted: (val) {},
-                    textInputAction: TextInputAction.done,
-                    textInputType: TextInputType.text,
-                    suffixWidget: Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppTheme.colors.black60,
+                  title: context.loc.gender,
+                  controller: genderController,
+                  readOnly: true,
+                  hint: context.loc.enter_sex,
+                  onFieldSubmitted: (val) {},
+                  textInputAction: TextInputAction.done,
+                  textInputType: TextInputType.text,
+                  suffixWidget: Icon(
+                    Icons.arrow_forward_ios,
+                    color: AppTheme.colors.black60,
+                  ),
+                  validator: (v) => InputValidations.defaultV(v ?? '').fold(
+                    (l) => l.maybeMap(
+                      empty: (_) => "Выберите свой пол",
+                      orElse: () => null,
                     ),
-                    validator: (v) => InputValidations.defaultV(v ?? '').fold(
-                      (l) => l.maybeMap(
-                        empty: (_) => "Выберите свой пол",
-                        orElse: () => null,
-                      ),
-                      (r) => null,
-                    ),
+                    (r) => null,
                   ),
                 ),
                 const Spacer(),
@@ -224,14 +221,18 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                     name: context.loc.create,
                     onPressed: () {
                       if (formKey.currentState?.validate() ?? false) {
-                        String year = dateController.text.substring(6, 10);
-                        String month = dateController.text.substring(3, 5);
-                        String day = dateController.text.substring(0, 2);
-                        context.read<AuthBloc>().add(AuthEvent.register(
-                            name: fullNameController.text,
-                            birthDate: "$year-$month-$day",
-                            gender: genderController.text == context.loc.man ? "MALE" : "FEMALE",
-                            city: "Tashkent"));
+                        if (dateController.text.isNotEmpty) {
+                          String year = formatter.format(DateTime.parse(dateController.text)).substring(6, 10);
+                          String month = formatter.format(DateTime.parse(dateController.text)).substring(3, 5);
+                          String day = formatter.format(DateTime.parse(dateController.text)).substring(0, 2);
+                          context.read<AuthBloc>().add(
+                                AuthEvent.register(
+                                    name: fullNameController.text,
+                                    birthDate: "$year-$month-$day",
+                                    gender: genderController.text == context.loc.man ? "MALE" : "FEMALE",
+                                    city: "Tashkent"),
+                              );
+                        }
                       }
                     },
                   ),

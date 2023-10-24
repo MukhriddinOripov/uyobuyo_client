@@ -69,8 +69,9 @@ Future<void> additionalDialog({
                 ],
               ),
               const SizedBox(height: 28),
-              TextFieldComponent(
-                maxLines: 10,
+              const TextFieldComponent(
+                maxLines: 5,
+                hint: "Напишите комментарий к заказу",
                 textInputAction: TextInputAction.done,
                 textInputType: TextInputType.text,
               ),

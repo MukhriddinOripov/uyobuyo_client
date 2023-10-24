@@ -59,22 +59,6 @@ final GoRouter _router = GoRouter(
       ),
     ),
     GoRoute(
-      name: Routes.chooseLocationInMapPage.name,
-      path: Routes.chooseLocationInMapPage.path,
-      pageBuilder: (context, state) => MaterialPage<void>(
-        key: state.pageKey,
-        child: ChooseLocationInMapPage(extra: state.extra),
-      ),
-    ),
-    GoRoute(
-      name: Routes.orderAccepted.name,
-      path: Routes.orderAccepted.path,
-      pageBuilder: (context, state) => MaterialPage<void>(
-        key: state.pageKey,
-        child: const OrderAcceptedPage(),
-      ),
-    ),
-    GoRoute(
       name: Routes.orderDetailAfterCreatePage.name,
       path: Routes.orderDetailAfterCreatePage.path,
       pageBuilder: (context, state) => MaterialPage<void>(
@@ -88,6 +72,70 @@ final GoRouter _router = GoRouter(
       pageBuilder: (context, state) => MaterialPage<void>(
         key: state.pageKey,
         child: const OrderCancelPage(),
+      ),
+    ),
+    GoRoute(
+      name: Routes.orderHistoryModule.name,
+      path: Routes.orderHistoryModule.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const OrderHistoryModule(),
+      ),
+    ),
+    GoRoute(
+      name: Routes.orderHistoryDetailModule.name,
+      path: Routes.orderHistoryDetailModule.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const OrderHistoryDetailModule(),
+      ),
+    ),
+    GoRoute(
+      name: Routes.profileDetailModule.name,
+      path: Routes.profileDetailModule.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const ProfileDetailModule(),
+      ),
+    ),
+    GoRoute(
+      name: Routes.editProfileModule.name,
+      path: Routes.editProfileModule.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child:  EditProfileModule(extra:state.extra),
+      ),
+    ),
+    GoRoute(
+      name: Routes.settingModule.name,
+      path: Routes.settingModule.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const SettingModule(),
+      ),
+    ),
+    GoRoute(
+      name: Routes.supportModule.name,
+      path: Routes.supportModule.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const SupportModule(),
+      ),
+    ),
+    GoRoute(
+      name: Routes.faqModule.name,
+      path: Routes.faqModule.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const FAQModule(),
+      ),
+    ),
+    GoRoute(
+      name: Routes.faqDetailModule.name,
+      path: Routes.faqDetailModule.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const FAQDetailModule(),
       ),
     ),
   ],
