@@ -133,7 +133,7 @@ class _OrderHistoryModuleState extends State<OrderHistoryModule> {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: AppTheme.colors.green,
+                  color: const Color.fromRGBO(25, 138, 77, 1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(

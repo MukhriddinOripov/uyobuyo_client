@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/input_masks.dart';
@@ -60,8 +59,6 @@ class _RegisterPageState extends BaseState<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final DateFormat formatter = DateFormat('dd.MM.yyyy', context.loc.localeName);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -143,6 +140,15 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                 ),
                 const SizedBox(height: 16),
                 TextFieldComponent(
+                  title: context.loc.bright_day,
+                  focusNode: _focusNodes[1],
+                  controller: dateController,
+                  inputFormatters: [DateTextFormatter()],
+                  hint: "ХХ.XX.XXXX",
+                  onFieldSubmitted: (val) {},
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.number,
+                  suffixWidget: GestureDetector(
                     onTap: () {
                       calendarComponent(
                           context: context,
@@ -150,31 +156,20 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                             dateController.text = date;
                           });
                     },
-                    readOnly: true,
-                    title: context.loc.bright_day,
-                    focusNode: _focusNodes[1],
-                    controller: dateController,
-                    inputFormatters: [mDate],
-                    hint: "ХХ.XX.XXXX",
-                    onFieldSubmitted: (val) {},
-                    textInputAction: TextInputAction.next,
-                    textInputType: TextInputType.number,
-                    suffixWidget: GestureDetector(
-                      child: SvgPicture.asset(
-                        AppIcons.calendar,
-                        color: _focusNodes[1].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
-                      ),
+                    child: SvgPicture.asset(
+                      AppIcons.calendar,
+                      color: _focusNodes[1].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
                     ),
-                    validator: (v) {
-                      return InputValidations.dateV(formatter.format(DateTime.parse(v ?? DateTime.now().toString())) ).fold(
-                        (l) => l.maybeMap(
-                          empty: (_) => "Введите свой день рождения",
-                          invalidPhone: (_) => "Неправильная дата",
-                          orElse: () => null,
-                        ),
-                        (r) => null,
-                      );
-                    }),
+                  ),
+                  validator: (v) => InputValidations.dateV(v ?? '').fold(
+                    (l) => l.maybeMap(
+                      empty: (_) => "Введите свой день рождения",
+                      invalidPhone: (_) => "Неправильная дата",
+                      orElse: () => null,
+                    ),
+                    (r) => null,
+                  ),
+                ),
                 const SizedBox(height: 16),
                 TextFieldComponent(
                   onTap: () {
@@ -222,9 +217,9 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                     onPressed: () {
                       if (formKey.currentState?.validate() ?? false) {
                         if (dateController.text.isNotEmpty) {
-                          String year = formatter.format(DateTime.parse(dateController.text)).substring(6, 10);
-                          String month = formatter.format(DateTime.parse(dateController.text)).substring(3, 5);
-                          String day = formatter.format(DateTime.parse(dateController.text)).substring(0, 2);
+                          String year = dateController.text.substring(6, 10);
+                          String month = dateController.text.substring(3, 5);
+                          String day = dateController.text.substring(0, 2);
                           context.read<AuthBloc>().add(
                                 AuthEvent.register(
                                     name: fullNameController.text,

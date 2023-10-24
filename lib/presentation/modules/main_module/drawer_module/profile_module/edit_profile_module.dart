@@ -200,11 +200,11 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
                     title: context.loc.bright_day,
                     focusNode: _focusNodes[1],
                     controller: dateController,
-                    inputFormatters: [mDate],
+                    inputFormatters: [DateTextFormatter()],
                     hint: "ХХ.XX.XXXX",
                     onFieldSubmitted: (val) {},
                     textInputAction: TextInputAction.next,
-                    textInputType: TextInputType.number,
+                    textInputType: TextInputType.datetime,
                     suffixWidget: GestureDetector(
                       onTap: () {
                         calendarComponent(
