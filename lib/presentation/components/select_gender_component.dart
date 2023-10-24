@@ -83,6 +83,7 @@ Future<void> selectGenderComponent({
                     selectedOption = 1;
                     gender = context.loc.man;
                     selectedGender(gender);
+                    Navigator.pop(context);
                   });
                 },
                 title: Text(
@@ -98,6 +99,7 @@ Future<void> selectGenderComponent({
                       selectedOption = value;
                       gender = context.loc.man;
                       selectedGender(gender);
+                      Navigator.pop(context);
                     });
                   },
                 ),
@@ -113,6 +115,7 @@ Future<void> selectGenderComponent({
                     selectedOption = 2;
                     gender = context.loc.woman;
                     selectedGender(gender);
+                    Navigator.pop(context);
                   });
                 },
                 title: Text(
@@ -128,6 +131,7 @@ Future<void> selectGenderComponent({
                       selectedOption = value;
                       gender = context.loc.woman;
                       selectedGender(gender);
+                      Navigator.pop(context);
                     });
                   },
                 ),

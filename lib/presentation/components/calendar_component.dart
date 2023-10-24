@@ -90,6 +90,9 @@ Future<void> calendarComponent({
                   initialDateTime: todayDate,
                   onDateTimeChanged: (DateTime newDateTime) {
                     date = newDateTime;
+                    if (date.isBefore(todayDate)) {
+                      selectedDate(formatter.format(date).toString());
+                    }
                   },
                 ),
               ),
