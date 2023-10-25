@@ -349,15 +349,36 @@ Future<void> orderDetailModalBottomSheetComponent({
                                       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
                                       child: Row(
                                         children: [
-                                          SvgPicture.asset(
-                                            AppIcons.faq,
-                                            width: 24,
-                                            height: 24,
-                                            color: AppTheme.colors.black80,
+                                          Stack(
+                                            children: [
+                                              SvgPicture.asset(
+                                                AppIcons.faq,
+                                                width: 24,
+                                                height: 24,
+                                                color: AppTheme.colors.black80,
+                                              ),
+                                              Positioned(
+                                                right: 0,
+                                                top: 0,
+                                                child: countAdditionalValues != 0
+                                                    ? Container(
+                                                        height: 8,
+                                                        width: 8,
+                                                        decoration: BoxDecoration(color: AppTheme.colors.primary, shape: BoxShape.circle),
+                                                      )
+                                                    : const SizedBox(),
+                                              )
+                                            ],
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
                                             countAdditionalValues != 0 ? "$countAdditionalValues Услуги" : "Дополнительно",
+                                            style: AppTheme.data.textTheme.bodySmall
+                                                ?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
+                                          ),
+                                          const Spacer(),
+                                          Text(
+                                            countAdditionalValues != 0 ? "+25 000 UZS" : "",
                                             style: AppTheme.data.textTheme.bodySmall
                                                 ?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
                                           ),

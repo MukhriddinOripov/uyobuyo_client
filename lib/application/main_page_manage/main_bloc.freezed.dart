@@ -19,7 +19,7 @@ mixin _$MainEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String? whereFrom) initMainPage,
+    required TResult Function(String? whereFrom, bool? chooseMap) initMainPage,
     required TResult Function(bool whereTo) chooseAddressInMap,
     required TResult Function() createOrder,
   }) =>
@@ -27,7 +27,7 @@ mixin _$MainEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String? whereFrom)? initMainPage,
+    TResult? Function(String? whereFrom, bool? chooseMap)? initMainPage,
     TResult? Function(bool whereTo)? chooseAddressInMap,
     TResult? Function()? createOrder,
   }) =>
@@ -35,7 +35,7 @@ mixin _$MainEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String? whereFrom)? initMainPage,
+    TResult Function(String? whereFrom, bool? chooseMap)? initMainPage,
     TResult Function(bool whereTo)? chooseAddressInMap,
     TResult Function()? createOrder,
     required TResult orElse(),
@@ -124,7 +124,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String? whereFrom) initMainPage,
+    required TResult Function(String? whereFrom, bool? chooseMap) initMainPage,
     required TResult Function(bool whereTo) chooseAddressInMap,
     required TResult Function() createOrder,
   }) {
@@ -135,7 +135,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String? whereFrom)? initMainPage,
+    TResult? Function(String? whereFrom, bool? chooseMap)? initMainPage,
     TResult? Function(bool whereTo)? chooseAddressInMap,
     TResult? Function()? createOrder,
   }) {
@@ -146,7 +146,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String? whereFrom)? initMainPage,
+    TResult Function(String? whereFrom, bool? chooseMap)? initMainPage,
     TResult Function(bool whereTo)? chooseAddressInMap,
     TResult Function()? createOrder,
     required TResult orElse(),
@@ -205,7 +205,7 @@ abstract class _$$InitMainPageImplCopyWith<$Res> {
           _$InitMainPageImpl value, $Res Function(_$InitMainPageImpl) then) =
       __$$InitMainPageImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String? whereFrom});
+  $Res call({String? whereFrom, bool? chooseMap});
 }
 
 /// @nodoc
@@ -220,12 +220,17 @@ class __$$InitMainPageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? whereFrom = freezed,
+    Object? chooseMap = freezed,
   }) {
     return _then(_$InitMainPageImpl(
       whereFrom: freezed == whereFrom
           ? _value.whereFrom
           : whereFrom // ignore: cast_nullable_to_non_nullable
               as String?,
+      chooseMap: freezed == chooseMap
+          ? _value.chooseMap
+          : chooseMap // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -233,14 +238,16 @@ class __$$InitMainPageImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InitMainPageImpl implements _InitMainPage {
-  const _$InitMainPageImpl({this.whereFrom});
+  const _$InitMainPageImpl({this.whereFrom, this.chooseMap});
 
   @override
   final String? whereFrom;
+  @override
+  final bool? chooseMap;
 
   @override
   String toString() {
-    return 'MainEvent.initMainPage(whereFrom: $whereFrom)';
+    return 'MainEvent.initMainPage(whereFrom: $whereFrom, chooseMap: $chooseMap)';
   }
 
   @override
@@ -249,11 +256,13 @@ class _$InitMainPageImpl implements _InitMainPage {
         (other.runtimeType == runtimeType &&
             other is _$InitMainPageImpl &&
             (identical(other.whereFrom, whereFrom) ||
-                other.whereFrom == whereFrom));
+                other.whereFrom == whereFrom) &&
+            (identical(other.chooseMap, chooseMap) ||
+                other.chooseMap == chooseMap));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, whereFrom);
+  int get hashCode => Object.hash(runtimeType, whereFrom, chooseMap);
 
   @JsonKey(ignore: true)
   @override
@@ -265,35 +274,35 @@ class _$InitMainPageImpl implements _InitMainPage {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String? whereFrom) initMainPage,
+    required TResult Function(String? whereFrom, bool? chooseMap) initMainPage,
     required TResult Function(bool whereTo) chooseAddressInMap,
     required TResult Function() createOrder,
   }) {
-    return initMainPage(whereFrom);
+    return initMainPage(whereFrom, chooseMap);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String? whereFrom)? initMainPage,
+    TResult? Function(String? whereFrom, bool? chooseMap)? initMainPage,
     TResult? Function(bool whereTo)? chooseAddressInMap,
     TResult? Function()? createOrder,
   }) {
-    return initMainPage?.call(whereFrom);
+    return initMainPage?.call(whereFrom, chooseMap);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String? whereFrom)? initMainPage,
+    TResult Function(String? whereFrom, bool? chooseMap)? initMainPage,
     TResult Function(bool whereTo)? chooseAddressInMap,
     TResult Function()? createOrder,
     required TResult orElse(),
   }) {
     if (initMainPage != null) {
-      return initMainPage(whereFrom);
+      return initMainPage(whereFrom, chooseMap);
     }
     return orElse();
   }
@@ -337,9 +346,11 @@ class _$InitMainPageImpl implements _InitMainPage {
 }
 
 abstract class _InitMainPage implements MainEvent {
-  const factory _InitMainPage({final String? whereFrom}) = _$InitMainPageImpl;
+  const factory _InitMainPage(
+      {final String? whereFrom, final bool? chooseMap}) = _$InitMainPageImpl;
 
   String? get whereFrom;
+  bool? get chooseMap;
   @JsonKey(ignore: true)
   _$$InitMainPageImplCopyWith<_$InitMainPageImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -411,7 +422,7 @@ class _$ChooseAddressInMapImpl implements _ChooseAddressInMap {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String? whereFrom) initMainPage,
+    required TResult Function(String? whereFrom, bool? chooseMap) initMainPage,
     required TResult Function(bool whereTo) chooseAddressInMap,
     required TResult Function() createOrder,
   }) {
@@ -422,7 +433,7 @@ class _$ChooseAddressInMapImpl implements _ChooseAddressInMap {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String? whereFrom)? initMainPage,
+    TResult? Function(String? whereFrom, bool? chooseMap)? initMainPage,
     TResult? Function(bool whereTo)? chooseAddressInMap,
     TResult? Function()? createOrder,
   }) {
@@ -433,7 +444,7 @@ class _$ChooseAddressInMapImpl implements _ChooseAddressInMap {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String? whereFrom)? initMainPage,
+    TResult Function(String? whereFrom, bool? chooseMap)? initMainPage,
     TResult Function(bool whereTo)? chooseAddressInMap,
     TResult Function()? createOrder,
     required TResult orElse(),
@@ -531,7 +542,7 @@ class _$CreateOrderImpl implements _CreateOrder {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String? whereFrom) initMainPage,
+    required TResult Function(String? whereFrom, bool? chooseMap) initMainPage,
     required TResult Function(bool whereTo) chooseAddressInMap,
     required TResult Function() createOrder,
   }) {
@@ -542,7 +553,7 @@ class _$CreateOrderImpl implements _CreateOrder {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String? whereFrom)? initMainPage,
+    TResult? Function(String? whereFrom, bool? chooseMap)? initMainPage,
     TResult? Function(bool whereTo)? chooseAddressInMap,
     TResult? Function()? createOrder,
   }) {
@@ -553,7 +564,7 @@ class _$CreateOrderImpl implements _CreateOrder {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String? whereFrom)? initMainPage,
+    TResult Function(String? whereFrom, bool? chooseMap)? initMainPage,
     TResult Function(bool whereTo)? chooseAddressInMap,
     TResult Function()? createOrder,
     required TResult orElse(),
@@ -611,7 +622,7 @@ mixin _$MainState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() initMain,
+    required TResult Function(bool? chooseMap) initMain,
     required TResult Function(bool whereTo) openMapForChooseAddress,
     required TResult Function() openOrder,
   }) =>
@@ -619,7 +630,7 @@ mixin _$MainState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? initMain,
+    TResult? Function(bool? chooseMap)? initMain,
     TResult? Function(bool whereTo)? openMapForChooseAddress,
     TResult? Function()? openOrder,
   }) =>
@@ -627,7 +638,7 @@ mixin _$MainState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? initMain,
+    TResult Function(bool? chooseMap)? initMain,
     TResult Function(bool whereTo)? openMapForChooseAddress,
     TResult Function()? openOrder,
     required TResult orElse(),
@@ -717,7 +728,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() initMain,
+    required TResult Function(bool? chooseMap) initMain,
     required TResult Function(bool whereTo) openMapForChooseAddress,
     required TResult Function() openOrder,
   }) {
@@ -728,7 +739,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? initMain,
+    TResult? Function(bool? chooseMap)? initMain,
     TResult? Function(bool whereTo)? openMapForChooseAddress,
     TResult? Function()? openOrder,
   }) {
@@ -739,7 +750,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? initMain,
+    TResult Function(bool? chooseMap)? initMain,
     TResult Function(bool whereTo)? openMapForChooseAddress,
     TResult Function()? openOrder,
     required TResult orElse(),
@@ -798,6 +809,8 @@ abstract class _$$InitMainImplCopyWith<$Res> {
   factory _$$InitMainImplCopyWith(
           _$InitMainImpl value, $Res Function(_$InitMainImpl) then) =
       __$$InitMainImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({bool? chooseMap});
 }
 
 /// @nodoc
@@ -807,60 +820,85 @@ class __$$InitMainImplCopyWithImpl<$Res>
   __$$InitMainImplCopyWithImpl(
       _$InitMainImpl _value, $Res Function(_$InitMainImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? chooseMap = freezed,
+  }) {
+    return _then(_$InitMainImpl(
+      chooseMap: freezed == chooseMap
+          ? _value.chooseMap
+          : chooseMap // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$InitMainImpl implements _InitMain {
-  const _$InitMainImpl();
+  const _$InitMainImpl({this.chooseMap});
+
+  @override
+  final bool? chooseMap;
 
   @override
   String toString() {
-    return 'MainState.initMain()';
+    return 'MainState.initMain(chooseMap: $chooseMap)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InitMainImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$InitMainImpl &&
+            (identical(other.chooseMap, chooseMap) ||
+                other.chooseMap == chooseMap));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, chooseMap);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InitMainImplCopyWith<_$InitMainImpl> get copyWith =>
+      __$$InitMainImplCopyWithImpl<_$InitMainImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() initMain,
+    required TResult Function(bool? chooseMap) initMain,
     required TResult Function(bool whereTo) openMapForChooseAddress,
     required TResult Function() openOrder,
   }) {
-    return initMain();
+    return initMain(chooseMap);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? initMain,
+    TResult? Function(bool? chooseMap)? initMain,
     TResult? Function(bool whereTo)? openMapForChooseAddress,
     TResult? Function()? openOrder,
   }) {
-    return initMain?.call();
+    return initMain?.call(chooseMap);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? initMain,
+    TResult Function(bool? chooseMap)? initMain,
     TResult Function(bool whereTo)? openMapForChooseAddress,
     TResult Function()? openOrder,
     required TResult orElse(),
   }) {
     if (initMain != null) {
-      return initMain();
+      return initMain(chooseMap);
     }
     return orElse();
   }
@@ -905,7 +943,12 @@ class _$InitMainImpl implements _InitMain {
 }
 
 abstract class _InitMain implements MainState {
-  const factory _InitMain() = _$InitMainImpl;
+  const factory _InitMain({final bool? chooseMap}) = _$InitMainImpl;
+
+  bool? get chooseMap;
+  @JsonKey(ignore: true)
+  _$$InitMainImplCopyWith<_$InitMainImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -976,7 +1019,7 @@ class _$OpenMapForChooseAddressImpl implements _OpenMapForChooseAddress {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() initMain,
+    required TResult Function(bool? chooseMap) initMain,
     required TResult Function(bool whereTo) openMapForChooseAddress,
     required TResult Function() openOrder,
   }) {
@@ -987,7 +1030,7 @@ class _$OpenMapForChooseAddressImpl implements _OpenMapForChooseAddress {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? initMain,
+    TResult? Function(bool? chooseMap)? initMain,
     TResult? Function(bool whereTo)? openMapForChooseAddress,
     TResult? Function()? openOrder,
   }) {
@@ -998,7 +1041,7 @@ class _$OpenMapForChooseAddressImpl implements _OpenMapForChooseAddress {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? initMain,
+    TResult Function(bool? chooseMap)? initMain,
     TResult Function(bool whereTo)? openMapForChooseAddress,
     TResult Function()? openOrder,
     required TResult orElse(),
@@ -1097,7 +1140,7 @@ class _$OpenOrderImpl implements _OpenOrder {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() initMain,
+    required TResult Function(bool? chooseMap) initMain,
     required TResult Function(bool whereTo) openMapForChooseAddress,
     required TResult Function() openOrder,
   }) {
@@ -1108,7 +1151,7 @@ class _$OpenOrderImpl implements _OpenOrder {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? initMain,
+    TResult? Function(bool? chooseMap)? initMain,
     TResult? Function(bool whereTo)? openMapForChooseAddress,
     TResult? Function()? openOrder,
   }) {
@@ -1119,7 +1162,7 @@ class _$OpenOrderImpl implements _OpenOrder {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? initMain,
+    TResult Function(bool? chooseMap)? initMain,
     TResult Function(bool whereTo)? openMapForChooseAddress,
     TResult Function()? openOrder,
     required TResult orElse(),

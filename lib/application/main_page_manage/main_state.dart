@@ -4,7 +4,7 @@ part of 'main_bloc.dart';
 class MainState with _$MainState {
   const factory MainState.initial() = _Initial;
 
-  const factory MainState.initMain() = _InitMain;
+  const factory MainState.initMain({bool? chooseMap }) = _InitMain;
 
   const factory MainState.openMapForChooseAddress({required bool whereTo}) = _OpenMapForChooseAddress;
 

@@ -21,13 +21,13 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
   Future _initMainPage(_InitMainPage event, Emitter<MainState> emit) async {
     try {
-      emit(const MainState.initMain());
+      emit(MainState.initMain(chooseMap: event.chooseMap));
     } catch (_) {}
   }
 
   Future _chooseAddressInMap(_ChooseAddressInMap event, Emitter<MainState> emit) async {
     try {
-      emit( MainState.openMapForChooseAddress(whereTo: event.whereTo));
+      emit(MainState.openMapForChooseAddress(whereTo: event.whereTo));
     } catch (_) {}
   }
 

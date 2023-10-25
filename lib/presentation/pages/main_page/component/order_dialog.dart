@@ -14,7 +14,8 @@ import 'package:uyobuyo_client/presentation/components/text_field_component.dart
 Future<void> orderModalBottomSheetComponent(
     {required BuildContext context, required String title, String? btnTitle, Function()? onTap, String? addressControllerText}) {
   final addressController = TextEditingController();
-  addressController.text = addressControllerText ?? '';
+  addressController.text = addressControllerText ?? (!title.contains('Откуда') ? MainBloc.whereToAddress ?? '' : "");
+  List<SearchAddressResultModel> searchAddress = [];
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -25,7 +26,7 @@ Future<void> orderModalBottomSheetComponent(
       ),
     ),
     builder: (context) {
-      return StatefulBuilder(builder: (context, state) {
+      return StatefulBuilder(builder: (context, setState) {
         return SizedBox(
           height: MediaQuery.sizeOf(context).height * 0.9,
           child: Padding(
@@ -60,13 +61,30 @@ Future<void> orderModalBottomSheetComponent(
                   onFieldSubmitted: (val) async {
                     if (val.isNotEmpty) {
                       if (title.contains('Откуда')) {
-                        print("line 63");
                         MainBloc.whereFromAddress = val;
                       } else {
-                        print("line 65");
                         MainBloc.whereToAddress = val;
                       }
                     }
+                  },
+                  onChanged: (val) async {
+                    searchAddress.clear();
+                    SharedPrefService pref = await SharedPrefService.initialize();
+                    Dio(
+                      BaseOptions(
+                        baseUrl: 'https://nominatim.openstreetmap.org',
+                        responseType: ResponseType.json,
+                        headers: {
+                          "Accept": "application/json",
+                          "Accept-Language": pref.getLanguage,
+                        },
+                      ),
+                    ).get('/search?format=jsonv2&addressdetails=1&q=$val').then((value) async {
+                      print("line 83 ${value.data}");
+                      setState(() {
+                        searchAddress = (value.data as List).map((item) => SearchAddressResultModel.fromJson(item)).toList();
+                      });
+                    });
                   },
                   suffixWidget: TextButton(
                       onPressed: () {
@@ -91,14 +109,46 @@ Future<void> orderModalBottomSheetComponent(
                   ),
                 ),
                 const SizedBox(height: 24),
-                // ListView.builder(
-                //   shrinkWrap: true,
-                //   itemCount: searchAddress.length,
-                //   itemBuilder: (ctx, index) => Text(
-                //     searchAddress[index].displayName,
-                //   ),
-                // ),
-                const Spacer(),
+                Expanded(
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: searchAddress.length,
+                      separatorBuilder: (ctx, index) => Divider(color: AppTheme.colors.black60, height: 0.1),
+                      itemBuilder: (ctx, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (title.contains('Откуда')) {
+                                MainBloc.whereFromAddress =
+                                    "${searchAddress[index].address.houseNumber ?? searchAddress[index].address.historic ?? searchAddress[index].address.aeroway ?? searchAddress[index].address.village ?? searchAddress[index].address.county ?? ''}, ${searchAddress[index].address.county}";
+                                MainBloc.whereFromSubAddress = "${searchAddress[index].address.city}, ${searchAddress[index].address.country}";
+                                addressController.text = MainBloc.whereFromAddress ?? '';
+                              } else {
+                                MainBloc.whereToAddress =
+                                    "${searchAddress[index].address.houseNumber ?? searchAddress[index].address.historic ?? searchAddress[index].address.aeroway ?? searchAddress[index].address.village ?? searchAddress[index].address.county ?? ''}, ${searchAddress[index].address.county}";
+                                MainBloc.whereToSubAddress = "${searchAddress[index].address.city}, ${searchAddress[index].address.country}";
+                                addressController.text = MainBloc.whereToAddress ?? '';
+                              }
+                            });
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    "${searchAddress[index].address.houseNumber ?? searchAddress[index].address.historic ?? searchAddress[index].address.aeroway ?? searchAddress[index].address.village ?? searchAddress[index].address.county ?? ''}, ${searchAddress[index].address.county}",
+                                    style: AppTheme.data.textTheme.titleLarge),
+                                Text("${searchAddress[index].address.city}, ${searchAddress[index].address.country}",
+                                    style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.black40)),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                ),
                 MainButtonComponent(
                   name: btnTitle ?? context.loc.back,
                   onPressed: onTap ?? () => Navigator.pop(context),
@@ -110,20 +160,4 @@ Future<void> orderModalBottomSheetComponent(
       });
     },
   );
-}
-
-Future getAddressByLatLong({required String address}) async {
-  SharedPrefService pref = await SharedPrefService.initialize();
-  Dio(
-    BaseOptions(
-      baseUrl: 'https://nominatim.openstreetmap.org',
-      // responseType: ResponseType.json,
-      // headers: {
-      //   "Accept": "application/json",
-      //   "Accept-Language": pref.getLanguage,
-      // },
-    ),
-  ).get('/search?format=jsonv2&q=Islom Karimov').then((value) {
-    List<SearchAddressResultModel> searchAddress = value.data.map((item) => SearchAddressResultModel.fromJson(item)).toList();
-  });
 }

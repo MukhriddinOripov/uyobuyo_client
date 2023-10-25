@@ -96,8 +96,11 @@ Future<void> additionalDialog({
                   style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black40),
                 ),
                 trailing: Checkbox(
-                  checkColor: AppTheme.colors.text900,
-                  activeColor: Colors.transparent,
+                  checkColor: AppTheme.colors.white,
+                  activeColor: AppTheme.colors.primary,
+                  side: MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                  ),
                   value: values['nonSmokingDriver'],
                   onChanged: (value) {
                     setState(() {
@@ -125,8 +128,11 @@ Future<void> additionalDialog({
                   style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black40),
                 ),
                 trailing: Checkbox(
-                  checkColor: AppTheme.colors.text900,
-                  activeColor: Colors.transparent,
+                  checkColor: AppTheme.colors.white,
+                  activeColor: AppTheme.colors.primary,
+                  side: MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                  ),
                   value: values['onlyWoman'],
                   onChanged: (value) {
                     setState(() {
@@ -154,8 +160,11 @@ Future<void> additionalDialog({
                   style: AppTheme.data.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400, color: AppTheme.colors.black40),
                 ),
                 trailing: Checkbox(
-                  checkColor: AppTheme.colors.text900,
-                  activeColor: Colors.transparent,
+                  checkColor: AppTheme.colors.white,
+                  activeColor: AppTheme.colors.primary,
+                  side: MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                  ),
                   value: values['lotOfLuggage'],
                   onChanged: (value) {
                     setState(() {

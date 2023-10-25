@@ -85,8 +85,11 @@ class _OrderCancelPageState extends State<OrderCancelPage> {
                   style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 leading: Checkbox(
-                  checkColor: AppTheme.colors.text900,
-                  activeColor: Colors.transparent,
+                  checkColor: AppTheme.colors.white,
+                  activeColor: AppTheme.colors.primary,
+                  side: MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                  ),
                   value: values['driverAskedCancel'],
                   onChanged: (value) {
                     setState(() {
@@ -108,8 +111,11 @@ class _OrderCancelPageState extends State<OrderCancelPage> {
                   style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 leading: Checkbox(
-                  checkColor: AppTheme.colors.text900,
-                  activeColor: Colors.transparent,
+                  checkColor: AppTheme.colors.white,
+                  activeColor: AppTheme.colors.primary,
+                  side: MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                  ),
                   value: values['driverLate'],
                   onChanged: (value) {
                     setState(() {
@@ -131,8 +137,11 @@ class _OrderCancelPageState extends State<OrderCancelPage> {
                   style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 leading: Checkbox(
-                  checkColor: AppTheme.colors.text900,
-                  activeColor: Colors.transparent,
+                  checkColor: AppTheme.colors.white,
+                  activeColor: AppTheme.colors.primary,
+                  side: MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                  ),
                   value: values['lotOfLuggage'],
                   onChanged: (value) {
                     setState(() {
@@ -154,8 +163,11 @@ class _OrderCancelPageState extends State<OrderCancelPage> {
                   style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 leading: Checkbox(
-                  checkColor: AppTheme.colors.text900,
-                  activeColor: Colors.transparent,
+                  checkColor: AppTheme.colors.white,
+                  activeColor: AppTheme.colors.primary,
+                  side: MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                  ),
                   value: values['driverSmokes'],
                   onChanged: (value) {
                     setState(() {
@@ -177,8 +189,11 @@ class _OrderCancelPageState extends State<OrderCancelPage> {
                   style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 leading: Checkbox(
-                  checkColor: AppTheme.colors.text900,
-                  activeColor: Colors.transparent,
+                  checkColor: AppTheme.colors.white,
+                  activeColor: AppTheme.colors.primary,
+                  side: MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                  ),
                   value: values['dissatisfiedCarModel'],
                   onChanged: (value) {
                     setState(() {
@@ -200,8 +215,11 @@ class _OrderCancelPageState extends State<OrderCancelPage> {
                   style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 leading: Checkbox(
-                  checkColor: AppTheme.colors.text900,
-                  activeColor: Colors.transparent,
+                  checkColor: AppTheme.colors.white,
+                  activeColor: AppTheme.colors.primary,
+                  side: MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                  ),
                   value: values['technicalConditionCar'],
                   onChanged: (value) {
                     setState(() {

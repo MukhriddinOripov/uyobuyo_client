@@ -144,8 +144,11 @@ class _CheckPhonePageState extends BaseState<CheckPhonePage> {
                 Row(
                   children: [
                     Checkbox(
-                      checkColor: AppTheme.colors.text900,
-                      activeColor: Colors.transparent,
+                      checkColor: AppTheme.colors.white,
+                      activeColor: AppTheme.colors.primary,
+                      side: MaterialStateBorderSide.resolveWith(
+                            (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                      ),
                       value: isAgree,
                       onChanged: (value) {
                         setState(() {

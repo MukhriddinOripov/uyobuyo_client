@@ -167,8 +167,7 @@ class AppTheme {
           type: BottomNavigationBarType.fixed,
           selectedItemColor: colors.primary,
           unselectedItemColor: colors.text500,
-          selectedLabelStyle: textTheme.labelSmall
-              ?.copyWith(color: AppTheme.colors.primary, fontWeight: FontWeight.w500, fontSize: 10.sp),
+          selectedLabelStyle: textTheme.labelSmall?.copyWith(color: AppTheme.colors.primary, fontWeight: FontWeight.w500, fontSize: 10.sp),
           unselectedLabelStyle: textTheme.labelSmall?.copyWith(fontSize: 10.sp, fontWeight: FontWeight.w500),
           backgroundColor: colors.surface,
         ),
