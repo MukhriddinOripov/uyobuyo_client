@@ -4,12 +4,8 @@ import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 
-Future<void> selectGenderComponent({
-  required BuildContext context,
-  required Function(String val) selectedGender,
-}) {
-  String gender = '';
-  int? selectedOption;
+Future<void> selectGenderComponent({required BuildContext context, required Function(String val) selectedGender, String gender = ''}) {
+  int? selectedOption = gender.isNotEmpty ? (gender.contains(context.loc.man) ? 1 : 2) : null;
   return showModalBottomSheet(
     isScrollControlled: true,
     context: context,

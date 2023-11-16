@@ -140,6 +140,14 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                 ),
                 const SizedBox(height: 16),
                 TextFieldComponent(
+                  onTap: () {
+                    calendarComponent(
+                        context: context,
+                        selectedDate: (date) {
+                          dateController.text = date;
+                        });
+                  },
+                  readOnly: true,
                   title: context.loc.bright_day,
                   focusNode: _focusNodes[1],
                   controller: dateController,
@@ -148,18 +156,9 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                   onFieldSubmitted: (val) {},
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.number,
-                  suffixWidget: GestureDetector(
-                    onTap: () {
-                      calendarComponent(
-                          context: context,
-                          selectedDate: (date) {
-                            dateController.text = date;
-                          });
-                    },
-                    child: SvgPicture.asset(
-                      AppIcons.calendar,
-                      color: _focusNodes[1].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
-                    ),
+                  suffixWidget: SvgPicture.asset(
+                    AppIcons.calendar,
+                    color: _focusNodes[1].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
                   ),
                   validator: (v) => InputValidations.dateV(v ?? '').fold(
                     (l) => l.maybeMap(
@@ -174,11 +173,11 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                 TextFieldComponent(
                   onTap: () {
                     selectGenderComponent(
-                      context: context,
-                      selectedGender: (val) {
-                        genderController.text = val;
-                      },
-                    );
+                        context: context,
+                        selectedGender: (val) {
+                          genderController.text = val;
+                        },
+                        gender: genderController.text);
                   },
                   title: context.loc.gender,
                   controller: genderController,
