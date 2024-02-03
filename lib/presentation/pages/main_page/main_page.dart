@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/application/main_page_manage/main_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
@@ -190,7 +191,6 @@ class _MainPageState extends BaseState<MainPage> {
         children: [
           YandexMap(
             scrollGesturesEnabled: isScrollMap,
-            mapMode: MapMode.transit,
             mapType: MapType.vector,
             mapObjects: mapObjects,
             onMapCreated: (YandexMapController controller) async {
@@ -298,9 +298,10 @@ class _MainPageState extends BaseState<MainPage> {
                               orderModalBottomSheetComponent(
                                   context: context,
                                   title: "Откуда",
-                                  addressControllerText: whereFromAddress != null ? whereFromAddress! : currentLocationName,
+                                  addressControllerText:
+                                      whereFromAddress != null ? whereFromAddress! : currentLocationName,
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    context.pop();
                                   });
                             },
                             onTapTo: () async {
@@ -311,7 +312,7 @@ class _MainPageState extends BaseState<MainPage> {
                                       addressControllerText: whereToAddress,
                                       btnTitle: context.loc.proceed,
                                       onTap: () {
-                                        Navigator.pop(context);
+                                        context.pop();
                                         orderDetailModalBottomSheetComponent(context: context);
                                       })
                                   : orderDetailModalBottomSheetComponent(context: context);
@@ -324,7 +325,7 @@ class _MainPageState extends BaseState<MainPage> {
                                       addressControllerText: whereToAddress,
                                       btnTitle: context.loc.proceed,
                                       onTap: () {
-                                        Navigator.pop(context);
+                                        context.pop();
                                         orderDetailModalBottomSheetComponent(context: context);
                                       })
                                   : orderDetailModalBottomSheetComponent(context: context);
@@ -339,7 +340,11 @@ class _MainPageState extends BaseState<MainPage> {
                     orElse: () => false);
               },
               buildWhen: (prev, current) {
-                return current.maybeWhen(initMain: (_) => true, openMapForChooseAddress: (_) => true, openOrder: () => true, orElse: () => false);
+                return current.maybeWhen(
+                    initMain: (_) => true,
+                    openMapForChooseAddress: (_) => true,
+                    openOrder: () => true,
+                    orElse: () => false);
               },
               builder: (context, state) {
                 return state.maybeWhen(initMain: (_) {
@@ -365,7 +370,8 @@ class _MainPageState extends BaseState<MainPage> {
                         child: Container(
                           padding: const EdgeInsets.all(12),
                           margin: const EdgeInsets.only(right: kPaddingDefault, bottom: 16),
-                          decoration: BoxDecoration(color: AppTheme.colors.white, borderRadius: BorderRadius.circular(12)),
+                          decoration:
+                              BoxDecoration(color: AppTheme.colors.white, borderRadius: BorderRadius.circular(12)),
                           child: const Icon(Icons.my_location),
                         ),
                       ),
@@ -390,9 +396,10 @@ class _MainPageState extends BaseState<MainPage> {
                               orderModalBottomSheetComponent(
                                   context: context,
                                   title: "Откуда",
-                                  addressControllerText: whereFromAddress != null ? whereFromAddress! : currentLocationName,
+                                  addressControllerText:
+                                      whereFromAddress != null ? whereFromAddress! : currentLocationName,
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    context.pop();
                                   });
                             },
                             onTapTo: () {
@@ -404,7 +411,7 @@ class _MainPageState extends BaseState<MainPage> {
                                     title: "Kуда",
                                     btnTitle: context.loc.proceed,
                                     onTap: () {
-                                      Navigator.pop(context);
+                                      context.pop();
                                       orderDetailModalBottomSheetComponent(context: context);
                                     });
                               }
@@ -418,7 +425,7 @@ class _MainPageState extends BaseState<MainPage> {
                                     title: "Kуда",
                                     btnTitle: context.loc.proceed,
                                     onTap: () {
-                                      Navigator.pop(context);
+                                      context.pop();
                                       orderDetailModalBottomSheetComponent(context: context);
                                     });
                               }
@@ -445,7 +452,7 @@ class _MainPageState extends BaseState<MainPage> {
                                     context: context,
                                     title: "Откуда",
                                     onTap: () {
-                                      Navigator.pop(context);
+                                      context.pop();
                                     });
                               },
                               onTapTo: () {
@@ -457,7 +464,7 @@ class _MainPageState extends BaseState<MainPage> {
                                       title: "Kуда",
                                       btnTitle: context.loc.proceed,
                                       onTap: () {
-                                        Navigator.pop(context);
+                                        context.pop();
                                         deliveryDetailDialog(context: context);
                                       });
                                 }
@@ -471,7 +478,7 @@ class _MainPageState extends BaseState<MainPage> {
                                       title: "Kуда",
                                       btnTitle: context.loc.proceed,
                                       onTap: () {
-                                        Navigator.pop(context);
+                                        context.pop();
                                         deliveryDetailDialog(context: context);
                                       });
                                 }

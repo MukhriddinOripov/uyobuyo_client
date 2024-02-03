@@ -64,23 +64,23 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         });
       }
     });
-    Future.delayed(const Duration(milliseconds: 500)).then(
-      (value) => controller1.forward().then(
-            (_) => controller2.forward().then(
-                  (value) => controller3.forward().then(
-                        (value) => Future.delayed(const Duration(milliseconds: 500)).then((value) async {
-                          SharedPrefService prefs = await SharedPrefService.initialize();
-                          String accessToken = prefs.getAccessToken;
-                          if (accessToken.isNotEmpty) {
-                            context.go(Routes.mainPage.path);
-                          } else {
-                            context.go(Routes.onboardPage.path);
-                          }
-                        }),
-                      ),
-                ),
-          ),
-    );
+    performAnimationsAndNavigate(context);
+  }
+
+  Future<void> performAnimationsAndNavigate(BuildContext context) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    await controller1.forward();
+    await controller2.forward();
+    await controller3.forward();
+    await Future.delayed(const Duration(milliseconds: 500));
+    SharedPrefService prefs = await SharedPrefService.initialize();
+    String accessToken = prefs.getAccessToken;
+    if (!context.mounted) return;
+    if (accessToken.isNotEmpty) {
+      context.go(Routes.mainPage.path);
+    } else {
+      context.go(Routes.onboardPage.path);
+    }
   }
 
   @override
