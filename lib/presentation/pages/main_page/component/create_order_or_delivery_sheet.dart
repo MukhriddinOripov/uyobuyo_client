@@ -63,7 +63,7 @@ Future<void> createOrderOrDeliverySheetComponent({
               child: Column(
                 children: [
                   Container(
-                    height: 60,
+                    // height: 60,
                     color: Colors.transparent,
                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
                     child: Row(

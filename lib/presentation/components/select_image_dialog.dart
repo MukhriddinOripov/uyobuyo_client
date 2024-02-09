@@ -16,6 +16,7 @@ Future<void> showImageTypeComponent({required BuildContext context, required Val
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         child: Container(
           height: 290,
+          width: double.infinity,
           decoration: BoxDecoration(
             color: AppTheme.colors.background,
             shape: BoxShape.rectangle,

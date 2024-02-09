@@ -11,7 +11,6 @@ import 'package:uyobuyo_client/application/main_page_manage/main_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/reverse_lat_lang_model.dart';
-import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 import 'package:uyobuyo_client/presentation/assets/icons.dart';
 import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
@@ -127,15 +126,13 @@ class _MainPageState extends BaseState<MainPage> {
   }
 
   Future getAddressByLatLong({required double latitude, required double longitude}) async {
-    SharedPrefService pref = await SharedPrefService.initialize();
-
     Dio(
       BaseOptions(
         baseUrl: 'https://nominatim.openstreetmap.org',
         responseType: ResponseType.json,
         headers: {
           "Accept": "application/json",
-          "Accept-Language": pref.getLanguage,
+          "Accept-Language": context.loc.localeName,
         },
       ),
     ).get('/reverse?format=jsonv2&lat=$latitude&lon=$longitude').then(
@@ -491,12 +488,12 @@ class _MainPageState extends BaseState<MainPage> {
                   if (whereTo) {
                     MainBloc.whereToAddress = currentLocationName;
                     MainBloc.whereToSubAddress = (fullLocationName != null
-                        ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                        ? "${fullLocationName?.address.road} ${fullLocationName?.address.city}"
                         : "");
                   } else {
                     MainBloc.whereFromAddress = currentLocationName;
                     MainBloc.whereFromSubAddress = (fullLocationName != null
-                        ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                        ? "${fullLocationName?.address.road} ${fullLocationName?.address.city}"
                         : "");
                   }
                   return ChooseLocationInMapPage(
@@ -513,7 +510,7 @@ class _MainPageState extends BaseState<MainPage> {
                     },
                     selectAddress: currentLocationName,
                     selectSubAddress: (fullLocationName != null
-                        ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                        ? "${fullLocationName?.address.road ?? ''} ${fullLocationName?.address.city ?? ''}"
                         : ""),
                     indicatorColor: AppTheme.colors.primary,
                   );

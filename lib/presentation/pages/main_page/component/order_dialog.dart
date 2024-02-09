@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,16 +8,20 @@ import 'package:uyobuyo_client/application/main_page_manage/main_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/common/validations/input_validations.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/search_address_model.dart';
-import 'package:uyobuyo_client/infrastructure/services/shared_pref_service.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
 import 'package:uyobuyo_client/presentation/components/text_field_component.dart';
 
 Future<void> orderModalBottomSheetComponent(
-    {required BuildContext context, required String title, String? btnTitle, Function()? onTap, String? addressControllerText}) {
+    {required BuildContext context,
+    required String title,
+    String? btnTitle,
+    Function()? onTap,
+    String? addressControllerText}) {
   final addressController = TextEditingController();
   addressController.text = addressControllerText ?? (!title.contains('Откуда') ? MainBloc.whereToAddress ?? '' : "");
   List<SearchAddressResultModel> searchAddress = [];
+  Timer? debounce;
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -68,23 +74,38 @@ Future<void> orderModalBottomSheetComponent(
                     }
                   },
                   onChanged: (val) async {
-                    searchAddress.clear();
-                    SharedPrefService pref = await SharedPrefService.initialize();
-                    Dio(
-                      BaseOptions(
-                        baseUrl: 'https://nominatim.openstreetmap.org',
-                        responseType: ResponseType.json,
-                        headers: {
-                          "Accept": "application/json",
-                          "Accept-Language": pref.getLanguage,
+                    if (val.isNotEmpty) {
+                      if (debounce?.isActive ?? false) debounce?.cancel();
+                      debounce = Timer(
+                        const Duration(milliseconds: 500),
+                        () async {
+                          searchAddress.clear();
+                          Dio dio = Dio(
+                            BaseOptions(
+                              baseUrl: 'https://nominatim.openstreetmap.org',
+                              responseType: ResponseType.json,
+                              headers: {
+                                "Accept": "application/json",
+                                "Accept-Language": context.loc.localeName,
+                              },
+                            ),
+                          );
+                          try {
+                            var response =
+                                await dio.get('/search?format=jsonv2&addressdetails=1&&countrycodes=uz&q=$val');
+                            print("Response: ${response.data}");
+                            setState(() {
+                              searchAddress = (response.data as List)
+                                  .map((item) => SearchAddressResultModel.fromJson(item))
+                                  .toList();
+                            });
+                          } catch (e) {
+                            print("Error fetching data: $e");
+                            // Handle or log error
+                          }
                         },
-                      ),
-                    ).get('/search?format=jsonv2&addressdetails=1&q=$val').then((value) async {
-                      print("line 83 ${value.data}");
-                      setState(() {
-                        searchAddress = (value.data as List).map((item) => SearchAddressResultModel.fromJson(item)).toList();
-                      });
-                    });
+                      );
+                    }
                   },
                   suffixWidget: TextButton(
                       onPressed: () {
@@ -121,12 +142,14 @@ Future<void> orderModalBottomSheetComponent(
                               if (title.contains('Откуда')) {
                                 MainBloc.whereFromAddress =
                                     "${searchAddress[index].address.houseNumber ?? searchAddress[index].address.historic ?? searchAddress[index].address.aeroway ?? searchAddress[index].address.village ?? searchAddress[index].address.county ?? ''}, ${searchAddress[index].address.county}";
-                                MainBloc.whereFromSubAddress = "${searchAddress[index].address.city}, ${searchAddress[index].address.country}";
+                                MainBloc.whereFromSubAddress =
+                                    "${searchAddress[index].address.city}, ${searchAddress[index].address.country}";
                                 addressController.text = MainBloc.whereFromAddress ?? '';
                               } else {
                                 MainBloc.whereToAddress =
                                     "${searchAddress[index].address.houseNumber ?? searchAddress[index].address.historic ?? searchAddress[index].address.aeroway ?? searchAddress[index].address.village ?? searchAddress[index].address.county ?? ''}, ${searchAddress[index].address.county}";
-                                MainBloc.whereToSubAddress = "${searchAddress[index].address.city}, ${searchAddress[index].address.country}";
+                                MainBloc.whereToSubAddress =
+                                    "${searchAddress[index].address.city}, ${searchAddress[index].address.country}";
                                 addressController.text = MainBloc.whereToAddress ?? '';
                               }
                             });

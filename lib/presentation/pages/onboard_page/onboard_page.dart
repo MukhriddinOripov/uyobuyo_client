@@ -26,7 +26,7 @@ class _OnboardPageState extends State<OnboardPage> {
     super.initState();
   }
 
-  getAppLang() async {
+  void getAppLang() async {
     SharedPrefService pref = await SharedPrefService.initialize();
     if (pref.getLanguage == "ru") {
       setState(() {
@@ -76,7 +76,8 @@ class _OnboardPageState extends State<OnboardPage> {
                 children: [
                   Text(
                     currentLan,
-                    style: AppTheme.data.textTheme.titleSmall?.copyWith(color: AppTheme.colors.black80, fontWeight: FontWeight.w500),
+                    style: AppTheme.data.textTheme.titleSmall
+                        ?.copyWith(color: AppTheme.colors.black80, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(width: 10),
                   Image.asset(currentLanIndex == 0 ? AppImages.flagRu : AppImages.flagUz, width: 28, height: 20),
@@ -138,7 +139,8 @@ class _OnboardPageState extends State<OnboardPage> {
   }
 
   void _showPopupMenu() async {
-    final RelativeRect position = RelativeRect.fromLTRB(MediaQuery.sizeOf(context).width, MediaQuery.sizeOf(context).height * 0.05, 16, 0);
+    final RelativeRect position =
+        RelativeRect.fromLTRB(MediaQuery.sizeOf(context).width, MediaQuery.sizeOf(context).height * 0.05, 16, 0);
     await showMenu(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       context: context,
@@ -183,7 +185,8 @@ class _OnboardPageState extends State<OnboardPage> {
           children: [
             Text(
               language,
-              style: AppTheme.data.textTheme.titleSmall?.copyWith(color: AppTheme.colors.black80, fontWeight: FontWeight.w500),
+              style: AppTheme.data.textTheme.titleSmall
+                  ?.copyWith(color: AppTheme.colors.black80, fontWeight: FontWeight.w500),
             ),
             Image.asset(icon, width: 28, height: 20),
           ],
