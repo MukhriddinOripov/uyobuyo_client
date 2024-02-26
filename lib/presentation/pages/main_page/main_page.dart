@@ -70,16 +70,14 @@ class _MainPageState extends BaseState<MainPage> {
     _checkLocationPermission();
   }
 
-  moveCurrentLocation() async {
-    await yandexMapController.moveCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: Point(latitude: position!.latitude, longitude: position!.longitude),
-          zoom: 16,
+  Future<bool> moveCurrentLocation() async => await yandexMapController.moveCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: Point(latitude: position!.latitude, longitude: position!.longitude),
+            zoom: 16,
+          ),
         ),
-      ),
-    );
-  }
+      );
 
   getCurrentLocation() async {
     final currentPosition = await Geolocator.getCurrentPosition(

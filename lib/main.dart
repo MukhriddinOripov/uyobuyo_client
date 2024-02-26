@@ -9,6 +9,7 @@ import 'package:nominatim_geocoding/nominatim_geocoding.dart';
 import 'package:provider/provider.dart';
 import 'package:uyobuyo_client/application/app_manager/app_manager_cubit.dart';
 import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
+import 'package:uyobuyo_client/application/drawer_manager/drawer_bloc.dart';
 import 'package:uyobuyo_client/application/language_provider.dart';
 import 'package:uyobuyo_client/application/main_page_manage/main_bloc.dart';
 import 'package:uyobuyo_client/presentation/pages/app_widget.dart';
@@ -19,7 +20,8 @@ late final InternetConnectionChecker customInstance;
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -85,6 +87,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ),
         BlocProvider(
           create: (context) => MainBloc(),
+        ),
+        BlocProvider(
+          create: (context) => DrawerBloc(),
         ),
       ],
       child: ScreenUtilInit(

@@ -36,7 +36,7 @@ class _$EmptyImpl extends _Empty {
   final String input;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EmptyImpl &&
@@ -77,7 +77,7 @@ class _$InvalidPhoneImpl extends _InvalidPhone {
   final String input;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InvalidPhoneImpl &&

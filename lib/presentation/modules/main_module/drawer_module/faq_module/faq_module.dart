@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uyobuyo_client/application/drawer_manager/drawer_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
+import 'package:uyobuyo_client/presentation/pages/base_page.dart';
 import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 
-class FAQModule extends StatefulWidget {
+class FAQModule extends BaseScreen {
   const FAQModule({super.key});
 
   @override
-  State<FAQModule> createState() => _FAQModuleModuleState();
+  State<BaseScreen> createState() => _FAQModuleModuleState();
 }
 
-class _FAQModuleModuleState extends State<FAQModule> {
+class _FAQModuleModuleState extends BaseState<FAQModule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,77 +45,55 @@ class _FAQModuleModuleState extends State<FAQModule> {
                 ],
               ),
               const SizedBox(height: 32),
-              Divider(color: AppTheme.colors.black20, height: 0.1),
-              InkWell(
-                onTap: () {
-                  context.pushNamed(Routes.faqDetailModule.name);
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      color: Colors.transparent,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Как оформить заказ?",
-                            style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
-                          ),
-                          const Spacer(),
-                          const Icon(Icons.arrow_forward_outlined)
-                        ],
-                      ),
-                    ),
-                    Divider(color: AppTheme.colors.black20, height: 0.1),
-                  ],
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  context.pushNamed(Routes.faqDetailModule.name);
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      color: Colors.transparent,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Как стать водителем?",
-                            style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
-                          ),
-                          const Spacer(),
-                          const Icon(Icons.arrow_forward_outlined)
-                        ],
-                      ),
-                    ),
-                    Divider(color: AppTheme.colors.black20, height: 0.1),
-                  ],
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  context.pushNamed(Routes.faqDetailModule.name);
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      color: Colors.transparent,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Как оформить заказ на доставку?",
-                            style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
-                          ),
-                          const Spacer(),
-                          const Icon(Icons.arrow_forward_outlined)
-                        ],
-                      ),
-                    ),
-                    Divider(color: AppTheme.colors.black20, height: 0.1),
-                  ],
+              Expanded(
+                child: BlocConsumer<DrawerBloc, DrawerState>(
+                  listener: (context, state) {
+                    state.maybeWhen(
+                        loading: (loading) {
+                          showLoading(needLoading: loading);
+                        },
+                        orElse: () {});
+                  },
+                  buildWhen: (context, state) {
+                    return state.maybeWhen(loading: (val) => true, loadedFAQ: (data) => true, orElse: () => false);
+                  },
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      loadedFAQ: (data) {
+                        if (data!.isNotEmpty) {
+                          return ListView.separated(
+                            itemCount: data.length,
+                            itemBuilder: (ctx, item) => InkWell(
+                              onTap: () {
+                                context.pushNamed(Routes.faqDetailModule.name, extra: {"data": data});
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      data[item].title,
+                                      style: AppTheme.data.textTheme.bodySmall
+                                          ?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
+                                    ),
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_forward_outlined)
+                                  ],
+                                ),
+                              ),
+                            ),
+                            separatorBuilder: (ctx, index) => Divider(color: AppTheme.colors.black20, height: 0.1),
+                          );
+                        } else {
+                          return const Center(
+                            child: Text("Empty"),
+                          );
+                        }
+                      },
+                      orElse: () => const SizedBox(),
+                    );
+                  },
                 ),
               )
             ],

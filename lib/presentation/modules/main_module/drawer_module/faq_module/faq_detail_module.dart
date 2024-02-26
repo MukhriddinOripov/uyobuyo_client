@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
+import 'package:uyobuyo_client/infrastructure/dto/models/drawer/drawel_model.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 
 class FAQDetailModule extends StatefulWidget {
-  const FAQDetailModule({super.key});
+  final DrawerData data;
+
+  const FAQDetailModule({super.key, required this.data});
 
   @override
   State<FAQDetailModule> createState() => _FAQDetailModuleState();

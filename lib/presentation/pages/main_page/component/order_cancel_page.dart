@@ -34,210 +34,212 @@ class _OrderCancelPageState extends State<OrderCancelPage> {
             top: 12.h,
             left: 16.w,
             right: 16.w,
-            bottom: 49.h,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 32.h),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Отмена заказа",
-                      style: AppTheme.data.textTheme.titleLarge,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 32.h),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Отмена заказа",
+                        style: AppTheme.data.textTheme.titleLarge,
+                      ),
+                      SizedBox(height: 48.h),
+                      Image.asset(
+                        AppImages.successImage,
+                        width: 80,
+                        height: 80,
+                      ),
+                      SizedBox(height: 16.h),
+                      Text(
+                        "Заказ отменен!",
+                        style: AppTheme.data.textTheme.headlineMedium,
+                      ),
+                      SizedBox(height: 8.h),
+                      Text(
+                        "Пожалуйста укажите причину отмены заказа чтобы мы могли принять меры",
+                        textAlign: TextAlign.center,
+                        style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black40),
+                      ),
+                      SizedBox(height: 24.h),
+                    ],
+                  ),
+                ),
+                Divider(color: AppTheme.colors.black20, height: 0.1),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  onTap: () {
+                    setState(() {
+                      setState(() {
+                        values['driverAskedCancel'] = !values['driverAskedCancel']!;
+                      });
+                    });
+                  },
+                  title: Text(
+                    "Водитель попросил отменить",
+                    style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
+                  ),
+                  leading: Checkbox(
+                    checkColor: AppTheme.colors.white,
+                    activeColor: AppTheme.colors.primary,
+                    side: MaterialStateBorderSide.resolveWith(
+                      (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
                     ),
-                    SizedBox(height: 48.h),
-                    Image.asset(
-                      AppImages.successImage,
-                      width: 80,
-                      height: 80,
+                    value: values['driverAskedCancel'],
+                    onChanged: (value) {
+                      setState(() {
+                        values['driverAskedCancel'] = value!;
+                      });
+                    },
+                  ),
+                ),
+                Divider(color: AppTheme.colors.black20, height: 0.1),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  onTap: () {
+                    setState(() {
+                      values['driverLate'] = !values['driverLate']!;
+                    });
+                  },
+                  title: Text(
+                    "Водитель опаздывает",
+                    style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
+                  ),
+                  leading: Checkbox(
+                    checkColor: AppTheme.colors.white,
+                    activeColor: AppTheme.colors.primary,
+                    side: MaterialStateBorderSide.resolveWith(
+                      (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
                     ),
-                    SizedBox(height: 16.h),
-                    Text(
-                      "Заказ отменен!",
-                      style: AppTheme.data.textTheme.headlineMedium,
+                    value: values['driverLate'],
+                    onChanged: (value) {
+                      setState(() {
+                        values['driverLate'] = value!;
+                      });
+                    },
+                  ),
+                ),
+                Divider(color: AppTheme.colors.black20, height: 0.1),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  onTap: () {
+                    setState(() {
+                      values['lotOfLuggage'] = !values['lotOfLuggage']!;
+                    });
+                  },
+                  title: Text(
+                    "Много багажа",
+                    style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
+                  ),
+                  leading: Checkbox(
+                    checkColor: AppTheme.colors.white,
+                    activeColor: AppTheme.colors.primary,
+                    side: MaterialStateBorderSide.resolveWith(
+                      (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
                     ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      "Пожалуйста укажите причину отмены заказа чтобы мы могли принять меры",
-                      textAlign: TextAlign.center,
-                      style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black40),
+                    value: values['lotOfLuggage'],
+                    onChanged: (value) {
+                      setState(() {
+                        values['lotOfLuggage'] = value!;
+                      });
+                    },
+                  ),
+                ),
+                Divider(color: AppTheme.colors.black20, height: 0.1),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  onTap: () {
+                    setState(() {
+                      values['driverSmokes'] = !values['driverSmokes']!;
+                    });
+                  },
+                  title: Text(
+                    "Водитель курит",
+                    style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
+                  ),
+                  leading: Checkbox(
+                    checkColor: AppTheme.colors.white,
+                    activeColor: AppTheme.colors.primary,
+                    side: MaterialStateBorderSide.resolveWith(
+                      (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
                     ),
-                    SizedBox(height: 24.h),
-                  ],
-                ),
-              ),
-              Divider(color: AppTheme.colors.black20, height: 0.1),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                onTap: () {
-                  setState(() {
-                    setState(() {
-                      values['driverAskedCancel'] = !values['driverAskedCancel']!;
-                    });
-                  });
-                },
-                title: Text(
-                  "Водитель попросил отменить",
-                  style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
-                ),
-                leading: Checkbox(
-                  checkColor: AppTheme.colors.white,
-                  activeColor: AppTheme.colors.primary,
-                  side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                    value: values['driverSmokes'],
+                    onChanged: (value) {
+                      setState(() {
+                        values['driverSmokes'] = value!;
+                      });
+                    },
                   ),
-                  value: values['driverAskedCancel'],
-                  onChanged: (value) {
+                ),
+                Divider(color: AppTheme.colors.black20, height: 0.1),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  onTap: () {
                     setState(() {
-                      values['driverAskedCancel'] = value!;
+                      values['dissatisfiedCarModel'] = !values['dissatisfiedCarModel']!;
                     });
                   },
-                ),
-              ),
-              Divider(color: AppTheme.colors.black20, height: 0.1),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                onTap: () {
-                  setState(() {
-                    values['driverLate'] = !values['driverLate']!;
-                  });
-                },
-                title: Text(
-                  "Водитель опаздывает",
-                  style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
-                ),
-                leading: Checkbox(
-                  checkColor: AppTheme.colors.white,
-                  activeColor: AppTheme.colors.primary,
-                  side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                  title: Text(
+                    "Недоволен моделью машины",
+                    style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                   ),
-                  value: values['driverLate'],
-                  onChanged: (value) {
+                  leading: Checkbox(
+                    checkColor: AppTheme.colors.white,
+                    activeColor: AppTheme.colors.primary,
+                    side: MaterialStateBorderSide.resolveWith(
+                      (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                    ),
+                    value: values['dissatisfiedCarModel'],
+                    onChanged: (value) {
+                      setState(() {
+                        values['dissatisfiedCarModel'] = value!;
+                      });
+                    },
+                  ),
+                ),
+                Divider(color: AppTheme.colors.black20, height: 0.1),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  onTap: () {
                     setState(() {
-                      values['driverLate'] = value!;
+                      values['technicalConditionCar'] = !values['technicalConditionCar']!;
                     });
                   },
-                ),
-              ),
-              Divider(color: AppTheme.colors.black20, height: 0.1),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                onTap: () {
-                  setState(() {
-                    values['lotOfLuggage'] = !values['lotOfLuggage']!;
-                  });
-                },
-                title: Text(
-                  "Много багажа",
-                  style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
-                ),
-                leading: Checkbox(
-                  checkColor: AppTheme.colors.white,
-                  activeColor: AppTheme.colors.primary,
-                  side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                  title: Text(
+                    "Тех состояние автомобиля",
+                    style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
                   ),
-                  value: values['lotOfLuggage'],
-                  onChanged: (value) {
-                    setState(() {
-                      values['lotOfLuggage'] = value!;
-                    });
+                  leading: Checkbox(
+                    checkColor: AppTheme.colors.white,
+                    activeColor: AppTheme.colors.primary,
+                    side: MaterialStateBorderSide.resolveWith(
+                      (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
+                    ),
+                    value: values['technicalConditionCar'],
+                    onChanged: (value) {
+                      setState(() {
+                        values['technicalConditionCar'] = value!;
+                      });
+                    },
+                  ),
+                ),
+                Divider(color: AppTheme.colors.black20, height: 0.1),
+                const SizedBox(height: 32),
+                MainButtonComponent(
+                  name: context.loc.proceed,
+                  onPressed: () {
+                    context.pop();
+                    context.read<MainBloc>().add(const MainEvent.initMainPage());
                   },
                 ),
-              ),
-              Divider(color: AppTheme.colors.black20, height: 0.1),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                onTap: () {
-                  setState(() {
-                    values['driverSmokes'] = !values['driverSmokes']!;
-                  });
-                },
-                title: Text(
-                  "Водитель курит",
-                  style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
-                ),
-                leading: Checkbox(
-                  checkColor: AppTheme.colors.white,
-                  activeColor: AppTheme.colors.primary,
-                  side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
-                  ),
-                  value: values['driverSmokes'],
-                  onChanged: (value) {
-                    setState(() {
-                      values['driverSmokes'] = value!;
-                    });
-                  },
-                ),
-              ),
-              Divider(color: AppTheme.colors.black20, height: 0.1),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                onTap: () {
-                  setState(() {
-                    values['dissatisfiedCarModel'] = !values['dissatisfiedCarModel']!;
-                  });
-                },
-                title: Text(
-                  "Недоволен моделью машины",
-                  style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
-                ),
-                leading: Checkbox(
-                  checkColor: AppTheme.colors.white,
-                  activeColor: AppTheme.colors.primary,
-                  side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
-                  ),
-                  value: values['dissatisfiedCarModel'],
-                  onChanged: (value) {
-                    setState(() {
-                      values['dissatisfiedCarModel'] = value!;
-                    });
-                  },
-                ),
-              ),
-              Divider(color: AppTheme.colors.black20, height: 0.1),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                onTap: () {
-                  setState(() {
-                    values['technicalConditionCar'] = !values['technicalConditionCar']!;
-                  });
-                },
-                title: Text(
-                  "Тех состояние автомобиля",
-                  style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
-                ),
-                leading: Checkbox(
-                  checkColor: AppTheme.colors.white,
-                  activeColor: AppTheme.colors.primary,
-                  side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(color: states.isEmpty ? AppTheme.colors.text500 : Colors.transparent),
-                  ),
-                  value: values['technicalConditionCar'],
-                  onChanged: (value) {
-                    setState(() {
-                      values['technicalConditionCar'] = value!;
-                    });
-                  },
-                ),
-              ),
-              Divider(color: AppTheme.colors.black20, height: 0.1),
-              const Spacer(),
-              MainButtonComponent(
-                name: context.loc.proceed,
-                onPressed: () {
-                  context.pop();
-                  context.read<MainBloc>().add(const MainEvent.initMainPage());
-                },
-              ),
-            ],
+                const SizedBox(height: 56),
+              ],
+            ),
           ),
         ),
       ),

@@ -112,7 +112,7 @@ class _$StartedImpl implements _Started {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$StartedImpl);
   }
@@ -251,7 +251,7 @@ class _$InitMainPageImpl implements _InitMainPage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InitMainPageImpl &&
@@ -401,7 +401,7 @@ class _$ChooseAddressInMapImpl implements _ChooseAddressInMap {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChooseAddressInMapImpl &&
@@ -530,7 +530,7 @@ class _$CreateOrderImpl implements _CreateOrder {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$CreateOrderImpl);
   }
@@ -716,7 +716,7 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$InitialImpl);
   }
@@ -849,7 +849,7 @@ class _$InitMainImpl implements _InitMain {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InitMainImpl &&
@@ -998,7 +998,7 @@ class _$OpenMapForChooseAddressImpl implements _OpenMapForChooseAddress {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OpenMapForChooseAddressImpl &&
@@ -1128,7 +1128,7 @@ class _$OpenOrderImpl implements _OpenOrder {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$OpenOrderImpl);
   }

@@ -9,4 +9,7 @@ class IRoutes {
   String get register => '/api/v1/customer/update_after_auth';
   String get updateProfileImage => '/api/v1/customer/attachment';
   String get userData => '/api/v1/customer';
+  String get support => '/api/v1/fs-doc/support';
+  String get info => '/api/v1/fs-doc/info';
+  String get faq => '/api/v1/fs-doc/faq';
 }

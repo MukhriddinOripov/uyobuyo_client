@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uyobuyo_client/infrastructure/dto/models/auth/user_data_model.dart';
+import 'package:uyobuyo_client/infrastructure/dto/models/drawer/drawel_model.dart';
 import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 import 'entity/pages.dart';
 
@@ -103,7 +105,7 @@ final GoRouter _router = GoRouter(
       path: Routes.editProfileModule.path,
       pageBuilder: (context, state) => MaterialPage<void>(
         key: state.pageKey,
-        child:  EditProfileModule(extra:state.extra),
+        child: EditProfileModule(extra: (state.extra as Map<String, dynamic>)["userData"] as UserData),
       ),
     ),
     GoRoute(
@@ -135,7 +137,7 @@ final GoRouter _router = GoRouter(
       path: Routes.faqDetailModule.path,
       pageBuilder: (context, state) => MaterialPage<void>(
         key: state.pageKey,
-        child: const FAQDetailModule(),
+        child: FAQDetailModule(data: (state.extra as Map<String, dynamic>)["data"] as DrawerData),
       ),
     ),
   ],

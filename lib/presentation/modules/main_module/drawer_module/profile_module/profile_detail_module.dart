@@ -28,110 +28,108 @@ class _ProfileDetailModuleState extends State<ProfileDetailModule> {
           child: BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
               return state.maybeWhen(
-                loadedUserData: (data) =>
-                    Column(
+                loadedUserData: (data) => Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                context.loc.back,
-                                style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
-                              ),
-                            ),
-                            Text(
-                              "Профиль",
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTheme.data.textTheme.titleLarge,
-                            ),
-                            const SizedBox(width: 32)
-                          ],
-                        ),
-                        const SizedBox(height: 32),
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: AppTheme.colors.primary, width: 2),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            context.loc.back,
+                            style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
                           ),
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 48.w,
-                                width: 48.w,
-                                decoration: const BoxDecoration(color: Colors.transparent, shape: BoxShape.circle),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(kBorderRadiusDefault.r),
-                                  child: CachedNetworkImage(
-                                    imageUrl: data.imageUrl??'',
-                                    imageBuilder: (context, imageProvider) =>
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                        ),
+                        Text(
+                          "Профиль",
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.data.textTheme.titleLarge,
+                        ),
+                        const SizedBox(width: 32)
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppTheme.colors.primary, width: 2),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 48.w,
+                            width: 48.w,
+                            decoration: const BoxDecoration(color: Colors.transparent, shape: BoxShape.circle),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(kBorderRadiusDefault.r),
+                              child: CachedNetworkImage(
+                                imageUrl: data.imageUrl ?? '',
+                                imageBuilder: (context, imageProvider) => Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                placeholder: (context, url) => Container(
+                                  height: 48.w,
+                                  width: 48.w,
+                                  padding: const EdgeInsets.all(10),
+                                  child: const CircularProgressIndicator(),
+                                ),
+                                errorWidget: (context, url, error) => Center(
+                                  child: Container(
+                                    width: 48,
+                                    height: 48,
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: AppTheme.colors.black20),
+                                    ),
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          image: AssetImage(AppImages.noImage),
                                         ),
-                                    placeholder: (context, url) =>
-                                        Container(
-                                          height: 48.w,
-                                          width: 48.w,
-                                          padding: const EdgeInsets.all(10),
-                                          child: const CircularProgressIndicator(),
-                                        ),
-                                    errorWidget: (context, url, error) =>
-                                        Center(
-                                          child: Container(
-                                            width: 48,
-                                            height: 48,
-                                            padding: const EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(color: AppTheme.colors.black20),
-                                            ),
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                image: DecorationImage(
-                                                  image: AssetImage(AppImages.noImage),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 12),
-                              Text(data.name??'', style: AppTheme.data.textTheme.headlineMedium),
-                              const SizedBox(height: 8),
-                              Text(
-                                data.phoneNumber,
-                                style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 24),
-                        rowDetailItem(name: "ID", text: "100104"),
-                        rowDetailItem(name: "Дата рождения", text: "22 Ноября 1982"),
-                        rowDetailItem(name: "Пол", text: "Мужчина"),
-                        const Spacer(),
-                        MainButtonComponent(
-                          name: "Редактировать профиль",
-                          onPressed: () {
-                            context.pushNamed(Routes.editProfileModule.name, extra: {});
-                          },),
-                      ]
-                      ,
-                    ), orElse: () => const SizedBox(),);
+                          const SizedBox(height: 12),
+                          Text(data.name ?? '', style: AppTheme.data.textTheme.headlineMedium),
+                          const SizedBox(height: 8),
+                          Text(
+                            data.phoneNumber,
+                            style: AppTheme.data.textTheme.bodyMedium?.copyWith(color: AppTheme.colors.black80),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    rowDetailItem(name: "ID", text: "100104"),
+                    rowDetailItem(name: "Дата рождения", text: "22 Ноября 1982"),
+                    rowDetailItem(name: "Пол", text: "${data.hasActiveOrder}"),
+                    const Spacer(),
+                    MainButtonComponent(
+                      name: "Редактировать профиль",
+                      onPressed: () {
+                        context.pushNamed(Routes.editProfileModule.name, extra: {"userData": data});
+                      },
+                    ),
+                  ],
+                ),
+                orElse: () => const SizedBox(),
+              );
             },
           ),
         ),
@@ -139,7 +137,7 @@ class _ProfileDetailModuleState extends State<ProfileDetailModule> {
     );
   }
 
-  rowDetailItem({required String name, required String text, TextStyle? style}) {
+  Column rowDetailItem({required String name, required String text, TextStyle? style}) {
     return Column(
       children: [
         Divider(color: AppTheme.colors.black20, height: 0.1),
@@ -150,7 +148,8 @@ class _ProfileDetailModuleState extends State<ProfileDetailModule> {
             children: [
               Text(
                 name,
-                style: AppTheme.data.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
+                style: AppTheme.data.textTheme.titleSmall
+                    ?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
               ),
               Text(
                 text,

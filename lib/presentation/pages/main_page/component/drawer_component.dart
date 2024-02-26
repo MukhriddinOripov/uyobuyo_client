@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
+import 'package:uyobuyo_client/application/drawer_manager/drawer_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/presentation/assets/icons.dart';
@@ -132,12 +133,14 @@ class _DrawerComponentState extends State<DrawerComponent> {
                 label: context.loc.setting),
             drawerComponent(
                 onTap: () {
+                  context.read<DrawerBloc>().add(const DrawerEvent.getFAQ());
                   context.pushNamed(Routes.faqModule.name);
                 },
                 icon: AppIcons.faq,
                 label: context.loc.faq),
             drawerComponent(
                 onTap: () {
+                  context.read<DrawerBloc>().add(const DrawerEvent.getSupport());
                   context.pushNamed(Routes.supportModule.name);
                 },
                 icon: AppIcons.support,
@@ -167,7 +170,8 @@ class _DrawerComponentState extends State<DrawerComponent> {
     );
   }
 
-  Widget drawerComponent({required Function() onTap, required String icon, required String label, Color? textColor, Color? iconColor}) {
+  Widget drawerComponent(
+      {required Function() onTap, required String icon, required String label, Color? textColor, Color? iconColor}) {
     return InkWell(
       onTap: onTap,
       child: Column(
@@ -186,7 +190,8 @@ class _DrawerComponentState extends State<DrawerComponent> {
                 const SizedBox(width: 12),
                 Text(
                   label,
-                  style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: textColor ?? AppTheme.colors.black80),
+                  style: AppTheme.data.textTheme.bodySmall
+                      ?.copyWith(fontWeight: FontWeight.w500, color: textColor ?? AppTheme.colors.black80),
                 ),
               ],
             ),

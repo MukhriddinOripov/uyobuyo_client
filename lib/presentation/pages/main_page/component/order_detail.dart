@@ -89,7 +89,6 @@ Future<void> orderDetailModalBottomSheetComponent({
                               SizedBox(height: 12.h),
                               Divider(color: AppTheme.colors.black20, height: 0.1),
                               Container(
-                                height: 60,
                                 color: Colors.transparent,
                                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
                                 child: Row(
@@ -120,7 +119,8 @@ Future<void> orderDetailModalBottomSheetComponent({
                                             Text(
                                               MainBloc.whereFromSubAddress ?? '',
                                               overflow: TextOverflow.ellipsis,
-                                              style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.black80),
+                                              style: AppTheme.data.textTheme.bodySmall
+                                                  ?.copyWith(color: AppTheme.colors.black80),
                                             ),
                                           ],
                                         ),
@@ -131,7 +131,6 @@ Future<void> orderDetailModalBottomSheetComponent({
                               ),
                               Divider(color: AppTheme.colors.black20, height: 0.1),
                               Container(
-                                height: 60,
                                 color: Colors.transparent,
                                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
                                 child: Row(
@@ -162,7 +161,8 @@ Future<void> orderDetailModalBottomSheetComponent({
                                             Text(
                                               MainBloc.whereToSubAddress ?? '',
                                               overflow: TextOverflow.ellipsis,
-                                              style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.black80),
+                                              style: AppTheme.data.textTheme.bodySmall
+                                                  ?.copyWith(color: AppTheme.colors.black80),
                                             ),
                                           ],
                                         ),
@@ -218,7 +218,8 @@ Future<void> orderDetailModalBottomSheetComponent({
                                   children: [
                                     Text(
                                       "День отъезда",
-                                      style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
+                                      style:
+                                          AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
                                     ),
                                     const SizedBox(height: 8),
                                     Container(
@@ -244,7 +245,8 @@ Future<void> orderDetailModalBottomSheetComponent({
                                     const SizedBox(height: 16),
                                     Text(
                                       "Время отъезда",
-                                      style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
+                                      style:
+                                          AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
                                     ),
                                     const SizedBox(height: 8),
                                     Container(
@@ -364,7 +366,8 @@ Future<void> orderDetailModalBottomSheetComponent({
                                                     ? Container(
                                                         height: 8,
                                                         width: 8,
-                                                        decoration: BoxDecoration(color: AppTheme.colors.primary, shape: BoxShape.circle),
+                                                        decoration: BoxDecoration(
+                                                            color: AppTheme.colors.primary, shape: BoxShape.circle),
                                                       )
                                                     : const SizedBox(),
                                               )
@@ -372,7 +375,9 @@ Future<void> orderDetailModalBottomSheetComponent({
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            countAdditionalValues != 0 ? "$countAdditionalValues Услуги" : "Дополнительно",
+                                            countAdditionalValues != 0
+                                                ? "$countAdditionalValues Услуги"
+                                                : "Дополнительно",
                                             style: AppTheme.data.textTheme.bodySmall
                                                 ?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
                                           ),

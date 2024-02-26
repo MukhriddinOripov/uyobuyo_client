@@ -147,7 +147,7 @@ class _$SendSmsImpl implements _SendSms {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SendSmsImpl &&
@@ -310,7 +310,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ConfirmAuthImpl &&
@@ -497,7 +497,7 @@ class _$RegisterImpl implements _Register {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RegisterImpl &&
@@ -670,7 +670,7 @@ class _$UpdateImageImpl implements _UpdateImage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UpdateImageImpl &&
@@ -815,7 +815,7 @@ class _$GetUserDataImpl implements _GetUserData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$GetUserDataImpl);
   }
@@ -946,7 +946,7 @@ class _$LogOutImpl implements _LogOut {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$LogOutImpl);
   }
@@ -1209,7 +1209,7 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$InitialImpl);
   }
@@ -1402,7 +1402,7 @@ class _$LoadingImpl implements _Loading {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadingImpl &&
@@ -1608,7 +1608,7 @@ class _$SuccessSendSmsImpl implements _SuccessSendSms {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessSendSmsImpl &&
@@ -1817,7 +1817,7 @@ class _$ErrorSendSmsImpl implements _ErrorSendSms {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorSendSmsImpl &&
@@ -2023,7 +2023,7 @@ class _$UserLoginImpl implements _UserLogin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserLoginImpl &&
@@ -2211,7 +2211,7 @@ class _$UserRegisterImpl implements _UserRegister {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$UserRegisterImpl);
   }
@@ -2404,7 +2404,7 @@ class _$RegisterSuccessImpl implements _RegisterSuccess {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RegisterSuccessImpl &&
@@ -2612,7 +2612,7 @@ class _$RegisterErrorImpl implements _RegisterError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RegisterErrorImpl &&
@@ -2818,7 +2818,7 @@ class _$UpdateImageSuccessImpl implements _UpdateImageSuccess {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UpdateImageSuccessImpl &&
@@ -3026,7 +3026,7 @@ class _$UpdateImageErrorImpl implements _UpdateImageError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UpdateImageErrorImpl &&
@@ -3233,7 +3233,7 @@ class _$LoadedUserDataImpl implements _LoadedUserData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedUserDataImpl &&
@@ -3441,7 +3441,7 @@ class _$ErrorUserDataImpl implements _ErrorUserData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorUserDataImpl &&
@@ -3629,7 +3629,7 @@ class _$LogOutedStateImpl implements _LogOutedState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$LogOutedStateImpl);
   }
@@ -3829,7 +3829,7 @@ class _$AuthErrorImpl implements _AuthError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthErrorImpl &&

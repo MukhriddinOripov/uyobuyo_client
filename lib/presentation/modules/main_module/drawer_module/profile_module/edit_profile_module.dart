@@ -10,6 +10,7 @@ import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/input_masks.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/common/validations/input_validations.dart';
+import 'package:uyobuyo_client/infrastructure/dto/models/auth/user_data_model.dart';
 import 'package:uyobuyo_client/presentation/assets/icons.dart';
 import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
@@ -21,7 +22,7 @@ import 'package:uyobuyo_client/presentation/components/text_field_component.dart
 import 'package:uyobuyo_client/presentation/pages/base_page.dart';
 
 class EditProfileModule extends BaseScreen {
-  final Object? extra;
+  final UserData? extra;
 
   const EditProfileModule({super.key, this.extra});
 
@@ -42,6 +43,9 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
 
   @override
   void initState() {
+    imageController.text = widget.extra?.imageUrl ?? '';
+    fullNameController.text = widget.extra?.name ?? '';
+    dateController.text = widget.extra?.gender ?? '';
     for (var node in _focusNodes) {
       node.addListener(() {
         setState(() {});
@@ -65,9 +69,9 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
       floatingActionButton: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           state.maybeWhen(
-              // loading: (loading) {
-              //   showLoading(needLoading: loading);
-              // },
+              loading: (loading) {
+                showLoading(needLoading: loading);
+              },
               // updateImageSuccess: (_) {},
               // registerSuccess: (phone) {},
               orElse: () {});
@@ -265,10 +269,7 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
     );
   }
 
-  Future<void> _onImageButtonPressed(
-    ImageSource source, {
-    required BuildContext context,
-  }) async {
+  Future<void> _onImageButtonPressed(ImageSource source, {required BuildContext context}) async {
     if (context.mounted) {
       try {
         final XFile? pickedFile = await _picker.pickImage(
@@ -277,14 +278,19 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
           maxHeight: null,
           imageQuality: 100,
         );
-        setState(() async {
-          selectedFile = pickedFile;
-          imageController.text = pickedFile!.path.split('/').last;
-          formData = FormData.fromMap({
-            "file": await MultipartFile.fromFile(pickedFile.path, filename: imageController.text),
+        if (pickedFile != null) {
+          final String fileName = pickedFile.path.split('/').last;
+          final FormData formData = FormData.fromMap({
+            "file": await MultipartFile.fromFile(pickedFile.path, filename: fileName),
           });
-          context.read<AuthBloc>().add(AuthEvent.updateImage(image: formData));
-        });
+          setState(() {
+            selectedFile = pickedFile;
+            imageController.text = fileName;
+          });
+          if (mounted) {
+            context.read<AuthBloc>().add(AuthEvent.updateImage(image: formData));
+          }
+        }
       } catch (_) {}
     }
   }

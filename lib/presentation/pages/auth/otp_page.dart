@@ -17,7 +17,7 @@ import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 class OtpPage extends BaseScreen {
   final Object? params;
 
-  const OtpPage({Key? key, this.params}) : super(key: key);
+  const OtpPage({super.key, this.params});
 
   @override
   State<BaseScreen> createState() => _OtpPageState();

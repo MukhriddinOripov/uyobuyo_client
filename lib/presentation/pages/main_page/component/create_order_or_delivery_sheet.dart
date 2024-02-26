@@ -26,12 +26,7 @@ Future<void> createOrderOrDeliverySheetComponent({
     ),
     builder: (context) {
       return Padding(
-        padding: EdgeInsets.only(
-          top: 12.h,
-          left: 16.w,
-          right: 16.w,
-          bottom: 49.h,
-        ),
+        padding: const EdgeInsets.only(top: 12, left: 16, right: 16, bottom: 49),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -63,7 +58,6 @@ Future<void> createOrderOrDeliverySheetComponent({
               child: Column(
                 children: [
                   Container(
-                    // height: 60,
                     color: Colors.transparent,
                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
                     child: Row(
@@ -114,7 +108,6 @@ Future<void> createOrderOrDeliverySheetComponent({
                 children: [
                   Container(
                     color: Colors.transparent,
-                    height: 60,
                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -149,7 +142,8 @@ Future<void> createOrderOrDeliverySheetComponent({
                                       Text(
                                         MainBloc.whereToSubAddress ?? '',
                                         overflow: TextOverflow.ellipsis,
-                                        style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.black80),
+                                        style:
+                                            AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.black80),
                                       ),
                                     ],
                                   ),
@@ -162,7 +156,7 @@ Future<void> createOrderOrDeliverySheetComponent({
                 ],
               ),
             ),
-            SizedBox(height: 32.h),
+            const SizedBox(height: 32),
             MainButtonComponent(
               name: context.loc.proceed,
               onPressed: onTapBtn,
