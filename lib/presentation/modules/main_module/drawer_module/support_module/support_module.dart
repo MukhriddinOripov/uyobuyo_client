@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:uyobuyo_client/application/drawer_manager/drawer_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/uri_parse_convert_schemes.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 import 'package:uyobuyo_client/presentation/pages/base_page.dart';
 
@@ -64,7 +65,8 @@ class _SupportModuleState extends BaseState<SupportModule> {
                             itemCount: data.length,
                             itemBuilder: (ctx, item) => InkWell(
                               onTap: () async {
-                                final call = Uri.parse('tel:+998000000000');
+                                final call =
+                                    Uri.parse('${uriParseConvert(data[item].contentType)}${data[item].content}');
                                 if (await canLaunchUrl(call)) {
                                   launchUrl(call);
                                 } else {

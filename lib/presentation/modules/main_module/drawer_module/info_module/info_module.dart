@@ -8,14 +8,14 @@ import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 import 'package:uyobuyo_client/presentation/pages/base_page.dart';
 import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 
-class FAQModule extends BaseScreen {
-  const FAQModule({super.key});
+class InfoModule extends BaseScreen {
+  const InfoModule({super.key});
 
   @override
   State<BaseScreen> createState() => _FAQModuleModuleState();
 }
 
-class _FAQModuleModuleState extends BaseState<FAQModule> {
+class _FAQModuleModuleState extends BaseState<InfoModule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +37,7 @@ class _FAQModuleModuleState extends BaseState<FAQModule> {
                     ),
                   ),
                   Text(
-                    "FAQ",
+                    "Info",
                     overflow: TextOverflow.ellipsis,
                     style: AppTheme.data.textTheme.titleLarge,
                   ),
@@ -55,17 +55,17 @@ class _FAQModuleModuleState extends BaseState<FAQModule> {
                         orElse: () {});
                   },
                   buildWhen: (context, state) {
-                    return state.maybeWhen(loading: (val) => true, loadedFAQ: (data) => true, orElse: () => false);
+                    return state.maybeWhen(loading: (val) => true, loadedInfo: (data) => true, orElse: () => false);
                   },
                   builder: (context, state) {
                     return state.maybeWhen(
-                      loadedFAQ: (data) {
+                      loadedInfo: (data) {
                         if (data!.isNotEmpty) {
                           return ListView.separated(
                             itemCount: data.length,
                             itemBuilder: (ctx, item) => InkWell(
                               onTap: () {
-                                context.pushNamed(Routes.faqDetailModule.name, extra: {"data": data[item]});
+                                context.pushNamed(Routes.infoDetailModule.name, extra: {"data": data[item]});
                               },
                               child: Container(
                                 color: Colors.transparent,

@@ -18,13 +18,14 @@ class AuthRepository implements IAuth {
 
   @override
   Future<AuthConfirm> confirmAuth({required String phone, required String? otp}) async {
-    final Response<Map<String, dynamic>> response =
-        await NetworkProvider.dio.post(NetworkProvider.routes.confirmAuth, queryParameters: {"phone_number": phone, 'message': otp});
+    final Response<Map<String, dynamic>> response = await NetworkProvider.dio
+        .post(NetworkProvider.routes.confirmAuth, queryParameters: {"phone_number": phone, 'message': otp});
     return AuthConfirm.fromJson(response.data ?? {});
   }
 
   @override
-  Future<RegisterModel> register({required String name, required String birthDate, required String gender, required String city}) async {
+  Future<RegisterModel> register(
+      {required String name, required String birthDate, required String gender, required String city}) async {
     try {
       final Response<Map<String, dynamic>> response = await NetworkProvider.dio.put(
         NetworkProvider.routes.register,
@@ -38,6 +39,25 @@ class AuthRepository implements IAuth {
       return RegisterModel.fromJson(response.data ?? {});
     } catch (e) {
       return RegisterModel.fromJson({});
+    }
+  }
+
+  @override
+  Future<UserDataModel> editUserData(
+      {required String name, required String birthDate, required String gender, required String city}) async {
+    try {
+      final Response<Map<String, dynamic>> response = await NetworkProvider.dio.put(
+        NetworkProvider.routes.userData,
+        data: {
+          'name': name,
+          'birth_date': birthDate,
+          'gender': gender,
+          'city': city,
+        },
+      );
+      return UserDataModel.fromJson(response.data ?? {});
+    } catch (e) {
+      return UserDataModel.fromJson({});
     }
   }
 

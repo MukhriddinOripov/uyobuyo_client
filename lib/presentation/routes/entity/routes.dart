@@ -26,6 +26,8 @@ class Routes implements Coordinate {
   static const supportModule = Routes._(name: 'support_module', path: '/support_module');
   static const faqModule = Routes._(name: 'faq_module', path: '/faq_module');
   static const faqDetailModule = Routes._(name: 'faq_detail_module', path: '/faq_detail_module');
+  static const infoModule = Routes._(name: 'info_module', path: '/info_module');
+  static const infoDetailModule = Routes._(name: 'info_detail_module', path: '/info_detail_module');
 
   @override
   String toString() => 'name=$name, path=$path';

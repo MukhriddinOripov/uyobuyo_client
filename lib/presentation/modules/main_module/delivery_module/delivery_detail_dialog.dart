@@ -82,7 +82,6 @@ Future<void> deliveryDetailDialog({
                               SizedBox(height: 12.h),
                               Divider(color: AppTheme.colors.black20, height: 0.1),
                               Container(
-                                height: 60,
                                 color: Colors.transparent,
                                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
                                 child: Row(
@@ -113,7 +112,8 @@ Future<void> deliveryDetailDialog({
                                             Text(
                                               MainBloc.whereFromSubAddress ?? '',
                                               overflow: TextOverflow.ellipsis,
-                                              style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.black80),
+                                              style: AppTheme.data.textTheme.bodySmall
+                                                  ?.copyWith(color: AppTheme.colors.black80),
                                             ),
                                           ],
                                         ),
@@ -124,7 +124,6 @@ Future<void> deliveryDetailDialog({
                               ),
                               Divider(color: AppTheme.colors.black20, height: 0.1),
                               Container(
-                                height: 60,
                                 color: Colors.transparent,
                                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: kPaddingDefault),
                                 child: Row(
@@ -155,7 +154,8 @@ Future<void> deliveryDetailDialog({
                                             Text(
                                               MainBloc.whereToSubAddress ?? '',
                                               overflow: TextOverflow.ellipsis,
-                                              style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.black80),
+                                              style: AppTheme.data.textTheme.bodySmall
+                                                  ?.copyWith(color: AppTheme.colors.black80),
                                             ),
                                           ],
                                         ),
@@ -211,7 +211,8 @@ Future<void> deliveryDetailDialog({
                                   children: [
                                     Text(
                                       "День отъезда",
-                                      style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
+                                      style:
+                                          AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
                                     ),
                                     const SizedBox(height: 8),
                                     Container(
@@ -237,7 +238,8 @@ Future<void> deliveryDetailDialog({
                                     const SizedBox(height: 16),
                                     Text(
                                       "Время отъезда",
-                                      style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
+                                      style:
+                                          AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
                                     ),
                                     const SizedBox(height: 8),
                                     Container(

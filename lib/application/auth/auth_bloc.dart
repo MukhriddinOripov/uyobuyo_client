@@ -34,6 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_Register>(_register, transformer: droppable());
     on<_UpdateImage>(_updateImage, transformer: droppable());
     on<_GetUserData>(_getUserData, transformer: droppable());
+    on<_EditUserData>(_editUserData, transformer: droppable());
     on<_LogOut>(_logOut, transformer: droppable());
   }
 
@@ -89,10 +90,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future _register(_Register event, Emitter<AuthState> emit) async {
     emit(const AuthState.loading(loading: true));
     try {
-      final RegisterModel data = await repository.register(name: event.name, birthDate: event.birthDate, gender: event.gender, city: event.city);
-      emit(const AuthState.loading(loading: true));
+      final RegisterModel data = await repository.register(
+          name: event.name, birthDate: event.birthDate, gender: event.gender, city: event.city);
+      emit(const AuthState.loading(loading: false));
       if (data.success) {
         emit(AuthState.registerSuccess(data: data.data));
+      } else {
+        emit(const AuthState.registerError());
+      }
+    } catch (e) {
+      emit(
+        AuthState.authError(
+          error: e.toString(),
+          serverException: getExceptionType(error: e),
+        ),
+      );
+      log(e.toString());
+    }
+  }
+
+  Future _editUserData(_EditUserData event, Emitter<AuthState> emit) async {
+    emit(const AuthState.loading(loading: true));
+    try {
+      final UserDataModel data = await repository.editUserData(
+          name: event.name, birthDate: event.birthDate, gender: event.gender, city: event.city);
+      emit(const AuthState.loading(loading: false));
+      if (data.success) {
+        emit(AuthState.editUserDataSuccess(data: data.data));
       } else {
         emit(const AuthState.registerError());
       }
@@ -121,6 +145,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future _getUserData(_GetUserData event, Emitter<AuthState> emit) async {
     try {
       final UserDataModel data = await repository.getUserData();
+
       if (data.success) {
         emit(AuthState.loadedUserData(data: data.data));
       } else {

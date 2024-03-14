@@ -195,8 +195,8 @@ class _MainPageState extends BaseState<MainPage> {
                 CameraUpdate.newCameraPosition(
                   CameraPosition(
                     target: Point(
-                      latitude: position!.latitude,
-                      longitude: position!.longitude,
+                      latitude: position?.latitude ?? 0,
+                      longitude: position?.longitude ?? 0,
                     ),
                     zoom: 14,
                   ),
@@ -282,49 +282,51 @@ class _MainPageState extends BaseState<MainPage> {
                               : "");
                         }
                         createOrderOrDeliverySheetComponent(
-                            context: context,
-                            title: whereFromAddress == null ? currentLocationName : whereFromAddress!,
-                            subtitle: whereFromSubAddress == null
-                                ? (fullLocationName != null
-                                    ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
-                                    : "")
-                                : whereFromSubAddress!,
-                            onTapFrom: () {
+                          context: context,
+                          title: whereFromAddress == null ? currentLocationName : whereFromAddress!,
+                          subtitle: whereFromSubAddress == null
+                              ? (fullLocationName != null
+                                  ? "${fullLocationName!.address.road != null ? "${fullLocationName!.address.road}," : ""} ${fullLocationName!.address.city!.isNotEmpty ? "${fullLocationName!.address.city}," : ""}"
+                                  : "")
+                              : whereFromSubAddress!,
+                          onTapFrom: () {
+                            orderModalBottomSheetComponent(
+                                context: context,
+                                title: "Откуда",
+                                addressControllerText:
+                                    whereFromAddress != null ? whereFromAddress! : currentLocationName,
+                                onTap: () {
+                                  context.pop();
+                                });
+                          },
+                          onTapTo: () async {
+                            whereToAddress == null
+                                ? orderModalBottomSheetComponent(
+                                    context: context,
+                                    title: "Kуда",
+                                    addressControllerText: whereToAddress,
+                                    btnTitle: context.loc.proceed,
+                                    onTap: () {
+                                      context.pop();
+                                      orderDetailModalBottomSheetComponent(context: context);
+                                    })
+                                : orderDetailModalBottomSheetComponent(context: context);
+                          },
+                          onTapBtn: () {
+                            if (MainBloc.whereFromAddress != null && MainBloc.whereToAddress != null) {
+                              orderDetailModalBottomSheetComponent(context: context);
+                            } else {
                               orderModalBottomSheetComponent(
                                   context: context,
-                                  title: "Откуда",
-                                  addressControllerText:
-                                      whereFromAddress != null ? whereFromAddress! : currentLocationName,
+                                  title: "Kуда",
+                                  btnTitle: context.loc.proceed,
                                   onTap: () {
                                     context.pop();
+                                    orderDetailModalBottomSheetComponent(context: context);
                                   });
-                            },
-                            onTapTo: () async {
-                              whereToAddress == null
-                                  ? orderModalBottomSheetComponent(
-                                      context: context,
-                                      title: "Kуда",
-                                      addressControllerText: whereToAddress,
-                                      btnTitle: context.loc.proceed,
-                                      onTap: () {
-                                        context.pop();
-                                        orderDetailModalBottomSheetComponent(context: context);
-                                      })
-                                  : orderDetailModalBottomSheetComponent(context: context);
-                            },
-                            onTapBtn: () {
-                              whereToAddress == null
-                                  ? orderModalBottomSheetComponent(
-                                      context: context,
-                                      title: "Kуда",
-                                      addressControllerText: whereToAddress,
-                                      btnTitle: context.loc.proceed,
-                                      onTap: () {
-                                        context.pop();
-                                        orderDetailModalBottomSheetComponent(context: context);
-                                      })
-                                  : orderDetailModalBottomSheetComponent(context: context);
-                            });
+                            }
+                          },
+                        );
                       } else {
                         MainBloc.whereToAddress = null;
                         MainBloc.whereToSubAddress = null;

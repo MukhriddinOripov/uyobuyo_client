@@ -8,6 +8,7 @@ import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/presentation/assets/icons.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
+import 'package:uyobuyo_client/presentation/components/calendar_for_planning_order.dart';
 import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
 import 'package:uyobuyo_client/presentation/pages/main_page/component/additional_dialog.dart';
 import 'package:uyobuyo_client/presentation/pages/main_page/component/select_count_person.dart';
@@ -28,6 +29,7 @@ Future<void> orderDetailModalBottomSheetComponent({
     ),
     builder: (context) {
       final DateFormat formatter = DateFormat('dd MMMM', context.loc.localeName);
+      final DateFormat formatterHour = DateFormat('HH:mm', context.loc.localeName);
       String orderType = 'Срочная поездка';
       String countPerson = 'Вся машина';
       Map<String, bool> additionalValues = {
@@ -36,6 +38,8 @@ Future<void> orderDetailModalBottomSheetComponent({
         'lotOfLuggage': false,
       };
       int countAdditionalValues = 0;
+      String date = formatter.format(DateTime.now());
+      String time = formatterHour.format(DateTime.now());
 
       return StatefulBuilder(
           builder: (context, setState) => SizedBox(
@@ -195,6 +199,7 @@ Future<void> orderDetailModalBottomSheetComponent({
                                   decoration: BoxDecoration(
                                     color: AppTheme.colors.black5,
                                     borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(color: AppTheme.colors.black20),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -222,24 +227,37 @@ Future<void> orderDetailModalBottomSheetComponent({
                                           AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
                                     ),
                                     const SizedBox(height: 8),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.colors.black5,
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Сегодня(${formatter.format(DateTime.now())})",
-                                            style: AppTheme.data.textTheme.bodySmall,
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            color: AppTheme.colors.black40,
-                                          )
-                                        ],
+                                    GestureDetector(
+                                      onTap: () {
+                                        calendarForPlanningOrder(
+                                            context: context,
+                                            selectedDate: (val) {
+                                              setState(() {
+                                                date = formatter.format(val);
+                                                time = formatterHour.format(val);
+                                              });
+                                            });
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.colors.black5,
+                                          borderRadius: BorderRadius.circular(16),
+                                          border: Border.all(color: AppTheme.colors.black20),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              date,
+                                              style: AppTheme.data.textTheme.bodySmall,
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward_ios_rounded,
+                                              color: AppTheme.colors.black40,
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 16),
@@ -249,24 +267,37 @@ Future<void> orderDetailModalBottomSheetComponent({
                                           AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
                                     ),
                                     const SizedBox(height: 8),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.colors.black5,
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "10:00 - 11:00",
-                                            style: AppTheme.data.textTheme.bodySmall,
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            color: AppTheme.colors.black40,
-                                          )
-                                        ],
+                                    GestureDetector(
+                                      onTap: () {
+                                        calendarForPlanningOrder(
+                                            context: context,
+                                            selectedDate: (val) {
+                                              setState(() {
+                                                date = formatter.format(val);
+                                                time = formatterHour.format(val);
+                                              });
+                                            });
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.colors.black5,
+                                          borderRadius: BorderRadius.circular(16),
+                                          border: Border.all(color: AppTheme.colors.black20),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              time,
+                                              style: AppTheme.data.textTheme.bodySmall,
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward_ios_rounded,
+                                              color: AppTheme.colors.black40,
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 16),
@@ -294,6 +325,7 @@ Future<void> orderDetailModalBottomSheetComponent({
                                   decoration: BoxDecoration(
                                     color: AppTheme.colors.black5,
                                     borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(color: AppTheme.colors.black20),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

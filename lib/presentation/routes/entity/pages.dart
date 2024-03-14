@@ -17,3 +17,5 @@ export '../../modules/main_module/drawer_module/setting_module/setting_module.da
 export '../../modules/main_module/drawer_module/support_module/support_module.dart';
 export '../../modules/main_module/drawer_module/faq_module/faq_detail_module.dart';
 export '../../modules/main_module/drawer_module/faq_module/faq_module.dart';
+export '../../modules/main_module/drawer_module/info_module/info_module.dart';
+export '../../modules/main_module/drawer_module/info_module/info_detail_module.dart';

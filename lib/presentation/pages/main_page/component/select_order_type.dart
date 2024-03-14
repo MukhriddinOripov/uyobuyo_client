@@ -75,6 +75,7 @@ Future<void> selectOrderTypeComponent({
                     selectedOption = 1;
                     orderType = "Запланированная поездка";
                     selectOrderType(orderType);
+                    Navigator.of(context).pop();
                   });
                 },
                 title: Text(
@@ -90,6 +91,7 @@ Future<void> selectOrderTypeComponent({
                       selectedOption = value;
                       orderType = "Запланированная поездка";
                       selectOrderType(orderType);
+                      Navigator.of(context).pop();
                     });
                   },
                 ),
@@ -105,6 +107,7 @@ Future<void> selectOrderTypeComponent({
                     selectedOption = 2;
                     orderType = "Срочная поездка";
                     selectOrderType(orderType);
+                    Navigator.of(context).pop();
                   });
                 },
                 title: Text(
@@ -120,6 +123,7 @@ Future<void> selectOrderTypeComponent({
                       selectedOption = value;
                       orderType = "Срочная поездка";
                       selectOrderType(orderType);
+                      Navigator.of(context).pop();
                     });
                   },
                 ),

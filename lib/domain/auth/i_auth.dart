@@ -20,6 +20,12 @@ abstract class IAuth {
     required String gender,
     required String city,
   });
+  Future<UserDataModel> editUserData({
+    required String name,
+    required String birthDate,
+    required String gender,
+    required String city,
+  });
 
   Future<UpdateImage> updateImage({
     required FormData image,

@@ -36,7 +36,7 @@ class User {
   final String login;
   final String phoneNumber;
   final dynamic name;
-  final String role;
+  final dynamic role;
   final dynamic gender;
   final bool active;
   final String language;

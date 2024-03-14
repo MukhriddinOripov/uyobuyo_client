@@ -140,6 +140,22 @@ final GoRouter _router = GoRouter(
         child: FAQDetailModule(data: (state.extra as Map<String, dynamic>)["data"] as DrawerData),
       ),
     ),
+    GoRoute(
+      name: Routes.infoModule.name,
+      path: Routes.infoModule.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: const InfoModule(),
+      ),
+    ),
+    GoRoute(
+      name: Routes.infoDetailModule.name,
+      path: Routes.infoDetailModule.path,
+      pageBuilder: (context, state) => MaterialPage<void>(
+        key: state.pageKey,
+        child: InfoDetailModule(data: (state.extra as Map<String, dynamic>)["data"] as DrawerData),
+      ),
+    ),
   ],
   errorBuilder: (context, state) {
     return Scaffold(

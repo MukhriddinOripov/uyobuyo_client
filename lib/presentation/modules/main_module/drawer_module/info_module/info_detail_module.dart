@@ -5,10 +5,10 @@ import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/drawer/drawel_model.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 
-class FAQDetailModule extends StatelessWidget {
+class InfoDetailModule extends StatelessWidget {
   final DrawerData data;
 
-  const FAQDetailModule({super.key, required this.data});
+  const InfoDetailModule({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class FAQDetailModule extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "FAQ",
+                    "Info",
                     overflow: TextOverflow.ellipsis,
                     style: AppTheme.data.textTheme.titleLarge,
                   ),

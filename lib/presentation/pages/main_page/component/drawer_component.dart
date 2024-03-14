@@ -13,14 +13,9 @@ import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 import 'package:uyobuyo_client/presentation/routes/entity/routes.dart';
 
-class DrawerComponent extends StatefulWidget {
+class DrawerComponent extends StatelessWidget {
   const DrawerComponent({super.key});
 
-  @override
-  State<DrawerComponent> createState() => _DrawerComponentState();
-}
-
-class _DrawerComponentState extends State<DrawerComponent> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -30,6 +25,9 @@ class _DrawerComponentState extends State<DrawerComponent> {
           mainAxisSize: MainAxisSize.min,
           children: [
             BlocBuilder<AuthBloc, AuthState>(
+              buildWhen: (ctx, state) {
+                return state.maybeWhen(loadedUserData: (_) => true, orElse: () => false);
+              },
               builder: (context, state) {
                 return state.maybeWhen(
                     loadedUserData: (data) => Padding(
@@ -49,43 +47,63 @@ class _DrawerComponentState extends State<DrawerComponent> {
                                     decoration: const BoxDecoration(color: Colors.transparent, shape: BoxShape.circle),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(kBorderRadiusDefault.r),
-                                      child: CachedNetworkImage(
-                                        imageUrl: data.imageUrl ?? '',
-                                        imageBuilder: (context, imageProvider) => Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        placeholder: (context, url) => Container(
-                                          height: 48.w,
-                                          width: 48.w,
-                                          padding: const EdgeInsets.all(10),
-                                          child: const CircularProgressIndicator(),
-                                        ),
-                                        errorWidget: (context, url, error) => Center(
-                                          child: Container(
-                                            width: 48,
-                                            height: 48,
-                                            padding: const EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(color: AppTheme.colors.black20),
-                                            ),
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                image: DecorationImage(
-                                                  image: AssetImage(AppImages.noImage),
+                                      child: data.imageUrl != null
+                                          ? CachedNetworkImage(
+                                              imageUrl: data.imageUrl ?? '',
+                                              imageBuilder: (context, imageProvider) => Container(
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                              placeholder: (context, url) => Container(
+                                                height: 48.w,
+                                                width: 48.w,
+                                                padding: const EdgeInsets.all(10),
+                                                child: const CircularProgressIndicator(),
+                                              ),
+                                              errorWidget: (context, url, error) => Center(
+                                                child: Container(
+                                                  width: 48,
+                                                  height: 48,
+                                                  padding: const EdgeInsets.all(4),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(color: AppTheme.colors.black20),
+                                                  ),
+                                                  child: Container(
+                                                    decoration: const BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                        image: AssetImage(AppImages.noImage),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : Center(
+                                              child: Container(
+                                                width: 48,
+                                                height: 48,
+                                                padding: const EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(color: AppTheme.colors.black20),
+                                                ),
+                                                child: Container(
+                                                  decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                      image: AssetImage(AppImages.noImage),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
@@ -145,7 +163,13 @@ class _DrawerComponentState extends State<DrawerComponent> {
                 },
                 icon: AppIcons.support,
                 label: context.loc.support_service),
-            drawerComponent(onTap: () {}, icon: AppIcons.info, label: context.loc.info),
+            drawerComponent(
+                onTap: () {
+                  context.read<DrawerBloc>().add(const DrawerEvent.getInfo());
+                  context.pushNamed(Routes.infoModule.name);
+                },
+                icon: AppIcons.info,
+                label: context.loc.info),
             const Spacer(),
             BlocListener<AuthBloc, AuthState>(
               listener: (context, state) {

@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/date_format.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/gender_format.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/presentation/assets/images.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
@@ -116,9 +118,12 @@ class _ProfileDetailModuleState extends State<ProfileDetailModule> {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    rowDetailItem(name: "ID", text: "100104"),
-                    rowDetailItem(name: "Дата рождения", text: "22 Ноября 1982"),
-                    rowDetailItem(name: "Пол", text: "${data.hasActiveOrder}"),
+                    rowDetailItem(name: "ID", text: "${data.id}"),
+                    rowDetailItem(
+                      name: context.loc.bright_day,
+                      text: CustomDateFormat.fMonthYear(date: data.birthDate ?? DateTime.now(), context: context),
+                    ),
+                    rowDetailItem(name: context.loc.gender, text: gender(context: context, gender: data.gender)),
                     const Spacer(),
                     MainButtonComponent(
                       name: "Редактировать профиль",

@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/date_format.dart';
+import 'package:uyobuyo_client/infrastructure/common/utils/gender_format.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/input_masks.dart';
 import 'package:uyobuyo_client/infrastructure/common/utils/lang/loc.dart';
 import 'package:uyobuyo_client/infrastructure/common/validations/input_validations.dart';
@@ -43,15 +46,22 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
 
   @override
   void initState() {
-    imageController.text = widget.extra?.imageUrl ?? '';
-    fullNameController.text = widget.extra?.name ?? '';
-    dateController.text = widget.extra?.gender ?? '';
+    super.initState();
     for (var node in _focusNodes) {
       node.addListener(() {
         setState(() {});
       });
     }
-    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    imageController.text = widget.extra?.imageUrl ?? '';
+    fullNameController.text = widget.extra?.name ?? '';
+    dateController.text =
+        CustomDateFormat.fMonthYear(date: widget.extra?.birthDate ?? DateTime.now(), context: context);
+    genderController.text = gender(context: context, gender: widget.extra?.gender);
   }
 
   @override
@@ -67,13 +77,22 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: BlocListener<AuthBloc, AuthState>(
+        listenWhen: (prev, current) {
+          return current.maybeWhen(
+            loading: (_) => true,
+            editUserDataSuccess: (_) => true,
+            orElse: () => false,
+          );
+        },
         listener: (context, state) {
           state.maybeWhen(
               loading: (loading) {
                 showLoading(needLoading: loading);
               },
-              // updateImageSuccess: (_) {},
-              // registerSuccess: (phone) {},
+              editUserDataSuccess: (data) {
+                context.read<AuthBloc>().add(const AuthEvent.getUserData());
+                context.pop();
+              },
               orElse: () {});
         },
         child: Padding(
@@ -81,14 +100,16 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
           child: MainButtonComponent(
             name: "Сохарнить",
             onPressed: () {
+              print("line 105 ${genderController.text}");
+              print("line 105 ${context.loc.man.contains(genderController.text)}");
               if (formKey.currentState?.validate() ?? false) {
                 String year = dateController.text.substring(6, 10);
                 String month = dateController.text.substring(3, 5);
                 String day = dateController.text.substring(0, 2);
-                context.read<AuthBloc>().add(AuthEvent.register(
+                context.read<AuthBloc>().add(AuthEvent.editUserData(
                     name: fullNameController.text,
                     birthDate: "$year-$month-$day",
-                    gender: genderController.text == context.loc.man ? "MALE" : "FEMALE",
+                    gender: context.loc.man.contains(genderController.text) ? "MALE" : "FEMALE",
                     city: "Tashkent"));
               }
             },
@@ -235,11 +256,11 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
                   TextFieldComponent(
                     onTap: () {
                       selectGenderComponent(
-                        context: context,
-                        selectedGender: (val) {
-                          genderController.text = val;
-                        },
-                      );
+                          context: context,
+                          selectedGender: (val) {
+                            genderController.text = val;
+                          },
+                          gender: genderController.text);
                     },
                     title: context.loc.gender,
                     controller: genderController,

@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:nominatim_geocoding/nominatim_geocoding.dart';
 import 'package:provider/provider.dart';
 import 'package:uyobuyo_client/application/app_manager/app_manager_cubit.dart';
 import 'package:uyobuyo_client/application/auth/auth_bloc.dart';
@@ -28,7 +26,6 @@ class MyHttpOverrides extends HttpOverrides {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-  await NominatimGeocoding.init();
   await Firebase.initializeApp(
     name: "uyoBuyo",
     options: DefaultFirebaseOptions.currentPlatform,

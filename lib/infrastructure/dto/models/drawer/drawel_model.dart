@@ -1,5 +1,5 @@
 class DrawerModel {
-  final List<DrawerData> data;
+  final List<DrawerData>? data;
   final bool success;
 
   DrawerModel({
@@ -17,16 +17,19 @@ class DrawerData {
   final int id;
   final String title;
   final String content;
+  final String contentType;
 
   DrawerData({
     required this.id,
     required this.title,
     required this.content,
+    required this.contentType,
   });
 
   factory DrawerData.fromJson(Map<String, dynamic> json) => DrawerData(
         id: json["id"],
         title: json["title"],
         content: json["content"],
+        contentType: json["content_type"],
       );
 }

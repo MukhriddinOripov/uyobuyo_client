@@ -93,6 +93,7 @@ Future<void> selectCountPerson({
                     selectedOption = 1;
                     countPerson = "1";
                     selectCountPerson(countPerson);
+                    Navigator.of(context).pop();
                   });
                 },
                 title: Text(
@@ -108,6 +109,7 @@ Future<void> selectCountPerson({
                       selectedOption = value;
                       countPerson = "1";
                       selectCountPerson(countPerson);
+                      Navigator.of(context).pop();
                     });
                   },
                 ),
@@ -123,6 +125,7 @@ Future<void> selectCountPerson({
                     selectedOption = 2;
                     countPerson = "2";
                     selectCountPerson(countPerson);
+                    Navigator.of(context).pop();
                   });
                 },
                 title: Text(
@@ -138,6 +141,7 @@ Future<void> selectCountPerson({
                       selectedOption = value;
                       countPerson = "2";
                       selectCountPerson(countPerson);
+                      Navigator.of(context).pop();
                     });
                   },
                 ),
@@ -153,6 +157,7 @@ Future<void> selectCountPerson({
                     selectedOption = 3;
                     countPerson = "3";
                     selectCountPerson(countPerson);
+                    Navigator.of(context).pop();
                   });
                 },
                 title: Text(
@@ -168,6 +173,7 @@ Future<void> selectCountPerson({
                       selectedOption = value;
                       countPerson = "3";
                       selectCountPerson(countPerson);
+                      Navigator.of(context).pop();
                     });
                   },
                 ),
@@ -183,6 +189,7 @@ Future<void> selectCountPerson({
                     selectedOption = 4;
                     countPerson = "Вся машина";
                     selectCountPerson(countPerson);
+                    Navigator.of(context).pop();
                   });
                 },
                 title: Text(
@@ -198,6 +205,7 @@ Future<void> selectCountPerson({
                       selectedOption = value;
                       countPerson = "4";
                       selectCountPerson(countPerson);
+                      Navigator.of(context).pop();
                     });
                   },
                 ),

@@ -9,6 +9,7 @@ class AuthState with _$AuthState {
   const factory AuthState.userLogin({required User data}) = _UserLogin;
   const factory AuthState.userRegister() = _UserRegister;
   const factory AuthState.registerSuccess({required RegisterData data}) = _RegisterSuccess;
+  const factory AuthState.editUserDataSuccess({required UserData data}) = _EditUserDataSuccess;
   const factory AuthState.registerError({ String? msg}) = _RegisterError;
   const factory AuthState.updateImageSuccess({required UpdateImage data}) = _UpdateImageSuccess;
   const factory AuthState.updateImageError({String? msg}) = _UpdateImageError;
