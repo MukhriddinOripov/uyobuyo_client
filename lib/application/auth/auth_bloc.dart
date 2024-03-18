@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uyobuyo_client/infrastructure/dto/exceptions/server_exception.dart';
 import 'package:uyobuyo_client/infrastructure/dto/filter/requests_filter.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/auth_confrim_model.dart';
@@ -99,6 +99,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const AuthState.registerError());
       }
     } catch (e) {
+      emit(const AuthState.loading(loading: false));
       emit(
         AuthState.authError(
           error: e.toString(),
@@ -118,6 +119,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (data.success) {
         emit(AuthState.editUserDataSuccess(data: data.data));
       } else {
+        emit(const AuthState.loading(loading: false));
         emit(const AuthState.registerError());
       }
     } catch (e) {

@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,12 +34,11 @@ class _RegisterPageState extends BaseState<RegisterPage> {
   final fullNameController = TextEditingController();
   final dateController = TextEditingController();
   final genderController = TextEditingController();
-  final ImagePicker _picker = ImagePicker();
-  XFile? selectedFile;
-  late FormData formData;
+  late AuthBloc authBloc;
 
   @override
   void initState() {
+    authBloc = context.read<AuthBloc>();
     for (var node in _focusNodes) {
       node.addListener(() {
         setState(() {});
@@ -219,13 +217,13 @@ class _RegisterPageState extends BaseState<RegisterPage> {
                           String year = dateController.text.substring(6, 10);
                           String month = dateController.text.substring(3, 5);
                           String day = dateController.text.substring(0, 2);
-                          context.read<AuthBloc>().add(
-                                AuthEvent.register(
-                                    name: fullNameController.text,
-                                    birthDate: "$year-$month-$day",
-                                    gender: genderController.text == context.loc.man ? "MALE" : "FEMALE",
-                                    city: "Tashkent"),
-                              );
+                          authBloc.add(
+                            AuthEvent.register(
+                                name: fullNameController.text,
+                                birthDate: "$year-$month-$day",
+                                gender: genderController.text == context.loc.man ? "MALE" : "FEMALE",
+                                city: "Tashkent"),
+                          );
                         }
                       }
                     },
@@ -240,26 +238,21 @@ class _RegisterPageState extends BaseState<RegisterPage> {
     );
   }
 
-  Future<void> _onImageButtonPressed(
-    ImageSource source, {
-    required BuildContext context,
-  }) async {
+  Future<void> _onImageButtonPressed(ImageSource source, {required BuildContext context}) async {
     if (context.mounted) {
       try {
-        final XFile? pickedFile = await _picker.pickImage(
+        final ImagePicker picker = ImagePicker();
+
+        final XFile? file = await picker.pickImage(
           source: source,
           maxWidth: null,
           maxHeight: null,
           imageQuality: 100,
         );
-        setState(() async {
-          selectedFile = pickedFile;
-          imageController.text = pickedFile!.path.split('/').last;
-          formData = FormData.fromMap({
-            "file": await MultipartFile.fromFile(pickedFile.path, filename: imageController.text),
-          });
-          context.read<AuthBloc>().add(AuthEvent.updateImage(image: formData));
-        });
+        imageController.text = file?.name ?? 'Image';
+        if (file != null) {
+          authBloc.add(AuthEvent.updateImage(image: file));
+        }
       } catch (_) {}
     }
   }

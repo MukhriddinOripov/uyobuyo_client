@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,13 +39,12 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
   final fullNameController = TextEditingController();
   final dateController = TextEditingController();
   final genderController = TextEditingController();
-  final ImagePicker _picker = ImagePicker();
-  XFile? selectedFile;
-  late FormData formData;
+  late AuthBloc authBloc;
 
   @override
   void initState() {
     super.initState();
+    authBloc = context.read<AuthBloc>();
     for (var node in _focusNodes) {
       node.addListener(() {
         setState(() {});
@@ -90,7 +88,7 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
                 showLoading(needLoading: loading);
               },
               editUserDataSuccess: (data) {
-                context.read<AuthBloc>().add(const AuthEvent.getUserData());
+                authBloc.add(const AuthEvent.getUserData());
                 context.pop();
               },
               orElse: () {});
@@ -106,7 +104,7 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
                 String year = dateController.text.substring(6, 10);
                 String month = dateController.text.substring(3, 5);
                 String day = dateController.text.substring(0, 2);
-                context.read<AuthBloc>().add(AuthEvent.editUserData(
+                authBloc.add(AuthEvent.editUserData(
                     name: fullNameController.text,
                     birthDate: "$year-$month-$day",
                     gender: context.loc.man.contains(genderController.text) ? "MALE" : "FEMALE",
@@ -164,7 +162,7 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(kBorderRadiusDefault.r),
                         child: CachedNetworkImage(
-                          imageUrl: '',
+                          imageUrl: widget.extra?.imageUrl ?? '',
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -222,6 +220,14 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
                   ),
                   const SizedBox(height: 16),
                   TextFieldComponent(
+                    onTap: () {
+                      calendarComponent(
+                          context: context,
+                          selectedDate: (date) {
+                            dateController.text = date;
+                          });
+                    },
+                    readOnly: true,
                     title: context.loc.bright_day,
                     focusNode: _focusNodes[1],
                     controller: dateController,
@@ -229,19 +235,10 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
                     hint: "ХХ.XX.XXXX",
                     onFieldSubmitted: (val) {},
                     textInputAction: TextInputAction.next,
-                    textInputType: TextInputType.datetime,
-                    suffixWidget: GestureDetector(
-                      onTap: () {
-                        calendarComponent(
-                            context: context,
-                            selectedDate: (date) {
-                              dateController.text = date;
-                            });
-                      },
-                      child: SvgPicture.asset(
-                        AppIcons.calendar,
-                        color: _focusNodes[1].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
-                      ),
+                    textInputType: TextInputType.number,
+                    suffixWidget: SvgPicture.asset(
+                      AppIcons.calendar,
+                      color: _focusNodes[1].hasFocus ? AppTheme.colors.primary : AppTheme.colors.black60,
                     ),
                     validator: (v) => InputValidations.dateV(v ?? '').fold(
                       (l) => l.maybeMap(
@@ -293,24 +290,17 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
   Future<void> _onImageButtonPressed(ImageSource source, {required BuildContext context}) async {
     if (context.mounted) {
       try {
-        final XFile? pickedFile = await _picker.pickImage(
+        final ImagePicker picker = ImagePicker();
+
+        final XFile? file = await picker.pickImage(
           source: source,
           maxWidth: null,
           maxHeight: null,
           imageQuality: 100,
         );
-        if (pickedFile != null) {
-          final String fileName = pickedFile.path.split('/').last;
-          final FormData formData = FormData.fromMap({
-            "file": await MultipartFile.fromFile(pickedFile.path, filename: fileName),
-          });
-          setState(() {
-            selectedFile = pickedFile;
-            imageController.text = fileName;
-          });
-          if (mounted) {
-            context.read<AuthBloc>().add(AuthEvent.updateImage(image: formData));
-          }
+        imageController.text = file?.name ?? 'Image';
+        if (file != null) {
+          authBloc.add(AuthEvent.updateImage(image: file));
         }
       } catch (_) {}
     }

@@ -18,7 +18,7 @@ class RegisterData {
   final String login;
   final String phoneNumber;
   final String name;
-  final String role;
+  final String? role;
   final String gender;
   final bool active;
   final String language;

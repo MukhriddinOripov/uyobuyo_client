@@ -26,7 +26,7 @@ mixin _$AuthEvent {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         editUserData,
-    required TResult Function(FormData image) updateImage,
+    required TResult Function(XFile image) updateImage,
     required TResult Function() getUserData,
     required TResult Function() logOut,
   }) =>
@@ -41,7 +41,7 @@ mixin _$AuthEvent {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult? Function(FormData image)? updateImage,
+    TResult? Function(XFile image)? updateImage,
     TResult? Function()? getUserData,
     TResult? Function()? logOut,
   }) =>
@@ -54,7 +54,7 @@ mixin _$AuthEvent {
         register,
     TResult Function(String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult Function(FormData image)? updateImage,
+    TResult Function(XFile image)? updateImage,
     TResult Function()? getUserData,
     TResult Function()? logOut,
     required TResult orElse(),
@@ -186,7 +186,7 @@ class _$SendSmsImpl implements _SendSms {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         editUserData,
-    required TResult Function(FormData image) updateImage,
+    required TResult Function(XFile image) updateImage,
     required TResult Function() getUserData,
     required TResult Function() logOut,
   }) {
@@ -204,7 +204,7 @@ class _$SendSmsImpl implements _SendSms {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult? Function(FormData image)? updateImage,
+    TResult? Function(XFile image)? updateImage,
     TResult? Function()? getUserData,
     TResult? Function()? logOut,
   }) {
@@ -220,7 +220,7 @@ class _$SendSmsImpl implements _SendSms {
         register,
     TResult Function(String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult Function(FormData image)? updateImage,
+    TResult Function(XFile image)? updateImage,
     TResult Function()? getUserData,
     TResult Function()? logOut,
     required TResult orElse(),
@@ -359,7 +359,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         editUserData,
-    required TResult Function(FormData image) updateImage,
+    required TResult Function(XFile image) updateImage,
     required TResult Function() getUserData,
     required TResult Function() logOut,
   }) {
@@ -377,7 +377,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult? Function(FormData image)? updateImage,
+    TResult? Function(XFile image)? updateImage,
     TResult? Function()? getUserData,
     TResult? Function()? logOut,
   }) {
@@ -393,7 +393,7 @@ class _$ConfirmAuthImpl implements _ConfirmAuth {
         register,
     TResult Function(String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult Function(FormData image)? updateImage,
+    TResult Function(XFile image)? updateImage,
     TResult Function()? getUserData,
     TResult Function()? logOut,
     required TResult orElse(),
@@ -561,7 +561,7 @@ class _$RegisterImpl implements _Register {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         editUserData,
-    required TResult Function(FormData image) updateImage,
+    required TResult Function(XFile image) updateImage,
     required TResult Function() getUserData,
     required TResult Function() logOut,
   }) {
@@ -579,7 +579,7 @@ class _$RegisterImpl implements _Register {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult? Function(FormData image)? updateImage,
+    TResult? Function(XFile image)? updateImage,
     TResult? Function()? getUserData,
     TResult? Function()? logOut,
   }) {
@@ -595,7 +595,7 @@ class _$RegisterImpl implements _Register {
         register,
     TResult Function(String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult Function(FormData image)? updateImage,
+    TResult Function(XFile image)? updateImage,
     TResult Function()? getUserData,
     TResult Function()? logOut,
     required TResult orElse(),
@@ -770,7 +770,7 @@ class _$EditUserDataImpl implements _EditUserData {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         editUserData,
-    required TResult Function(FormData image) updateImage,
+    required TResult Function(XFile image) updateImage,
     required TResult Function() getUserData,
     required TResult Function() logOut,
   }) {
@@ -788,7 +788,7 @@ class _$EditUserDataImpl implements _EditUserData {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult? Function(FormData image)? updateImage,
+    TResult? Function(XFile image)? updateImage,
     TResult? Function()? getUserData,
     TResult? Function()? logOut,
   }) {
@@ -804,7 +804,7 @@ class _$EditUserDataImpl implements _EditUserData {
         register,
     TResult Function(String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult Function(FormData image)? updateImage,
+    TResult Function(XFile image)? updateImage,
     TResult Function()? getUserData,
     TResult Function()? logOut,
     required TResult orElse(),
@@ -884,7 +884,7 @@ abstract class _$$UpdateImageImplCopyWith<$Res> {
           _$UpdateImageImpl value, $Res Function(_$UpdateImageImpl) then) =
       __$$UpdateImageImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({FormData image});
+  $Res call({XFile image});
 }
 
 /// @nodoc
@@ -904,7 +904,7 @@ class __$$UpdateImageImplCopyWithImpl<$Res>
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as FormData,
+              as XFile,
     ));
   }
 }
@@ -915,7 +915,7 @@ class _$UpdateImageImpl implements _UpdateImage {
   const _$UpdateImageImpl({required this.image});
 
   @override
-  final FormData image;
+  final XFile image;
 
   @override
   String toString() {
@@ -950,7 +950,7 @@ class _$UpdateImageImpl implements _UpdateImage {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         editUserData,
-    required TResult Function(FormData image) updateImage,
+    required TResult Function(XFile image) updateImage,
     required TResult Function() getUserData,
     required TResult Function() logOut,
   }) {
@@ -968,7 +968,7 @@ class _$UpdateImageImpl implements _UpdateImage {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult? Function(FormData image)? updateImage,
+    TResult? Function(XFile image)? updateImage,
     TResult? Function()? getUserData,
     TResult? Function()? logOut,
   }) {
@@ -984,7 +984,7 @@ class _$UpdateImageImpl implements _UpdateImage {
         register,
     TResult Function(String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult Function(FormData image)? updateImage,
+    TResult Function(XFile image)? updateImage,
     TResult Function()? getUserData,
     TResult Function()? logOut,
     required TResult orElse(),
@@ -1043,10 +1043,9 @@ class _$UpdateImageImpl implements _UpdateImage {
 }
 
 abstract class _UpdateImage implements AuthEvent {
-  const factory _UpdateImage({required final FormData image}) =
-      _$UpdateImageImpl;
+  const factory _UpdateImage({required final XFile image}) = _$UpdateImageImpl;
 
-  FormData get image;
+  XFile get image;
   @JsonKey(ignore: true)
   _$$UpdateImageImplCopyWith<_$UpdateImageImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1098,7 +1097,7 @@ class _$GetUserDataImpl implements _GetUserData {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         editUserData,
-    required TResult Function(FormData image) updateImage,
+    required TResult Function(XFile image) updateImage,
     required TResult Function() getUserData,
     required TResult Function() logOut,
   }) {
@@ -1116,7 +1115,7 @@ class _$GetUserDataImpl implements _GetUserData {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult? Function(FormData image)? updateImage,
+    TResult? Function(XFile image)? updateImage,
     TResult? Function()? getUserData,
     TResult? Function()? logOut,
   }) {
@@ -1132,7 +1131,7 @@ class _$GetUserDataImpl implements _GetUserData {
         register,
     TResult Function(String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult Function(FormData image)? updateImage,
+    TResult Function(XFile image)? updateImage,
     TResult Function()? getUserData,
     TResult Function()? logOut,
     required TResult orElse(),
@@ -1240,7 +1239,7 @@ class _$LogOutImpl implements _LogOut {
     required TResult Function(
             String name, String birthDate, String gender, String city)
         editUserData,
-    required TResult Function(FormData image) updateImage,
+    required TResult Function(XFile image) updateImage,
     required TResult Function() getUserData,
     required TResult Function() logOut,
   }) {
@@ -1258,7 +1257,7 @@ class _$LogOutImpl implements _LogOut {
     TResult? Function(
             String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult? Function(FormData image)? updateImage,
+    TResult? Function(XFile image)? updateImage,
     TResult? Function()? getUserData,
     TResult? Function()? logOut,
   }) {
@@ -1274,7 +1273,7 @@ class _$LogOutImpl implements _LogOut {
         register,
     TResult Function(String name, String birthDate, String gender, String city)?
         editUserData,
-    TResult Function(FormData image)? updateImage,
+    TResult Function(XFile image)? updateImage,
     TResult Function()? getUserData,
     TResult Function()? logOut,
     required TResult orElse(),

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/auth_confrim_model.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/register_model.dart';
 import 'package:uyobuyo_client/infrastructure/dto/models/auth/upload_image_model.dart';
@@ -20,6 +21,7 @@ abstract class IAuth {
     required String gender,
     required String city,
   });
+
   Future<UserDataModel> editUserData({
     required String name,
     required String birthDate,
@@ -28,7 +30,7 @@ abstract class IAuth {
   });
 
   Future<UpdateImage> updateImage({
-    required FormData image,
+    required XFile image,
   });
 
   Future<UserDataModel> getUserData();
