@@ -242,12 +242,11 @@ class _RegisterPageState extends BaseState<RegisterPage> {
     if (context.mounted) {
       try {
         final ImagePicker picker = ImagePicker();
-
         final XFile? file = await picker.pickImage(
           source: source,
           maxWidth: null,
           maxHeight: null,
-          imageQuality: 100,
+          imageQuality: 50,
         );
         imageController.text = file?.name ?? 'Image';
         if (file != null) {
