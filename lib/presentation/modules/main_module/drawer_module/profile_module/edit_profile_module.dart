@@ -40,6 +40,7 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
   final dateController = TextEditingController();
   final genderController = TextEditingController();
   late AuthBloc authBloc;
+  String image = "";
 
   @override
   void initState() {
@@ -56,6 +57,7 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     imageController.text = widget.extra?.imageUrl ?? '';
+    image = widget.extra?.imageUrl ?? '';
     fullNameController.text = widget.extra?.name ?? '';
     dateController.text =
         CustomDateFormat.fMonthYear(date: widget.extra?.birthDate ?? DateTime.now(), context: context);
@@ -79,6 +81,7 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
           return current.maybeWhen(
             loading: (_) => true,
             editUserDataSuccess: (_) => true,
+            updateImageSuccess: (_) => true,
             orElse: () => false,
           );
         },
@@ -91,6 +94,12 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
                 authBloc.add(const AuthEvent.getUserData());
                 context.pop();
               },
+              updateImageSuccess: (data) {
+                setState(() {
+                  image = data.data!;
+                });
+                authBloc.add(const AuthEvent.getUserData());
+              },
               orElse: () {});
         },
         child: Padding(
@@ -98,8 +107,6 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
           child: MainButtonComponent(
             name: "Сохарнить",
             onPressed: () {
-              print("line 105 ${genderController.text}");
-              print("line 105 ${context.loc.man.contains(genderController.text)}");
               if (formKey.currentState?.validate() ?? false) {
                 String year = dateController.text.substring(6, 10);
                 String month = dateController.text.substring(3, 5);
@@ -162,7 +169,7 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(kBorderRadiusDefault.r),
                         child: CachedNetworkImage(
-                          imageUrl: widget.extra?.imageUrl ?? '',
+                          imageUrl: image,
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -291,12 +298,11 @@ class _EditProfileModuleState extends BaseState<EditProfileModule> {
     if (context.mounted) {
       try {
         final ImagePicker picker = ImagePicker();
-
         final XFile? file = await picker.pickImage(
           source: source,
           maxWidth: null,
           maxHeight: null,
-          imageQuality: 100,
+          imageQuality: 50,
         );
         imageController.text = file?.name ?? 'Image';
         if (file != null) {
