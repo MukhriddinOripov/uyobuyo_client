@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uyobuyo_client/application/main_page_manage/main_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
@@ -282,7 +283,8 @@ Future<void> registerDeliveryDialog({
                                     const SizedBox(width: 12),
                                     Text(
                                       "Комментарий",
-                                      style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
+                                      style: AppTheme.data.textTheme.bodySmall
+                                          ?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
                                     ),
                                   ],
                                 ),
@@ -315,10 +317,7 @@ Future<void> registerDeliveryDialog({
                 MainButtonComponent(
                   name: "Продолжить",
                   onPressed: () {
-                    context.read<MainBloc>().add(const MainEvent.createOrder());
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                    context.pop();
                   },
                 ),
               ],

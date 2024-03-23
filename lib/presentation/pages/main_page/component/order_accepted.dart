@@ -75,7 +75,8 @@ class _OrderAcceptedPageState extends BaseState<OrderAcceptedPage> {
                   ),
                   Text(
                     "Рейтинг",
-                    style: AppTheme.data.textTheme.labelMedium?.copyWith(color: AppTheme.colors.black40, fontWeight: FontWeight.w400),
+                    style: AppTheme.data.textTheme.labelMedium
+                        ?.copyWith(color: AppTheme.colors.black40, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -93,7 +94,8 @@ class _OrderAcceptedPageState extends BaseState<OrderAcceptedPage> {
                   ),
                   Text(
                     "Опыт вождения",
-                    style: AppTheme.data.textTheme.labelMedium?.copyWith(color: AppTheme.colors.black40, fontWeight: FontWeight.w400),
+                    style: AppTheme.data.textTheme.labelMedium
+                        ?.copyWith(color: AppTheme.colors.black40, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -111,7 +113,8 @@ class _OrderAcceptedPageState extends BaseState<OrderAcceptedPage> {
                   ),
                   Text(
                     "Поездок",
-                    style: AppTheme.data.textTheme.labelMedium?.copyWith(color: AppTheme.colors.black40, fontWeight: FontWeight.w400),
+                    style: AppTheme.data.textTheme.labelMedium
+                        ?.copyWith(color: AppTheme.colors.black40, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -216,7 +219,7 @@ class _OrderAcceptedPageState extends BaseState<OrderAcceptedPage> {
           CupertinoActionSheetAction(
             isDefaultAction: true,
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
               context.pushNamed(Routes.orderCancelPage.name);
             },
             child: Text(
@@ -335,7 +338,8 @@ class _OrderAcceptedPageState extends BaseState<OrderAcceptedPage> {
                           const SizedBox(width: 12),
                           Text(
                             'Детали заказа',
-                            style: AppTheme.data.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
+                            style: AppTheme.data.textTheme.bodySmall
+                                ?.copyWith(fontWeight: FontWeight.w500, color: AppTheme.colors.black80),
                           ),
                         ],
                       ),

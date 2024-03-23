@@ -10,8 +10,8 @@ import 'package:uyobuyo_client/presentation/assets/icons.dart';
 import 'package:uyobuyo_client/presentation/assets/theme/app_theme.dart';
 import 'package:uyobuyo_client/presentation/components/calendar_for_planning_order.dart';
 import 'package:uyobuyo_client/presentation/components/main_button_component.dart';
-import 'package:uyobuyo_client/presentation/pages/main_page/component/additional_dialog.dart';
-import 'package:uyobuyo_client/presentation/pages/main_page/component/select_count_person.dart';
+import 'package:uyobuyo_client/presentation/modules/main_module/order_taxi_module/additional_dialog.dart';
+import 'package:uyobuyo_client/presentation/modules/main_module/order_taxi_module/select_count_person.dart';
 import 'package:uyobuyo_client/presentation/pages/main_page/component/select_order_type.dart';
 
 Future<void> orderDetailModalBottomSheetComponent({

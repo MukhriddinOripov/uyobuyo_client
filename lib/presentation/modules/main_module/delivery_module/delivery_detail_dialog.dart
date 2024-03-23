@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:uyobuyo_client/application/main_page_manage/main_bloc.dart';
 import 'package:uyobuyo_client/infrastructure/common/constants/constants.dart';
@@ -167,7 +169,7 @@ Future<void> deliveryDetailDialog({
                               Divider(color: AppTheme.colors.black20, height: 0.1),
                               SizedBox(height: 24.h),
                               Text(
-                                "Тип поездки",
+                                "Тип доставки",
                                 style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
                               ),
                               const SizedBox(height: 8),
@@ -266,21 +268,13 @@ Future<void> deliveryDetailDialog({
                                   ],
                                 ),
                               Text(
-                                "Количество пассажиров",
+                                "Тип посылки",
                                 style: AppTheme.data.textTheme.bodySmall?.copyWith(color: AppTheme.colors.text500),
                               ),
                               const SizedBox(height: 8),
                               GestureDetector(
                                 onTap: () {
-                                  // selectCountPerson(
-                                  //   context: context,
-                                  //   initVal: countPerson,
-                                  //   selectCountPerson: (val) {
-                                  //     setState(() {
-                                  //       countPerson = val;
-                                  //     });
-                                  //   },
-                                  // );
+                                  registerDeliveryDialog(context: context);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
@@ -359,7 +353,9 @@ Future<void> deliveryDetailDialog({
                       MainButtonComponent(
                         name: "Продолжить",
                         onPressed: () {
-                          registerDeliveryDialog(context: context);
+                          context.read<MainBloc>().add(const MainEvent.createOrder());
+                          context.pop();
+                          context.pop();
                         },
                       ),
                     ],
