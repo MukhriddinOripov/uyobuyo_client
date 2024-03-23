@@ -21,7 +21,7 @@ class UserData {
   final dynamic gender;
   final bool active;
   final String language;
-  final dynamic imageUrl;
+  late final dynamic imageUrl;
   final DateTime? birthDate;
   final dynamic city;
 

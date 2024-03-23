@@ -28,6 +28,9 @@ class _ProfileDetailModuleState extends State<ProfileDetailModule> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: kPaddingDefault, vertical: 32),
           child: BlocBuilder<AuthBloc, AuthState>(
+            buildWhen: (context, state) {
+              return state.maybeWhen(loadedUserData: (data) => true, orElse: () => false);
+            },
             builder: (context, state) {
               return state.maybeWhen(
                 loadedUserData: (data) => Column(
